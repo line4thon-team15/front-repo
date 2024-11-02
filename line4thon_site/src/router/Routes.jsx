@@ -1,71 +1,50 @@
-import { Routes as ReactRouters, Route, Outlet } from "react-router-dom";
-import styled from "styled-components";
-import HomePage from "../pages/HomePage";
-import Ranking from "../pages/Ranking";
-import AllServices from "../pages/AllServices";
-import MyService from "../pages/MyService";
-import MyPage from "../pages/MyPage";
-import Login from "../pages/Login";
-import Footer from "../layouts/Footer";
-import Header from "../layouts/Header";
+// src/router/Routes.jsx
+import { Routes as ReactRoutes, Route, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import Header from '../layouts/Header';
+import Footer from '../layouts/Footer';
+import AllServices from '../pages/AllServices';
+import MyService from '../pages/MyService';
+import MyPage from '../pages/MyPage';
+import Login from '../pages/Login';
+import MainPage from '../pages/MainPage';
 
 const LayoutWrapper = styled.div`
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
-;`
+  min-height: 100vh;
+`;
 
 const ContentWrapper = styled.div`
-  display: flex;
-  flex: 1;
-;`
-
-const Sidebar = styled.div`
-  width: 260px;
-  display: flex;
-  flex-direction: column;
-;`
-
-const MainContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-;`
-
-const FooterWrapper = styled.div`
-  width: 100%;
-;`
-
-const Layout = () => (
-  <LayoutWrapper>
-    <ContentWrapper>
-      <Sidebar>
-        <Header />
-      </Sidebar>
-      <MainContent>
-        <Outlet /> {/* 중첩된 페이지 컴포넌트가 렌더링될 위치 */}
-      </MainContent>
-    </ContentWrapper>
-    <FooterWrapper>
-      <Footer />
-    </FooterWrapper>
-  </LayoutWrapper>
-);
+`;
 
 const Routes = () => {
+  const location = useLocation();
+  const isMainPage = location.pathname === '/';
+
   return (
-    <ReactRouters>
-      <Route path="/" element={<Layout />}>
-        <Route path="homepage" element={<HomePage />} />
-        <Route path="ranking" element={<Ranking />} />
-        <Route path="all-services" element={<AllServices />} />
-        <Route path="my-service" element={<MyService />} />
-        <Route path="my-page" element={<MyPage />} />
-        <Route path="login" element={<Login />} />
-      </Route>
-    </ReactRouters>
+    <LayoutWrapper>
+      {!isMainPage && <Header />} {/* MainPage가 아닐 때만 Header를 렌더링 */}
+      <ContentWrapper>
+        <ReactRoutes>
+          {isMainPage ? (
+            <Route path="/" element={<MainPage />} />
+          ) : (
+            <>
+              <Route path="/all-services" element={<AllServices />} />
+              <Route path="/my-service" element={<MyService />} />
+              <Route path="/my-page" element={<MyPage />} />
+              <Route path="/login" element={<Login />} />
+            </>
+          )}
+        </ReactRoutes>
+      </ContentWrapper>
+      {!isMainPage && <Footer />} {/* MainPage가 아닐 때만 Footer를 렌더링 */}
+    </LayoutWrapper>
   );
 };
+
 export default Routes;
