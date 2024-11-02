@@ -25,7 +25,7 @@ export const Logo = styled.div`
     button {
         background: none;
         border: none;
-        font-size: 4vh;
+        font-size: 3.5vh;
         cursor: pointer;
         color: black;
         display: flex;

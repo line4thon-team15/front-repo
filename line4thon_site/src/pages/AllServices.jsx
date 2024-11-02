@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Styled from './HomePage.styled';
+import * as Styled from './AllServices.styled';
 
 const AllServices = () => {
   return (
