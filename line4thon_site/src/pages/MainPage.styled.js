@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background-color: yellow;
+    /* background-color: yellow; */
 `;
 
 // Menubar 스타일 정의
