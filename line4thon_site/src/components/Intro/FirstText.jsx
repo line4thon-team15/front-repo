@@ -16,13 +16,13 @@ const FisrtText = ({ firstTextVisible, setFirstTextVisible }) => {
             <S.FirstText firstTextVisible={firstTextVisible}>
                 <div>
                     <p>멋쟁이 사자들의 2024 마지막</p>
-                    <h1>해커톤</h1>
+                    <h1>해커톤 :</h1>
                 </div>
                 <div>
-                    <h1>: 4호선톤</h1>
+                    <h1>4호선톤</h1>
                 </div>
                 <div>
-                    <h1>모아보기, 평가하기</h1>
+                    <h1>모아보기, 리뷰하기</h1>
                 </div>
                 <S.NextIcon>
                     <Lottie

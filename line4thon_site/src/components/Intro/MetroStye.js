@@ -10,6 +10,7 @@ export const MetroMap = styled.div`
     background-color: black;
     color: #fff;
     scroll-snap-align: start;
+
 `;
 
 export const RightBox = styled.div`
@@ -18,9 +19,20 @@ export const RightBox = styled.div`
 
 export const MetroLine = styled.div`
     display: flex;
+    position: relative;
     flex-direction: column;
-    gap: 60px;
-    padding: 0 60px;
+    gap: 140px;
+    padding: 50px 80px;
+
+    #line{
+        position: absolute;
+        background-color: #00A4E3;
+        width: 10px;
+        height: 97%;
+        z-index: 0;
+        top: 50px;
+        left: 95px;
+    }
 `
 
 export const StationBtn = styled.button`
@@ -36,4 +48,15 @@ export const StationBtn = styled.button`
     border: 4px solid #00A4E3;
     border-radius: 20px;
     scroll-snap-align: center;
+    scroll-snap-stop: always;
+    z-index: 1;
+
+    ${({isActive}) =>
+        isActive && 
+        css`
+            background-color: yellow;
+            transform: scale(1.3);
+            border: 2px solid #00A4E3;
+            transition: 1s;
+        `}
 `
