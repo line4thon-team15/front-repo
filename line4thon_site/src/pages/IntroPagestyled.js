@@ -9,6 +9,8 @@ export const IntroPage = styled.div`
     /* height: 100vh; */
     background-color: black;
     color: white;
+
+    
 `;
 
 const fadeIn = keyframes`
@@ -21,6 +23,7 @@ const fadeIn = keyframes`
 `
 
 export const FirstText = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

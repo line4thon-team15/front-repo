@@ -24,14 +24,14 @@ const FisrtText = ({ firstTextVisible, setFirstTextVisible }) => {
                 <div>
                     <h1>모아보기, 평가하기</h1>
                 </div>
+                <S.NextIcon>
+                    <Lottie
+                        animationData={bounceArrow}
+                        loop={true}       // 반복 애니메이션
+                        style={{ width: 60, height: 60 }}  // 아이콘 크기 조정
+                    />
+                </S.NextIcon>
             </S.FirstText>
-            <S.NextIcon>
-                <Lottie
-                    animationData={bounceArrow}
-                    loop={true}       // 반복 애니메이션
-                    style={{ width: 60, height: 60 }}  // 아이콘 크기 조정
-                />
-            </S.NextIcon>
         </>
     );
 };

@@ -5,7 +5,7 @@ export const MetroMap = styled.div`
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    padding-left: 280px;
+    padding: 280px 0 280px 280px;
     width: calc(100vw - 280px);
     background-color: black;
     color: #fff;

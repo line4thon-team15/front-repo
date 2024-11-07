@@ -57,7 +57,7 @@ const MainPage = () => {
             </div>
             
             {/* RankingPage와 MainAllServices 섹션을 고정된 Header와 함께 배치 */}
-            <div style={{ display: 'flex', height: '100vh' }}>
+            <div style={{ display: 'flex'}}>
                 <div style={{ position: 'sticky', top: 0, width: '200px', height: '100vh' }}>
                     <Header />
                 </div>
