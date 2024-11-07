@@ -4,8 +4,9 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    /* background-color: yellow; */
+    height: 100vh;
+    overflow: auto;
+    scroll-snap-type: y mandatory;
 `;
 
 // Menubar 스타일 정의

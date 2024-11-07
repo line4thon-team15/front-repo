@@ -1,6 +1,5 @@
 // src/pages/MainPage.jsx
 import React, { useRef, useEffect, useState } from 'react';
-import HomePage from './IntroPage';
 import Ranking from './Ranking';
 import * as Styled from './MainPage.styled';
 import Header from '../layouts/Header';
