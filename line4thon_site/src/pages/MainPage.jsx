@@ -1,12 +1,12 @@
 // src/pages/MainPage.jsx
 import React, { useRef, useEffect, useState } from 'react';
-import HomePage from './HomePage';
 import Ranking from './Ranking';
 import * as Styled from './MainPage.styled';
 import Header from '../layouts/Header';
 import MainAllServices from './MainAllServices';
 import Footer from '../layouts/Footer';
 import { useScroll } from '../layouts/ScrollContext';
+import IntroPage from './IntroPage';
 
 const MainPage = () => {
     const servicesRef = useRef(null);
@@ -51,9 +51,9 @@ const MainPage = () => {
 
     return (
         <Styled.Wrapper>
-            {/* HomePage */}
-            <div ref={homeRef} id="home" style={{ height: '100vh' }}>
-                <HomePage />
+            {/* IntroPage */}
+            <div ref={homeRef} id="home">
+                <IntroPage />
             </div>
             
             {/* RankingPage와 MainAllServices 섹션을 고정된 Header와 함께 배치 */}
