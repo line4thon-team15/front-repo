@@ -10,3 +10,12 @@ export const Wrapper = styled.div`
     overflow-y: auto;
     scroll-snap-type: y proximity;
 `;
+
+// Menubar 스타일 정의
+export const MenuBar = styled.div`
+    font-size: 1rem;
+`;
+
+export const ContentWrapper = styled.div`
+`;
+
