@@ -14,14 +14,14 @@ import mypageiconHover from "../assets/mypageiconHover.svg";
 import loginicon from "../assets/loginicon.svg";
 import loginiconHover from "../assets/loginiconHover.svg";
 
-const Header = () => {
+const Header = ({ scrollPosition, isWhiteBackground }) => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const { scrollToHome, scrollToRanking } = useScroll();
 
     return (
         <Styled.Wrapper>
-            <Styled.Logo>
-                <button onClick={scrollToHome}> {/* 4호선톤 버튼 클릭 시 scrollToHome 호출 */}
+            <Styled.Logo $isWhiteBackground={isWhiteBackground}>
+            <button onClick={scrollToHome}> {/* 4호선톤 버튼 클릭 시 scrollToHome 호출 */}
                     4호선톤 <br />사이트
                 </button>
             </Styled.Logo>

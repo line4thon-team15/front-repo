@@ -19,45 +19,20 @@ export const Content = styled.div`
 // Header with ThumbnailBox
 export const Header = styled.div`
     display: flex;
-    flex-direction: column;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
+    width: cal(100%-200px);
     height: 600px;
     background-color: #BABABA;
 `;
 
-export const MyServiceInfoButton = styled.div`
-    margin-left: 83%;
-    background-color: #FFD64D;
-    border-radius: 100%;
-    width: 80px;
-    height: 80px;
-    position: absolute; /* 위치를 상대적으로 지정 */
-    top: 60px; /* Distance from the top of the header */
-`
-
-export const ServiceInfoButton = styled.div`
-    margin-left: 92%;
-    background-color: #FFD64D;
-    border-radius: 100%;
-    width: 80px;
-    height: 80px;
-    position: absolute; /* 위치를 상대적으로 지정 */
-    top: 60px; /* Distance from the top of the header */
-`
-export const InfoVector = styled.img`
-    padding: 15px;
-
-`
-export const Thumbnail = styled.div`
-    margin-top: 50px;
-    margin-left: 150px;
-    justify-content: center;
-    display: flex;
-`
-
-export const ThumbnailImage = styled.img`
-    width: 1000px;
+export const ThumbnailBox = styled.div`
+    font-size: 100px;
+    color: #FFFFFF;
+    line-height: 119.34px;
 `;
+
+
 
 export const Line = styled.div`
     width: 100%;
@@ -116,10 +91,48 @@ export const OneLine = styled.div`
     margin-top: 10px; /* Space between NameText and OneLine */
 `;
 
+export const Middle = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
+export const TotalStar = styled.div`
+    margin-left: 83%;
+    margin-top: 50px;
+    position: absolute; /* 위치를 상대적으로 지정 */
+    font-size: 25px;
+`
+
+export const VisitServiceButton = styled.div`
+    margin-left: 90%;
+    margin-top: 40px;
+    position: absolute; /* 위치를 상대적으로 지정 */
+    font-size: 22px;
+    padding: 10px;
+    width: 120px;
+    height: 25px;
+    border-radius: 10px;
+    background-color: #0033FF;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+`
+
+export const Arrowcircleright = styled.img`
+    height: 17px;
+    padding: 5px 5px 5px 0px;
+`
+export const VisitService = styled.div`
+    color: white;
+    font-size: 17px;
+`
+
 export const ServiceContent = styled.div`
     padding: 100px 20px 20px 80px;
     font-size: 20px;
-    line-height: 25px;
+    line-height: 30px;
     color: black;
 `
 export const TeamMember = styled.div`
@@ -130,13 +143,22 @@ export const TeamMember = styled.div`
     font-weight: bold;
 `
 export const Member = styled.div`
-    padding: 10px 20px 50px 80px;
-    font-size: 20px;
+    margin-top: 10px;
+    margin-left: 70px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 10px;
+    border-radius: 20px;
+    font-size: 18px;
     line-height: 25px;
-    color: black;
+    background-color: #696969; 
+    color: white;
 `
 export const ServicePhoto = styled.div`
-    padding: 20px 20px 10px 80px;
+    padding: 50px 20px 10px 80px;
     font-size: 20px;
     line-height: 25px;
     color: black;
@@ -148,7 +170,7 @@ export const ServicePhotoFile = styled.img`
     padding: 00px 20px 10px 80px;
 `
 export const Feedback = styled.div`
-    padding: 60px 20px 20px 80px;
+    padding: 50px 20px 10px 80px;
     font-size: 20px;
     line-height: 25px;
     color: black;
@@ -184,7 +206,7 @@ export const Star = styled.div`
 `
 export const WriteReviewButton = styled.div`
     padding: 10px;
-    width: 120px;
+    width: 130px;
     height: 25px;
     border-radius: 10px;
     background-color: #0033FF;
@@ -194,14 +216,11 @@ export const WriteReviewButton = styled.div`
     cursor: pointer;
 `
 
-export const Arrowcircleright = styled.img`
-    height: 17px;
-    padding: 5px 5px 5px 0px;
-`
 export const WriteReview = styled.div`
     color: white;
     font-size: 17px;
 `
+
 
 export const UserReview = styled.div`
     padding: 40px 20px 10px 80px;
@@ -210,27 +229,100 @@ export const UserReview = styled.div`
     color: black;
     font-weight: bold;
 `
-export const ReviewContent = styled.div`
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-left: 0px;
+
+export const ReviewList = styled.div`
+    padding: 10px 20px 10px 100px;
+
 `
 
-export const NoReview = styled.div`
-    padding: 20px 20px 10px 0px;
+export const ReviewContent = styled.div`
+`
+
+export const User = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* UserPic와 UserNameBox가 수직으로 정렬되도록 설정 */
+    gap: 10px; /* 요소 간 간격 조정 */
+`
+
+export const UserPic = styled.img`
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+`
+export const UserGap = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* Pushes UserReviewInfo to the right */
+    gap: 10px; /* Space between UserPic and UserNameBox */
+    width: 80%; /* Ensures it spans the full width of the container */
+`
+
+export const UserNameBox = styled.div`
+    display: flex;  
+    flex-direction: column;
+`
+
+export const UserName = styled.div`
     font-size: 20px;
+    line-height: 25px;
     color: black;
-    
+    font-weight: bold;
 `
-export const WriteFirst = styled.div`
-    padding: 10px 20px 20px 0px;
-    font-size: 15px;
-    color: black;
+
+export const UserInfo = styled.div`
+    font-size: 16px;
+    line-height: 25px;
+    color: #A5A5A5;
 `
-export const ThoughtfulMan = styled.img`
-    height: 150px;
-    padding: 00px 20px 50px 0px;
+
+export const UserReviewInfo = styled.div`
+    width: 60px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1.5px solid #B0B0B0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+
+export const UserStar = styled.div`
+`
+
+
+
+export const ReviewKeyword = styled.div`
+    padding: 10px 20px 10px 0px;
+`
+
+export const Design = styled.img`
+`
+
+export const UI = styled.img`
+`
+
+export const Loading = styled.img`
+`
+
+
+export const UserReviewContent = styled.div`
+    padding: 10px 20px 10px 10px;
+
+`
+export const HeartBox = styled.div`
+    padding: 10px 20px 20px 10px;
+    display: flex;
+    flex-direction: colunm;
+    align-items: center;
+
+`
+
+export const HeartButton = styled.img`
+`
+
+export const HeartCount = styled.div`
+    padding: 0px 0px 0px 10px;
+
 `
