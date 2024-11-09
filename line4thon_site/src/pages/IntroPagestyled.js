@@ -6,14 +6,12 @@ export const IntroPage = styled.div`
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    height: 98vh;
     background-color: black;
     color: white;
-    overflow: scroll;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+    /* scroll-snap-type: y mandatory;
+    scroll-behavior: smooth; */
 
-    border: 5px solid blue;
+    /* border: 5px solid blue; */
 `;
 
 const fadeIn = keyframes`
@@ -30,8 +28,8 @@ export const FirstText = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: calc(100vh - 320px);
-  padding: 160px 100px;
+  height: calc(100vh - 210px);
+  padding: 70px 100px 160px 100px;
   justify-content: center;
   gap: 40px;
   opacity: 0;
@@ -61,7 +59,7 @@ export const FirstText = styled.div`
 export const NextIcon = styled.div`
   position: absolute;
   align-items: center;
-  top: 80vh;
+  top: 90vh;
   display: flex;
   justify-content: center;
   height: 40px;
