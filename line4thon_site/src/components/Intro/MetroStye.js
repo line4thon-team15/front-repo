@@ -8,7 +8,7 @@ export const MetroMap = styled.div`
     padding: 280px 0 280px 280px;
     width: calc(100vw - 280px);
     color: #fff;
-    background-color: #3B3B3B;
+    background-color: #1F1F1F;
     height: calc(100vh - 560px);
     scroll-snap-align: start;
 `;

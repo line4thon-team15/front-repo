@@ -11,19 +11,34 @@ import IntroPage from '../pages/IntroPage';
 const MainPage = () => {
     const servicesRef = useRef(null);
     const { homeRef, rankingRef } = useScroll();
+    const [ mainScroll, setMainScroll ] = useState(0);
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [scrollDirection, setScrollDirection] = useState(null);
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const [isWhiteBackground, setIsWhiteBackground] = useState(false);
+    //MainPage의 높이를 측정 하는 함수
+    function getScrollPosition() {
+        let TargetElement = document.getElementById("MainPage");
+        let y = TargetElement.scrollTop;
+        setMainScroll(y);
+        // console.log(y);
+    }
 
-    
+    //getScrollPosition를 실행시키는 useEffect
+    useEffect(() => {
+        const targetElement = document.getElementById("MainPage");
+        targetElement.addEventListener("scroll", getScrollPosition);
+
+        return () => {
+         if (targetElement) {
+            targetElement.removeEventListener('scroll', getScrollPosition)
+         }
+        };
+    }, []);
+
 
     return (
-        <Styled.Wrapper>
+        <Styled.Wrapper id='MainPage'>
             {/* IntroPage */}
             <div ref={homeRef} id="home" >
-                <IntroPage />
+                <IntroPage mainScroll={mainScroll}/>
             </div>
             
             {/* RankingPage와 MainAllServices 섹션을 고정된 Header와 함께 배치 */}
