@@ -25,14 +25,19 @@ const HeartRating = () => {
             {[1, 2, 3, 4, 5].map((index) => (
                 <Styled.Heart
                     key={index}
-                    filled={hoverRating >= index || rating >= index ? "true" : undefined}
-                    halfFilled={hoverRating === index - 0.5 || rating === index - 0.5 ? "true" : undefined}
+                    filled={
+                        hoverRating >= index || (!hoverRating && rating >= index)
+                            ? "true"
+                            : undefined
+                    }
+                    halfFilled={
+                        hoverRating === index - 0.5 || (!hoverRating && rating === index - 0.5)
+                            ? "true"
+                            : undefined
+                    }
                     onMouseMove={(event) => handleMouseMove(index, event)}
                     onClick={handleClick}
                 />
-
-
-            
             ))}
             <Styled.Score>{rating.toFixed(1)}</Styled.Score> {/* 선택한 별점 표시 */}
         </Styled.HeartContainer>

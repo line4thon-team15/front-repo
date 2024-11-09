@@ -203,18 +203,46 @@ export const ServiceDetailInput = styled.input`
     margin: 5px 0 15px 50px;
 `
 
+export const ServicePPTContainer = styled.div`
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 10px 0px 0 50px;
+    margin: 0;
+`;
 
 
 export const ServicePPT = styled.div`
-    padding: 30px 0px 10px 50px;
     font-size: 20px;
     line-height: 25px;
     color: black;
     font-weight: bold;
 `
+export const ImageUploadButton = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+export const Image = styled.img`
+    /* Additional styles if needed */
+`;
+
+export const ImageUpload = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 150px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #0033FF;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+`;
+
 export const ServicePhotoFile = styled.img`
     height: 150px;
-    padding: 00px 20px 10px 50px;
+    padding: 30px 20px 10px 50px;
 `
 export const Bottom = styled.div`
     display: flex;
@@ -231,6 +259,7 @@ export const GoBack = styled.div`
 export const SignUp = styled.div`
     display: flex;
     align-items: center;
+    position: absolute; /* 위치를 상대적으로 지정 */
     padding: 10px;
     width: 90px;
     height: 30px;
@@ -240,5 +269,5 @@ export const SignUp = styled.div`
     cursor: pointer;
     color: white;
     margin-top: 30px;
-    margin-left: 75%;
+    margin-left: 68%;
 `

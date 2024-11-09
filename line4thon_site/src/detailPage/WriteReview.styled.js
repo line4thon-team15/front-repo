@@ -106,17 +106,42 @@ export const WriteReviewAsk = styled.div`
     font-weight: bold;
 `;
 
+export const ReviewInputContainer = styled.div`
+    position: relative;
+`;
+
+export const InputContainer = styled.div`
+    position: relative;
+    width: 90%;
+    margin: 0 0 16px 00px;
+`;
+
 export const WriteReviewInput = styled.input`
-    width: 85%;
-    padding: 10px 10px 10px 10px;
+    width: 100%;
+    height: 180px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid #F6F6F6;
     border-radius: 5px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    margin: 5px 0 15px 50px;
+    margin: 5px 0 0px 50px;
+    background-color: #F6F6F6;
+    padding: 16px;
+    box-sizing: border-box;
+    resize: none;
 
 `
+
+export const CharCount = styled.div`
+    position: absolute;
+    bottom: 30px;
+    right: 0px;
+    font-size: 12px;
+    color: #888;
+`;
+
+export const ColoredLength = styled.span`
+    color: #7BC217; /* 원하는 색상으로 설정 */
+`;
+
 
 export const Bottom = styled.div`
     display: flex;
@@ -133,6 +158,7 @@ export const GoBack = styled.div`
 export const SignUp = styled.div`
     display: flex;
     align-items: center;
+    position: absolute; /* 위치를 상대적으로 지정 */
     padding: 10px;
     width: 90px;
     height: 30px;
@@ -142,5 +168,5 @@ export const SignUp = styled.div`
     cursor: pointer;
     color: white;
     margin-top: 30px;
-    margin-left: 75%;
+    margin-left: 68%;
 `

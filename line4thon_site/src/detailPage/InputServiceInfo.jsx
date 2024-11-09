@@ -3,14 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import * as Styled from './InputServiceInfo.styled';
 import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
 import servicePhotoFile from '../assets/servicePhotoFile.svg';
+import upload from '../assets/upload.svg';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
 const InputServiceInfo = () => {
     const navigate = useNavigate();
+    const [uploadedImage, setUploadedImage] = useState(null);
 
     const handleGoBack = () => {
         navigate('/my-service');
+    };
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setUploadedImage(URL.createObjectURL(file));
+        }
     };
 
     const teamMembers = [
@@ -110,10 +119,29 @@ const InputServiceInfo = () => {
 
 ➊주요 기능1 여기에 기능을 설명해주세요
 ➋주요 기능2 여기에 기능을 설명해주세요'
-                        
+
                         />
-                        <Styled.ServicePPT>마지막으로 발표자료를 업로드 해보세요!</Styled.ServicePPT>
-                        <Styled.ServicePhotoFile src={servicePhotoFile} alt="servicePhotoFile" />
+                        <Styled.ServicePPTContainer>
+                            <Styled.ServicePPT>마지막으로 발표자료를 업로드 해보세요!</Styled.ServicePPT>
+                            <Styled.ImageUploadButton onClick={() => document.getElementById('fileInput').click()}>
+                                <Styled.Image src={upload} alt="upload" />
+                                <Styled.ImageUpload>이미지 업로드하기</Styled.ImageUpload>
+                            </Styled.ImageUploadButton>
+                            <input
+                                id="fileInput"
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={handleImageUpload}
+                            />
+                        </Styled.ServicePPTContainer>
+
+                        {uploadedImage ? (
+                            <Styled.ServicePhotoFile src={uploadedImage} alt="uploaded service file" />
+                        ) : (
+                            <Styled.ServicePhotoFile src={servicePhotoFile} alt="default service file" />
+                        )}
+
                         <Styled.Bottom>
                             <Styled.GoBack onClick={handleGoBack}>&lt; 이전</Styled.GoBack>
                             <Styled.SignUp>등록하기</Styled.SignUp>
