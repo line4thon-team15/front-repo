@@ -1,12 +1,12 @@
 // MainPage.jsx
 import React, { useRef, useEffect, useState } from 'react';
-import HomePage from '../pages/HomePage';
 import Ranking from '../pages/Ranking';
 import * as Styled from './MainPage.styled';
 import Header from '../layouts/Header';
 import MainAllServices from '../pages/MainAllServices';
 import Footer from '../layouts/Footer';
 import { useScroll } from '../layouts/ScrollContext';
+import IntroPage from './IntroPage';
 
 const MainPage = () => {
     const servicesRef = useRef(null);
@@ -60,17 +60,19 @@ const MainPage = () => {
     }, [scrollDirection]);
 
     return (
-        <Styled.Wrapper $scrollPosition={scrollPosition}>
-            <div style={{ display: 'flex', width: '100%' }}>
-                <div style={{ position: 'fixed', top: 0, width: '200px', height: '100vh' }}>
-                    {/* scrollPosition과 isWhiteBackground을 Header에 전달 */}
-                    <Header scrollPosition={scrollPosition} isWhiteBackground={isWhiteBackground} />
+        <Styled.Wrapper>
+            {/* IntroPage */}
+            <div ref={homeRef} id="home" style={{ height: '100vh' }}>
+                <IntroPage />
+            </div>
+            
+            {/* RankingPage와 MainAllServices 섹션을 고정된 Header와 함께 배치 */}
+            <div style={{ display: 'flex', height: '100vh' }}>
+                <div style={{ position: 'sticky', top: 0, width: '200px', height: '100vh' }}>
+                    <Header />
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', overflowY: 'auto' }}>
-                    {/* 페이지 섹션 */}
-                    <div ref={homeRef} id="home" style={{ height: '100vh' }}>
-                        <HomePage />
-                    </div>
+                <div style={{ flex: 1, overflowY: 'auto' }}>
+                    {/* RankingPage */}
                     <div ref={rankingRef} id="ranking" style={{ height: '100vh' }}>
                         <Ranking />
                     </div>
