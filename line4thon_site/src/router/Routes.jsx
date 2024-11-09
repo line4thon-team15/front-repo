@@ -7,7 +7,11 @@ import AllServices from '../pages/AllServices';
 import MyService from '../pages/MyService';
 import MyPage from '../pages/MyPage';
 import Login from '../pages/Login';
-import MainPage from '../pages/MainPage';
+import MainPage from '../router/MainPage';
+import InputServiceInfo from '../detailPage/InputServiceInfo'; 
+import DetailPage from '../detailPage/DetailPage';
+import WriteReview from '../detailPage/WriteReivew';
+
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -26,7 +30,6 @@ const Routes = () => {
 
   return (
     <LayoutWrapper>
-      {!isMainPage && <Header />} {/* MainPage가 아닐 때만 Header를 렌더링 */}
       <ContentWrapper>
         <ReactRoutes>
               <Route path="/" element={<MainPage />} />
@@ -34,9 +37,12 @@ const Routes = () => {
               <Route path="/my-service" element={<MyService />} />
               <Route path="/my-page" element={<MyPage />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/input-service-info" element={<InputServiceInfo />} /> 
+              <Route path="/my-service-info" element={<DetailPage/>} />
+              <Route path="/write-review" element={<WriteReview/>} />
+           
         </ReactRoutes>
       </ContentWrapper>
-      {!isMainPage && <Footer />} {/* MainPage가 아닐 때만 Footer를 렌더링 */}
     </LayoutWrapper>
   );
 };

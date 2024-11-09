@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  bottom: 0;
+  position: relative;            /* fixed에서 relative로 변경 */
   width: 100%;
   height: 120px;
-  display: flex;
   flex-direction: column;         /* 세로 방향으로 나열 */
   align-items: flex-start;
   padding: 2vh 2vw;               /* 상하좌우 여백 */
@@ -24,6 +23,7 @@ export const ListItem = styled.li`
   font-size: 1.3vh;
   color: white;
   line-height: 1.5;
+  padding: 0 0 0 125px;
 `;
 
 export const Paragraph = styled.p`
