@@ -1,7 +1,14 @@
 import styled from "styled-components";
 
-// Wrapper 스타일 정의
 export const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+`;
+
+export const Content = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -131,3 +138,6 @@ export const CardText = styled.div`
     color: #555;
   }
 `;
+
+export const Box = styled.div`
+`

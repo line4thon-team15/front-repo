@@ -1,22 +1,20 @@
 import styled from 'styled-components';
 
-// Wrapper Styles
 export const Wrapper = styled.div`
-    position: sticky; 
+    position: fixed;
     top: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: var(--main-bg-color);
+    background: transparent;
     font-weight: bold;
     width: 200px;
-    height: 100vh;
+    height: 800px;
     box-sizing: border-box;
-;`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 
 
-// Logo Button Styles
+
 export const Logo = styled.div`
     a {
         text-decoration: none;
@@ -27,15 +25,15 @@ export const Logo = styled.div`
         border: none;
         font-size: 3.5vh;
         cursor: pointer;
-        color: black;
+        color: ${({ $isWhiteBackground }) => ($isWhiteBackground ? 'black' : 'white')};
         display: flex;
         align-items: left;
         padding: 4vh;
         text-align: left;
         line-height: 1.5;
+        transition: color 0.3s ease; // 색상 전환을 부드럽게
     }
-;`
-
+`;
 
 // Navbar Styles
 export const Navbar = styled.nav`
@@ -49,7 +47,7 @@ export const Navbar = styled.nav`
         padding: 2vh;
         width: 100%;
     }
-;`
+`;
 
 // NavItem Styles
 export const NavItem = styled.li`
@@ -69,7 +67,7 @@ export const NavItem = styled.li`
     img {
         margin-right: 1vh; /* 이미지 오른쪽에 여백 추가 */
     }
-;`
+`;
 
 // NavButton Styles
 export const NavButton = styled.button`
@@ -88,5 +86,4 @@ export const NavButton = styled.button`
         color: var(--accent-color);
         background-color: var(--hover-bg-color);
     }
-;
-`
+`;

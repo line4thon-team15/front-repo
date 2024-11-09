@@ -1,14 +1,12 @@
-<<<<<<< HEAD
-import React from 'react';
-import * as Styled from './AllServices.styled';
-=======
 import React from "react";
 import * as Styled from "./AllServices.styled";
->>>>>>> e294bd7 ([feat]AllServices)
+import Header from '../layouts/Header';
+import Footer from '../layouts/Footer';
 
 const AllServices = () => {
   return (
     <Styled.Wrapper>
+      <Header isWhiteBackground={true} />
       <Styled.Title>
         <Styled.TitleTop>
           <span className="singlequo">'</span>
@@ -36,6 +34,8 @@ const AllServices = () => {
           </Styled.CardText>
         </Styled.ServiceCardAll>
       </Styled.CardGrid>
+      <Footer/>
+
     </Styled.Wrapper>
   );
 };
