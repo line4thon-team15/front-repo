@@ -54,7 +54,7 @@ export const StationBtn = styled.button`
     ${({isActive}) =>
         isActive && 
         css`
-            background-color: yellow;
+            background-color: #7EFF65;
             transform: scale(1.3);
             border: 2px solid #00A4E3;
             transition: 1s;

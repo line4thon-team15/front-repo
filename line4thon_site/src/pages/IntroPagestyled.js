@@ -31,7 +31,7 @@ export const FirstText = styled.div`
   flex-direction: column;
   align-items: center;
   height: calc(100vh - 320px);
-  padding: 280px 100px;
+  padding: 160px 100px;
   justify-content: center;
   gap: 40px;
   opacity: 0;
