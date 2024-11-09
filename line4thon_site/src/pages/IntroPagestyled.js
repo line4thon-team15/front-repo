@@ -6,9 +6,14 @@ export const IntroPage = styled.div`
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    /* height: 100vh; */
+    height: 98vh;
     background-color: black;
     color: white;
+    overflow: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+    border: 5px solid blue;
 `;
 
 const fadeIn = keyframes`
@@ -21,18 +26,18 @@ const fadeIn = keyframes`
 `
 
 export const FirstText = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: calc(100vh - 320px);
-  padding: 160px 100px;
+  padding: 280px 100px;
   justify-content: center;
   gap: 40px;
   opacity: 0;
   animation: ${({firstTextVisible}) => firstTextVisible ? fadeIn : 'none'} 2s forwards;
   scroll-snap-align: start;
 
-  border: 1px solid beige;
 
   div{
     width: 445px;
@@ -56,7 +61,7 @@ export const FirstText = styled.div`
 export const NextIcon = styled.div`
   position: absolute;
   align-items: center;
-  top: 85vh;
+  top: 80vh;
   display: flex;
   justify-content: center;
   height: 40px;

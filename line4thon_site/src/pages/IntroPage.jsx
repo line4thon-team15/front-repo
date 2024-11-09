@@ -7,18 +7,21 @@ import MetroMap from '@/components/Intro/MetroMap';
 
 const IntroPage = () => {
     const [firstTextVisible, setFirstTextVisible] = useState(false);
+    const introRef = useRef(null);  // IntroPage의 ref   
 
     useEffect(() => {
         setFirstTextVisible(true);
     }, []);
 
+
+
     return (
-        <S.IntroPage>
+        <S.IntroPage ref={introRef}>
             <FisrtText
                 firstTextVisible={firstTextVisible}
                 setFirstTextVisible={setFirstTextVisible}
             />
-            <MetroMap/>
+            <MetroMap introRef={introRef}/>
         </S.IntroPage>
     );
 };
