@@ -7,10 +7,10 @@ export const MetroMap = styled.div`
     justify-content: space-between;
     padding: 280px 0 280px 280px;
     width: calc(100vw - 280px);
-    background-color: black;
     color: #fff;
+    background-color: #3B3B3B;
+    height: calc(100vh - 560px);
     scroll-snap-align: start;
-
 `;
 
 export const RightBox = styled.div`
@@ -21,7 +21,7 @@ export const MetroLine = styled.div`
     display: flex;
     position: relative;
     flex-direction: column;
-    gap: 140px;
+    gap: 160px;
     padding: 50px 80px;
 
     #line{

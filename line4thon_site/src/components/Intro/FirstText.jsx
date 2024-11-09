@@ -14,6 +14,7 @@ const FisrtText = ({ firstTextVisible, setFirstTextVisible }) => {
     return (
         <>
             <S.FirstText firstTextVisible={firstTextVisible}>
+                {/* <div id='textBox'></div> */}
                 <div>
                     <p>멋쟁이 사자들의 2024 마지막</p>
                     <h1>해커톤 :</h1>

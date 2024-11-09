@@ -59,7 +59,7 @@ const MetroMap = ({ introRef }) => {
                 asdfsdfsdfwsefa
             </div>
             <M.RightBox>
-                <M.MetroLine>
+                {/* <M.MetroLine>
                     <div id='line'></div>
                     {teamNumber.map((team, index) => (
                         <M.StationBtn
@@ -71,7 +71,7 @@ const MetroMap = ({ introRef }) => {
                             {teamNumber[index]}
                         </M.StationBtn>
                     ))}
-                </M.MetroLine>
+                </M.MetroLine> */}
             </M.RightBox>
         </M.MetroMap >
     );

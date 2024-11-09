@@ -32,4 +32,6 @@ export const Paragraph = styled.p`
   width: 90%;                    /* 전체 너비 */
   text-align: right;              /* 오른쪽 정렬 */
   margin-top: auto;               /* 위쪽 여백 */
+  z-index: 2;
+  background-color: black;
 `;
