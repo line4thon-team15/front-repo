@@ -6,7 +6,7 @@ import Header from '../layouts/Header';
 import MainAllServices from '../pages/MainAllServices';
 import Footer from '../layouts/Footer';
 import { useScroll } from '../layouts/ScrollContext';
-import IntroPage from './IntroPage';
+import IntroPage from '../pages/IntroPage';
 
 const MainPage = () => {
     const servicesRef = useRef(null);
