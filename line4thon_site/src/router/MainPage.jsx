@@ -17,10 +17,19 @@ const MainPage = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
     const [isWhiteBackground, setIsWhiteBackground] = useState(false);
 
-    
+    function getScrollPosition() {
+        let TargetElement = document.getElementById("MainPage")
+        let y = TargetElement.scrollTop
+        console.log(y)
+    }
+
+    useEffect(() => {
+        getScrollPosition()
+    }, [y])
+
 
     return (
-        <Styled.Wrapper>
+        <Styled.Wrapper id='MainPage'>
             {/* IntroPage */}
             <div ref={homeRef} id="home" >
                 <IntroPage />
