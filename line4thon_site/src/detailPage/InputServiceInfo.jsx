@@ -4,24 +4,35 @@ import * as Styled from './InputServiceInfo.styled';
 import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
 import servicePhotoFile from '../assets/servicePhotoFile.svg';
 import upload from '../assets/upload.svg';
+import changeThumbnail from '../assets/changeThumbnail.svg';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
 const InputServiceInfo = () => {
     const navigate = useNavigate();
-    const [uploadedImage, setUploadedImage] = useState(null);
+    const [uploadedImages, setUploadedImages] = useState([]); // Update to store multiple images
+    const [thumbnailImage, setThumbnailImage] = useState(ThumbnailTotal);
+    const maxImages = 10; // 최대 업로드 개수 설정
 
     const handleGoBack = () => {
         navigate('/my-service');
     };
 
     const handleImageUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setUploadedImage(URL.createObjectURL(file));
+        const files = event.target.files;
+        if (files) {
+            const imageUrls = Array.from(files).map(file => URL.createObjectURL(file));
+            setUploadedImages(prevImages => [...prevImages, ...imageUrls].slice(0, maxImages)); // 최대 10개까지 제한
         }
     };
 
+    const handleThumbnailUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setThumbnailImage(URL.createObjectURL(file));
+        }
+    };
+    
     const teamMembers = [
         { id: '1', name: '신채린' },
         { id: '2', name: '이주원' },
@@ -51,8 +62,20 @@ const InputServiceInfo = () => {
             <Styled.Content>
                 <Styled.Header>
                     <Styled.ThumbnailBox>
-                        <Styled.ThumbnailImage src={ThumbnailTotal} alt="service thumbnail" />
+                        <Styled.ThumbnailImage src={thumbnailImage} alt="service thumbnail" />
                     </Styled.ThumbnailBox>
+                    <Styled.ChangeThumbnail 
+                        src={changeThumbnail} 
+                        alt="changeThumbnail" 
+                        onClick={() => document.getElementById('thumbnailInput').click()} 
+                    />
+                    <input
+                        id="thumbnailInput"
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={handleThumbnailUpload}
+                    />
                 </Styled.Header>
 
                 <Styled.Background>
@@ -123,9 +146,12 @@ const InputServiceInfo = () => {
                         />
                         <Styled.ServicePPTContainer>
                             <Styled.ServicePPT>마지막으로 발표자료를 업로드 해보세요!</Styled.ServicePPT>
+                            <Styled.PPTCount>
+                                <Styled.UploadedCount>{uploadedImages.length}</Styled.UploadedCount>/
+                                <Styled.MaxCount>{maxImages}</Styled.MaxCount>
+                            </Styled.PPTCount>                            
                             <Styled.ImageUploadButton onClick={() => document.getElementById('fileInput').click()}>
-                                <Styled.Image src={upload} alt="upload" />
-                                <Styled.ImageUpload>이미지 업로드하기</Styled.ImageUpload>
+                                <Styled.ImageUpload src={upload} alt="upload" />
                             </Styled.ImageUploadButton>
                             <input
                                 id="fileInput"
@@ -133,15 +159,19 @@ const InputServiceInfo = () => {
                                 accept="image/*"
                                 style={{ display: 'none' }}
                                 onChange={handleImageUpload}
+                                multiple // Enable multiple file selection
                             />
                         </Styled.ServicePPTContainer>
 
-                        {uploadedImage ? (
-                            <Styled.ServicePhotoFile src={uploadedImage} alt="uploaded service file" />
-                        ) : (
-                            <Styled.ServicePhotoFile src={servicePhotoFile} alt="default service file" />
-                        )}
-
+                        <Styled.ImageGallery>
+                            {uploadedImages.length > 0 ? (
+                                uploadedImages.map((image, index) => (
+                                    <Styled.ServicePhotoFile key={index} src={image} alt={`uploaded service file ${index + 1}`} />
+                                ))
+                            ) : (
+                                <Styled.ServicePhotoFile src={servicePhotoFile} alt="default service file" />
+                            )}
+                        </Styled.ImageGallery>
                         <Styled.Bottom>
                             <Styled.GoBack onClick={handleGoBack}>&lt; 이전</Styled.GoBack>
                             <Styled.SignUp>등록하기</Styled.SignUp>

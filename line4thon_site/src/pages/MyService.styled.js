@@ -56,7 +56,8 @@ export const Thumbnail = styled.div`
 `
 
 export const ThumbnailImage = styled.img`
-    width: 1000px;
+    width: 900px;
+
 `;
 
 export const Line = styled.div`
@@ -116,12 +117,25 @@ export const OneLine = styled.div`
     margin-top: 10px; /* Space between NameText and OneLine */
 `;
 
+export const Top = styled.div`
+    display: flex;
+    align-items: center; /* 세로 가운데 정렬 */
+    width: 87%;
+`
+
 export const ServiceContent = styled.div`
     padding: 100px 20px 20px 80px;
     font-size: 20px;
     line-height: 25px;
     color: black;
 `
+
+export const Visit = styled.img`
+    width: 150px;
+    margin-top: 60px;
+    margin-left: auto; /* 오른쪽으로 밀어내기 */
+`
+
 export const TeamMember = styled.div`
     padding: 40px 20px 10px 80px;
     font-size: 20px;
@@ -135,14 +149,25 @@ export const Member = styled.div`
     line-height: 25px;
     color: black;
 `
+
+
+export const ServicePhotoBox = styled.div`
+    display: flex;
+    align-items: center;
+`
+
 export const ServicePhoto = styled.div`
-    padding: 20px 20px 10px 80px;
+    padding: 20px 10px 10px 80px;
     font-size: 20px;
     line-height: 25px;
     color: black;
     font-weight: bold;
 `
+export const ServicePhotoCount = styled.div`
+    padding: 15px 20px 10px 0px;
+    color: #45DB00;
 
+`
 export const ServicePhotoFile = styled.img`
     height: 150px;
     padding: 00px 20px 10px 80px;
@@ -177,7 +202,7 @@ export const Ask = styled.div`
 export const Star = styled.div`
     padding: 10px 0 20px;
     font-size: 30px;
-    color: black;
+    color: #AAAAAA;
     text-align: center;
     letter-spacing: 10px; /* Adjust spacing as needed */
 
@@ -187,7 +212,7 @@ export const WriteReviewButton = styled.div`
     width: 120px;
     height: 25px;
     border-radius: 10px;
-    background-color: #0033FF;
+    background-color: #D2D2D2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,14 +227,30 @@ export const WriteReview = styled.div`
     color: white;
     font-size: 17px;
 `
-
+export const UserReviewBox = styled.div`
+    display: flex;
+    align-items: center;
+    width: 90%;
+`
 export const UserReview = styled.div`
-    padding: 40px 20px 10px 80px;
+    padding: 40px 10px 10px 80px;
     font-size: 20px;
     line-height: 25px;
     color: black;
     font-weight: bold;
 `
+export const UserReviewCount = styled.div`
+    padding: 40px 20px 10px 0px;
+    color: #ACA9A9;
+    font-size: 20px;
+`
+
+export const Array = styled.img`
+    padding: 40px 20px 10px 0px;
+    margin-left: auto;
+
+`
+
 export const ReviewContent = styled.div`
     display: flex;
     flex-direction: column; /* Stack elements vertically */

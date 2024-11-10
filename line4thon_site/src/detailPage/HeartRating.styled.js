@@ -11,8 +11,8 @@ export const HeartContainer = styled.div`
 `;
 
 export const Heart = styled.div`
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background-color: #E0E0E0;
     clip-path: polygon(
         50% 0%,
@@ -31,20 +31,20 @@ export const Heart = styled.div`
     ${({ filled }) =>
         filled === "true" &&
         `
-        background-color: #FFD700;
+        background-color: #D6FF22;
     `}
 
     ${({ halfFilled }) =>
         halfFilled === "true" &&
         `
-        background: linear-gradient(to right, #FFD700 50%, #E0E0E0 50%);
+        background: linear-gradient(to right, #D6FF22 50%, #E0E0E0 50%);
     `}
 `;
 
 
 export const Score = styled.span`
-    font-size: 24px;
+    font-size: 15px;
     font-weight: bold;
     margin-left: 10px;
-    color: #333;
+    color: #77A71D;
 `;
