@@ -15,25 +15,31 @@ export const Content = styled.div`
     width: cal(100%-200px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
-
-// Header with ThumbnailBox
 export const Header = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 615px;
     background-color: #BABABA;
+    align-items: center; /* Header의 가로 가운데 정렬 */
+    justify-content: center; /* Header의 세로 가운데 정렬 */
 `;
 
 export const ThumbnailBox = styled.div`
-     margin-top: 50px;
-    margin-left: 150px;
-    justify-content: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const ThumbnailImage = styled.img`
-    width: 1000px;
+    width: 700px;
+    height: auto; /* 이미지의 비율을 유지 */
+`;
+
+export const ChangeThumbnail = styled.img`
+    width: 160px;
+    margin-left: 70%;
+    margin-top: 20px;
 `;
 
 export const Background = styled.div`
@@ -192,7 +198,7 @@ export const ServiceDetail = styled.div`
     font-weight: bold;
 `
 export const ServiceDetailInput = styled.input`
-    width: 85%;
+    width: 88%;
     height: 350px;
     padding: 10px 10px 10px 10px;
     font-size: 16px;
@@ -205,7 +211,7 @@ export const ServiceDetailInput = styled.input`
 
 export const ServicePPTContainer = styled.div`
     display: flex;
-    width: 100%;
+    width: 90%;
     align-items: center;
     padding: 10px 0px 0 50px;
     margin: 0;
@@ -218,35 +224,58 @@ export const ServicePPT = styled.div`
     color: black;
     font-weight: bold;
 `
-export const ImageUploadButton = styled.div`
+export const PPTCount = styled.div`
+    margin-left: 10px;
     display: flex;
     align-items: center;
 `;
 
-export const Image = styled.img`
-    /* Additional styles if needed */
+export const UploadedCount = styled.span`
+    color: #45DB00; /* uploadedImages.length의 글자색을 #45DB00으로 설정 */
 `;
 
-export const ImageUpload = styled.div`
+export const MaxCount = styled.span`
+    color: black; /* maxImages의 글자색을 검은색으로 설정 */
+`;
+
+
+export const ImageUploadButton = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+`;
+
+
+
+export const ImageUpload = styled.img`
     display: flex;
     align-items: center;
     padding: 10px;
     width: 150px;
-    height: 30px;
-    border-radius: 10px;
-    background-color: #0033FF;
+
     justify-content: center;
     cursor: pointer;
     color: white;
 `;
 
+export const ImageGallery = styled.div`
+
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding: 20px 50px; /* Optional padding */
+    gap: 15px; /* Spacing between images */
+`;
+
 export const ServicePhotoFile = styled.img`
     height: 150px;
-    padding: 30px 20px 10px 50px;
-`
+    object-fit: cover;
+    border-radius: 5px;
+`;
+
 export const Bottom = styled.div`
     display: flex;
     flex-direction: row;
+    width: 94%;
 `
 
 export const GoBack = styled.div`
@@ -259,7 +288,6 @@ export const GoBack = styled.div`
 export const SignUp = styled.div`
     display: flex;
     align-items: center;
-    position: absolute; /* 위치를 상대적으로 지정 */
     padding: 10px;
     width: 90px;
     height: 30px;
@@ -269,5 +297,5 @@ export const SignUp = styled.div`
     cursor: pointer;
     color: white;
     margin-top: 30px;
-    margin-left: 68%;
+    margin-left: auto;
 `

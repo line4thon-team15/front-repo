@@ -6,6 +6,8 @@ import servicePhotoFile from '../assets/servicePhotoFile.svg';
 import thoughtfulMan from '../assets/thoughtfulMan.svg';
 import arrowcircleright from '../assets/arrowcircleright.svg';
 import infoVector from '../assets/infoVector.svg';
+import disableVisit from '../assets/disableVisit.svg';
+import array from '../assets/array.svg';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
@@ -50,13 +52,26 @@ const MyService = () => {
                     </Styled.NameBox>
                 </Styled.Line>
 
-                <Styled.ServiceContent>
-                    잠시만 기다려 주세요! <br/>
-                    서비스 설명이 준비중 입니다.
-                </Styled.ServiceContent>
+                <Styled.Top>
+                    <Styled.ServiceContent>
+                        잠시만 기다려 주세요! <br/>
+                        서비스 설명이 준비중 입니다.
+                    </Styled.ServiceContent>
+
+                    <Styled.Visit src={disableVisit} alt="disableVisit" />
+
+
+                </Styled.Top>
+
+
                 <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
                 <Styled.Member>개발에 참여한 팀원을 소개해 주세요.</Styled.Member>
-                <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
+                <Styled.ServicePhotoBox>
+                    <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
+                    <Styled.ServicePhotoCount>1</Styled.ServicePhotoCount>
+
+                </Styled.ServicePhotoBox>
+            
                 <Styled.ServicePhotoFile src={servicePhotoFile} alt="servicePhotoFile" />
                 <Styled.Feedback>내가 쓴 피드백</Styled.Feedback>
                 <Styled.RankingBox>
@@ -68,7 +83,11 @@ const MyService = () => {
                     </Styled.WriteReviewButton>
                 </Styled.RankingBox>
 
-                <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
+                <Styled.UserReviewBox>
+                    <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
+                    <Styled.UserReviewCount>0</Styled.UserReviewCount>
+                    <Styled.Array src={array} alt="array" />
+                </Styled.UserReviewBox>
                 <Styled.ReviewContent>
                     <Styled.NoReview>아직 리뷰가 없어요</Styled.NoReview>
                     <Styled.WriteFirst>첫 번째로 리뷰를 남겨주세요!</Styled.WriteFirst>
