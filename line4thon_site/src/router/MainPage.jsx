@@ -1,76 +1,53 @@
 // MainPage.jsx
 import React, { useRef, useEffect, useState } from 'react';
-import HomePage from '../pages/HomePage';
 import Ranking from '../pages/Ranking';
 import * as Styled from './MainPage.styled';
 import Header from '../layouts/Header';
 import MainAllServices from '../pages/MainAllServices';
 import Footer from '../layouts/Footer';
 import { useScroll } from '../layouts/ScrollContext';
+import IntroPage from '../pages/IntroPage';
 
 const MainPage = () => {
     const servicesRef = useRef(null);
     const { homeRef, rankingRef } = useScroll();
+    const [ mainScroll, setMainScroll ] = useState(0);
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [scrollDirection, setScrollDirection] = useState(null);
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const [isWhiteBackground, setIsWhiteBackground] = useState(false);
+    //MainPage의 높이를 측정 하는 함수
+    function getScrollPosition() {
+        let TargetElement = document.getElementById("MainPage");
+        let y = TargetElement.scrollTop;
+        setMainScroll(y);
+        // console.log(y);
+    }
 
-    const updateScroll = () => {
-        const position = window.scrollY || document.documentElement.scrollTop;
-        setScrollPosition(position);
-        setIsWhiteBackground(position > 300); // 스크롤 위치가 300 이상일 때 배경색을 흰색으로 설정
-    };
-
+    //getScrollPosition를 실행시키는 useEffect
     useEffect(() => {
-        window.scrollTo(0, 0); // 페이지 로드 시 최상단으로 스크롤
-        window.addEventListener('scroll', updateScroll);
+        const targetElement = document.getElementById("MainPage");
+        targetElement.addEventListener("scroll", getScrollPosition);
+
         return () => {
-            window.removeEventListener('scroll', updateScroll); // 언마운트 시 이벤트 제거
+         if (targetElement) {
+            targetElement.removeEventListener('scroll', getScrollPosition)
+         }
         };
     }, []);
 
-    const handleScroll = () => {
-        const scrollPosition = window.scrollY;
-        const windowHeight = window.innerHeight;
-
-        setScrollDirection((prev) => (scrollPosition > prev ? 'down' : 'up'));
-
-        if (scrollDirection === 'down' && scrollPosition >= windowHeight * (currentIndex + 0.9)) {
-            setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, 3)); // 최대 인덱스 3 (Footer)
-        } else if (scrollDirection === 'up' && scrollPosition < windowHeight * (currentIndex - 0.1)) {
-            setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-        }
-    };
-
-    useEffect(() => {
-        if (currentIndex === 0) {
-            homeRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (currentIndex === 1) {
-            rankingRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (currentIndex === 2) {
-            servicesRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [currentIndex]);
-
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [scrollDirection]);
 
     return (
-        <Styled.Wrapper $scrollPosition={scrollPosition}>
-            <div style={{ display: 'flex', width: '100%' }}>
-                <div style={{ position: 'fixed', top: 0, width: '200px', height: '100vh' }}>
-                    {/* scrollPosition과 isWhiteBackground을 Header에 전달 */}
-                    <Header scrollPosition={scrollPosition} isWhiteBackground={isWhiteBackground} />
+        <Styled.Wrapper id='MainPage'>
+            {/* IntroPage */}
+            <div ref={homeRef} id="home" >
+                <IntroPage mainScroll={mainScroll}/>
+            </div>
+            
+            {/* RankingPage와 MainAllServices 섹션을 고정된 Header와 함께 배치 */}
+            <div style={{ display: 'flex' }}>
+                <div style={{ position: 'sticky', top: 0, width: '200px', height: '100vh' }}>
+                    <Header />
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', overflowY: 'auto' }}>
-                    {/* 페이지 섹션 */}
-                    <div ref={homeRef} id="home" style={{ height: '100vh' }}>
-                        <HomePage />
-                    </div>
+                <div style={{ flex: 1, overflowY: 'auto' }}>
+                    {/* RankingPage */}
                     <div ref={rankingRef} id="ranking" style={{ height: '100vh' }}>
                         <Ranking />
                     </div>

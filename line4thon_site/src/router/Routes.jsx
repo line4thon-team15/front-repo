@@ -20,7 +20,6 @@ const LayoutWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
 `;
@@ -33,10 +32,7 @@ const Routes = () => {
     <LayoutWrapper>
       <ContentWrapper>
         <ReactRoutes>
-          {isMainPage ? (
-            <Route path="/" element={<MainPage />} />
-          ) : (
-            <>
+              <Route path="/" element={<MainPage />} />
               <Route path="/all-services" element={<AllServices />} />
               <Route path="/my-service" element={<MyService />} />
               <Route path="/my-page" element={<MyPage />} />
@@ -44,8 +40,7 @@ const Routes = () => {
               <Route path="/input-service-info" element={<InputServiceInfo />} /> 
               <Route path="/my-service-info" element={<DetailPage/>} />
               <Route path="/write-review" element={<WriteReview/>} />
-            </>
-          )}
+           
         </ReactRoutes>
       </ContentWrapper>
     </LayoutWrapper>

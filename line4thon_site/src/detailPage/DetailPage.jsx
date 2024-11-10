@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Styled from './DetailPage.styled';
 import thumbnailImage from '../assets/thumbnail.svg';
-import servicePhotoFile from '../assets/servicePhotoFile.svg';
-import thoughtfulMan from '../assets/thoughtfulMan.svg';
+import ex1 from '../assets/ex1.svg';
+import ex2 from '../assets/ex2.svg';
+import ex3 from '../assets/ex3.svg';
 import arrowcircleright from '../assets/arrowcircleright.svg';
 import design from '../assets/design.svg';
 import ui from '../assets/ui.svg';
@@ -15,11 +16,24 @@ import Footer from '../layouts/Footer';
 
 const DetailPage = () => {
     const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    
+    const images = [ex1, ex2, ex3];
+
+    const handleImageClick = (image) => {
+        setSelectedImage(image);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedImage(null);
+    };
 
     const handleReviewClick = () => {
-        navigate('/write-review'); // 경로를 "/write-review"로 변경
+        navigate('/write-review'); 
     };
-    
 
     return (
         <Styled.Wrapper>
@@ -80,8 +94,40 @@ const DetailPage = () => {
                     PM/PD | 전효준
                 </Styled.Member>
 
-                <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
-                <Styled.ServicePhotoFile src={servicePhotoFile} alt="servicePhotoFile" />
+                <Styled.ServicePhotoBox>
+                    <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
+                    <Styled.PhotoCount>3</Styled.PhotoCount>
+                </Styled.ServicePhotoBox>
+
+                <Styled.PhotoBox>
+                    {images.map((image, index) => (
+                        <Styled.ExImage 
+                            key={index} 
+                            src={image} 
+                            alt={`example-${index}`} 
+                            onClick={() => handleImageClick(image)} 
+                        />
+                    ))}
+                </Styled.PhotoBox>
+
+                {isModalOpen && (
+                    <Styled.FullScreenModal>
+                        <Styled.CloseButton onClick={handleCloseModal}>✕</Styled.CloseButton>
+                        <Styled.ModalImage src={selectedImage} alt="expanded" />
+                        <Styled.ThumbnailList>
+                            {images.map((img, index) => (
+                                <Styled.Thumbnail
+                                    key={index}
+                                    src={img}
+                                    alt={`thumbnail-${index}`}
+                                    onClick={() => setSelectedImage(img)}
+                                />
+                            ))}
+                        </Styled.ThumbnailList>
+                    </Styled.FullScreenModal>
+                )}
+
+
                 <Styled.Feedback>내가 쓴 피드백</Styled.Feedback>
                 <Styled.RankingBox>
                     <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>

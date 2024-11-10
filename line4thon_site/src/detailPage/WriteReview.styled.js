@@ -16,24 +16,25 @@ export const Content = styled.div`
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
 
-// Header with ThumbnailBox
 export const Header = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 615px;
     background-color: #BABABA;
+    align-items: center; /* Header의 가로 가운데 정렬 */
+    justify-content: center; /* Header의 세로 가운데 정렬 */
 `;
 
 export const ThumbnailBox = styled.div`
-     margin-top: 50px;
-    margin-left: 150px;
-    justify-content: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const ThumbnailImage = styled.img`
-    width: 1000px;
+    width: 700px;
+    height: auto; /* 이미지의 비율을 유지 */
 `;
 
 export const Background = styled.div`
@@ -59,7 +60,7 @@ export const InfoBox = styled.div`
 export const InfoTitle = styled.div`
     padding: 50px 50px 30px 50px;
     text-align: center;
-    font-size: 35px;
+    font-size: 30px;
     line-height: 25px;
     color: black;
     font-weight: bold;
@@ -68,11 +69,10 @@ export const InfoTitle = styled.div`
 export const Rating = styled.div`
     display: flex;
     flex-direction: row; /* 가로로 나란히 배치 */
-    align-items: center; /* 수직 가운데 정렬 */
 `;
 
 export const RatingAsk = styled.div`
-    padding: 0 10px 0 50px; /* 패딩 조정 */
+    padding: 20px 10px 30px 50px; /* 패딩 조정 */
     font-size: 20px;
     line-height: 25px;
     color: black;
@@ -80,21 +80,96 @@ export const RatingAsk = styled.div`
 `;
 
 export const RatingFive = styled.div`
-    padding: 10px; 0 0 10px; /* 패딩 조정 */
-    font-size: 10px;
+    padding: 20px; 0 0 10px; /* 패딩 조정 */
+    font-size: 13px;
     line-height: 25px;
     color: #77A71D;
 `;
 
+export const RatingBox = styled.div`
+    display: flex;
+    gap: 20px; /* 필요에 따라 간격 조정 */
+`
+export const RatingBox1 = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+
+
 export const RatingSelect = styled.div`
-    padding: 0 10px 0 60px; /* 패딩 조정 */
+    padding: 0 10px 0 68px; /* 패딩 조정 */
     font-size: 15px;
     line-height: 25px;
     color: black;
     font-weight: bold;
 `
 export const Find = styled.img`
-    padding: 0 10px 0 50px; /* 패딩 조정 */
+    padding: 10px 10px 10px 65px; /* 패딩 조정 */
+    height: 40px;
+
+`
+
+export const Simple = styled.img`
+    padding: 0 10px 10px 32px; /* 패딩 조정 */
+    height: 40px;
+
+`
+
+export const Easy = styled.img`
+    padding: 0 10px 10px 28px; /* 패딩 조정 */
+    height: 40px;
+
+`
+export const Design = styled.img`
+    padding: 0 10px 10px 0px; /* 패딩 조정 */
+    height: 40px;
+
+`
+
+export const Ui = styled.img`
+    padding: 0 10px 10px 0px; /* 패딩 조정 */
+    height: 40px;
+
+`
+
+export const Feedback = styled.img`
+    padding: 0 10px 10px 0px; /* 패딩 조정 */
+    height: 40px;
+
+`
+
+export const RatingBox2 = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+`
+
+export const RatingSelect2 = styled.div`
+    padding: 0 10px 0 75px; /* 패딩 조정 */
+    font-size: 15px;
+    line-height: 25px;
+    color: black;
+    font-weight: bold;
+`
+
+export const Idea = styled.img`
+    padding: 10px 0px 10px 30px; /* 패딩 조정 */
+    height: 40px;
+
+`
+export const Reuse = styled.img`
+    padding: 0 0px 10px 70px; /* 패딩 조정 */
+    height: 40px;
+
+`
+export const Loading = styled.img`
+    padding: 0 0px 10px 0px; /* 패딩 조정 */
+    height: 40px;
+
+`
+export const Want = styled.img`
+    padding: 0 0px 10px 75px; /* 패딩 조정 */
+    height: 40px;
 
 `
 
@@ -106,17 +181,42 @@ export const WriteReviewAsk = styled.div`
     font-weight: bold;
 `;
 
+export const ReviewInputContainer = styled.div`
+    position: relative;
+`;
+
+export const InputContainer = styled.div`
+    position: relative;
+    width: 90%;
+    margin: 0 0 16px 00px;
+`;
+
 export const WriteReviewInput = styled.input`
-    width: 85%;
-    padding: 10px 10px 10px 10px;
+    width: 100%;
+    height: 180px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid #F6F6F6;
     border-radius: 5px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    margin: 5px 0 15px 50px;
+    margin: 5px 0 0px 50px;
+    background-color: #F6F6F6;
+    padding: 16px;
+    box-sizing: border-box;
+    resize: none;
 
 `
+
+export const CharCount = styled.div`
+    position: absolute;
+    bottom: 30px;
+    right: 0px;
+    font-size: 12px;
+    color: #888;
+`;
+
+export const ColoredLength = styled.span`
+    color: #7BC217; /* 원하는 색상으로 설정 */
+`;
+
 
 export const Bottom = styled.div`
     display: flex;
@@ -133,6 +233,7 @@ export const GoBack = styled.div`
 export const SignUp = styled.div`
     display: flex;
     align-items: center;
+    position: absolute; /* 위치를 상대적으로 지정 */
     padding: 10px;
     width: 90px;
     height: 30px;
@@ -142,5 +243,5 @@ export const SignUp = styled.div`
     cursor: pointer;
     color: white;
     margin-top: 30px;
-    margin-left: 75%;
+    margin-left: 68%;
 `

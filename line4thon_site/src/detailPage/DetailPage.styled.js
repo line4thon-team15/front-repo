@@ -157,18 +157,87 @@ export const Member = styled.div`
     background-color: #696969; 
     color: white;
 `
+
+export const ServicePhotoBox = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
 export const ServicePhoto = styled.div`
-    padding: 50px 20px 10px 80px;
+    padding: 48px 0px 10px 80px;
     font-size: 20px;
     line-height: 25px;
     color: black;
     font-weight: bold;
 `
+export const PhotoCount = styled.div`
+    padding: 50px 20px 10px 10px;
+    color: #45DB00;
 
-export const ServicePhotoFile = styled.img`
-    height: 150px;
-    padding: 00px 20px 10px 80px;
 `
+// 모달 스타일 추가
+export const FullScreenModal = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+`;
+
+export const CloseButton = styled.div`
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+`;
+
+export const ModalImage = styled.img`
+    height: 500px;
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+`;
+
+export const ThumbnailList = styled.div`
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 80vh;
+`;
+
+export const Thumbnail = styled.img`
+    width: 200px;
+    cursor: pointer;
+    opacity: 0.7;
+    &:hover {
+        opacity: 1;
+    }
+`;
+
+// 기존 스타일
+export const PhotoBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    padding: 0px 20px 10px 80px;
+`;
+
+export const ExImage = styled.img`
+    height: 150px;
+    margin-right: 20px;
+    cursor: pointer;
+`;
 export const Feedback = styled.div`
     padding: 50px 20px 10px 80px;
     font-size: 20px;
@@ -298,12 +367,18 @@ export const ReviewKeyword = styled.div`
 `
 
 export const Design = styled.img`
+    padding: 10px 10px 0px 0px;
+
 `
 
 export const UI = styled.img`
+    padding: 8px 10px 0px 0px;
+
 `
 
 export const Loading = styled.img`
+    padding: 0px 10px 0px 0px;
+
 `
 
 

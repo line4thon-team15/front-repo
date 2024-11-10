@@ -6,7 +6,16 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    background-color: ${({ $scrollPosition }) => ($scrollPosition > 300 ? 'white' : 'black')};
-    transition: background-color 0.3s ease; // 배경색 전환을 부드럽게
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y proximity;
 `;
+
+// Menubar 스타일 정의
+export const MenuBar = styled.div`
+    font-size: 1rem;
+`;
+
+export const ContentWrapper = styled.div`
+`;
+
