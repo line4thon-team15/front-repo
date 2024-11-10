@@ -1,0 +1,22 @@
+.card-enter {
+    opacity: 0;
+    transform: translateX(50%); /* 오른쪽에서 시작 */
+  }
+  
+  .card-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  
+  .card-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .card-exit-active {
+    opacity: 0;
+    transform: translateX(-50%); /* 왼쪽으로 이동 */
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  
