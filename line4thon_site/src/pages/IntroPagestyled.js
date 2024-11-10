@@ -129,10 +129,18 @@ export const GoReviewBtn = styled.button`
   color: black;
   border: none;
   padding: 10px 20px;
+  font-family: Pretendard;
+  font-weight: 600;
   font-size: 1em;
   cursor: pointer;
   transition: opacity 0.3s ease, transform 0.3s ease;
   transform: translateY(20px); // 초기 위치를 살짝 아래로
+  border-radius: 4px;
+
+  &:hover {
+    scale: 1.05;
+    transition: 0.5s ease;
+  }
 `;
 
 export const NextIcon = styled.div`
