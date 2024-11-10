@@ -56,7 +56,7 @@ const IntroPage = ({ mainScroll }) => {
                 firstTextVisible={firstTextVisible}
                 setFirstTextVisible={setFirstTextVisible}
             />
-            <MetroMap mainScroll={mainScroll} />
+            <MetroMap teamData={teamData} />
         </S.IntroPage>
     );
 };
