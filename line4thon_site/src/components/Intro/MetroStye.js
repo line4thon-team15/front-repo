@@ -18,42 +18,34 @@ export const MetroMap = styled.div`
 export const Train = styled.img`
     width: 100px;
     height: 120px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     position: absolute;
     bottom: 140px;
-    left: -22px;
-    ${({ isAnimating }) =>
-        isAnimating
-            ? css`
-                animation: ${trainExit} 3s forwards;  // 기차 퇴장 애니메이션
-            `
-            : css`
-                animation: ${trainEnter} 3s forwards;  // 기차 진입 애니메이션
-            `}
+    left: 12.5vw;
+
 `;
 
 // 기차의 진입 애니메이션
 const trainEnter = keyframes`
-    from { transform: translateX(-250px); }
+    from { transform: translateX(-1800px); }
     to { transform: translateX(0); }
 `;
 
 // 기차의 퇴장 애니메이션
 const trainExit = keyframes`
     from { transform: translateX(0); }
-    to { transform: translateX(250px); }
+    to { transform: translateX(800px); }
 `;
 
 // 버튼 그룹의 진입 애니메이션
 const groupEnter = keyframes`
-    from { transform: translateX(250px); }
+    from { transform: translateX(1800px); }
     to { transform: translateX(0); }
 `;
 
 // 버튼 그룹의 퇴장 애니메이션
 const groupExit = keyframes`
     from { transform: translateX(0); }
-    to { transform: translateX(-250px); }
+    to { transform: translateX(-1800px); }
 `;
 
 export const MetroLine = styled.div`
@@ -70,7 +62,7 @@ export const MetroLine = styled.div`
         width: 140vw;
         height: 10px;
         z-index: 0;
-        bottom: 65px;
+        bottom: 153px;
         left: -300px;
     }
 `
@@ -82,10 +74,10 @@ export const GroupContainer = styled.div`
     ${({ isAnimating }) =>
         isAnimating
             ? css`
-                animation: ${groupExit} 5s forwards;  // 버튼 그룹 퇴장 애니메이션
+                animation: ${groupExit} 2s forwards;
             `
             : css`
-                animation: ${groupEnter} 5s forwards;  // 버튼 그룹 진입 애니메이션
+                animation: ${groupEnter} 2s forwards;
             `}
 `;
 
