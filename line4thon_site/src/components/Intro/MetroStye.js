@@ -2,36 +2,45 @@ import styled, { css, keyframes } from 'styled-components';
 
 export const MetroMap = styled.div`
     display: flex;
-    flex-direction: row;
+    position: relative;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 280px 0 280px 280px;
-    width: calc(100vw - 280px);
+    padding: 280px 15vw;
+    width: calc(100vw - 30vw);
     color: #fff;
     background-color: #1F1F1F;
     height: calc(100vh - 560px);
     scroll-snap-align: start;
+
 `;
 
-export const RightBox = styled.div`
-
+export const Train = styled.img`
+    width: 100px;
+    height: 120px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    position: absolute;
+    bottom: 140px;
+    left: 13vw;
 `
 
 export const MetroLine = styled.div`
     display: flex;
     position: relative;
-    flex-direction: column;
-    gap: 160px;
-    padding: 50px 80px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    padding: 50px 0px;
+    margin-top: 50vh;
 
     #line{
         position: absolute;
         background-color: #00A4E3;
-        width: 10px;
-        height: 97%;
+        width: 140vw;
+        height: 10px;
         z-index: 0;
-        top: 50px;
-        left: 95px;
+        bottom: 65px;
+        left: -300px;
     }
 `
 

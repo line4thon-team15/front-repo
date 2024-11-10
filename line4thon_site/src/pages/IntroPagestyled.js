@@ -63,8 +63,8 @@ export const ServiceCard = styled.div`
   transition: transform 0.1s ease-out;
   overflow: hidden;
   border-radius: ${({ scrollRatio }) => `${4 + scrollRatio * 3}px`};
-  position: relative;
   position: absolute;
+  z-index: 2;
   top: ${({ scrollRatio }) => `${75 + scrollRatio * 50}vh`}; // 50vh에서 100vh까지 이동
   width: ${({ scrollRatio }) => `${30 * 5 + scrollRatio * 22 * 5}px`}; // 100px에서 200px로 확장
   height: ${({ scrollRatio }) => `${30 * 4 + scrollRatio * 22 * 4}px`}; // 100px에서 200px로 확장
@@ -145,4 +145,5 @@ export const NextIcon = styled.div`
   width: 40px;
   color: black;
   border-radius: 20px;
+  z-index: 1;
 `
