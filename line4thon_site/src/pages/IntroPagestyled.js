@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 
+
 export const IntroPage = styled.div`
     position: relative;
     display: flex;
@@ -65,7 +66,7 @@ export const ServiceCard = styled.div`
   border-radius: ${({ scrollRatio }) => `${4 + scrollRatio * 3}px`};
   position: absolute;
   z-index: 2;
-  top: ${({ scrollRatio }) => `${75 + scrollRatio * 50}vh`}; // 50vh에서 100vh까지 이동
+  top: ${({ scrollRatio }) => `${75 + scrollRatio * 53}vh`}; // 50vh에서 100vh까지 이동
   width: ${({ scrollRatio }) => `${30 * 5 + scrollRatio * 22 * 5}px`}; // 100px에서 200px로 확장
   height: ${({ scrollRatio }) => `${30 * 4 + scrollRatio * 22 * 4}px`}; // 100px에서 200px로 확장
   transform: ${({ scrollRatio }) => `scale(${1 + scrollRatio})`};
@@ -85,7 +86,9 @@ export const ServiceCard = styled.div`
   }
   #descripCont{
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
+    justify-content: space-between;
     gap: 8px;
     padding: 6px 10px;
   }
@@ -95,7 +98,7 @@ export const ServiceCard = styled.div`
     line-height: normal;
   }
   #title{
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
   }
   #intro{
@@ -109,6 +112,7 @@ export const ServiceCard = styled.div`
   }
 
 `
+
 export const Overlay = styled.div`
   position: absolute;
   top: 0;
