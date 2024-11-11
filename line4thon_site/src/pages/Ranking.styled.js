@@ -1,23 +1,11 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  // position: absolute;
   display: flex;
   flex-direction: column;
-  top: 0;
-  right: 0;
-  width: calc(100% - 200px);
-  margin-left: 200px;
-  // height: calc(100% - 120px);
-  // width: 100%;
+  width: 100%;
   height: 100%;
-  background-color: #e9ecef;
-  scroll-snap-align: start;
-`;
-
-// Menubar 스타일 정의
-export const MenuBar = styled.div`
-  display: flex;
+  background-color: white;
 `;
 
 export const Content = styled.div`
@@ -34,30 +22,69 @@ export const Header = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: 55px;
   font-weight: bold;
+  color: black;
+  margin-bottom: 10px;
 `;
 
 export const Subtitle = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   color: #777;
 `;
 
+export const SectionContainer = styled.div`
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+`;
+
 export const Section = styled.div`
-  background-color: #f9f9f9;
+  background-color: white;
   padding: 16px;
-  border-radius: 8px;
+  border-radius: none;
+  width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
-export const AllServicesSection = styled(Section)`
-  margin-top: 24px;
+export const SectionTitleAll = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   margin-bottom: 16px;
+  text-align: center;
+  margin-top: 13px;
+`;
+
+export const FirstPlace = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-direction: column;
+`;
+
+export const FirstPlaceImage = styled.img`
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 16px;
+`;
+
+export const FirstPlaceInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const ServiceDescription = styled.p`
+  font-size: 16px;
+  color: #555;
+  margin-top: 8px;
 `;
 
 export const ServiceList = styled.div`
@@ -89,6 +116,7 @@ export const ServiceImage = styled.img`
 `;
 
 export const ServiceInfo = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
 `;
@@ -96,9 +124,11 @@ export const ServiceInfo = styled.div`
 export const ServiceName = styled.div`
   font-size: 16px;
   font-weight: bold;
+  margin-top: 8px;
+  margin-right: 5px;
 `;
 
-export const ServiceDetails = styled.div`
-  font-size: 14px;
-  color: #777;
+export const Arrow = styled.div`
+  font-size: 24px;
+  color: #999;
 `;

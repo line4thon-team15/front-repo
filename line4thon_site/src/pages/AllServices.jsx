@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Styled from "./AllServices.styled";
-import Header from '../layouts/Header';
-import Footer from '../layouts/Footer';
+import Header from "../layouts/Header";
+import Footer from "../layouts/Footer";
+import Search from "../assets/Search.png";
+import axios from "axios";
 
 const AllServices = () => {
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    // API 호출하여 데이터 가져오기
+    axios
+      .get("https://4thline.kr/services/4line-services")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching services:", error);
+      });
+  }, []);
+
   return (
     <Styled.Wrapper>
       <Header isWhiteBackground={true} />
@@ -19,23 +35,24 @@ const AllServices = () => {
       </Styled.Title>
 
       <Styled.SearchBar>
-        <img src="/path/to/search.png" alt="검색 아이콘" className="search-icon" />
+        <img src={Search} alt="검색 아이콘" className="search-icon" />
         <input type="text" placeholder="서비스 명으로 검색해보세요" />
       </Styled.SearchBar>
 
       {/* 서비스 카드 그리드 */}
       <Styled.CardGrid>
-        <Styled.ServiceCardAll>
-          <Styled.ServiceCard>
-            <Styled.CardImage src="/path/to/service-image.png" alt="서비스 이미지" />
-          </Styled.ServiceCard>
-          <Styled.CardText>
-            <span className="service-name">[서비스명]</span> by 팀이름
-          </Styled.CardText>
-        </Styled.ServiceCardAll>
+        {services.map((service) => (
+          <Styled.ServiceCardAll key={service.id}>
+            <Styled.ServiceCard>
+              <Styled.CardImage src={service.thumbnail_image} alt={`${service.service_name} 이미지`} />
+            </Styled.ServiceCard>
+            <Styled.CardText>
+              <span className="service-name">[{service.service_name}]</span> by 팀 {service.team}
+            </Styled.CardText>
+          </Styled.ServiceCardAll>
+        ))}
       </Styled.CardGrid>
-      <Footer/>
-
+      <Footer />
     </Styled.Wrapper>
   );
 };

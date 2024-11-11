@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 `;
 
 export const Content = styled.div`
@@ -76,7 +76,7 @@ export const SearchBar = styled.div`
   width: 100%;
   max-width: 600px;
   margin-top: 20px;
-  margin-left: 120px;
+  margin-left: 450px;
 
   .search-icon {
     width: 20px;
@@ -92,6 +92,15 @@ export const SearchBar = styled.div`
     font-size: 14px;
     color: #555;
   }
+`;
+
+// ServiceCardAll 스타일 정의
+export const ServiceCardAll = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
 `;
 
 // CardGrid 스타일 정의
@@ -139,5 +148,4 @@ export const CardText = styled.div`
   }
 `;
 
-export const Box = styled.div`
-`
+export const Box = styled.div``;
