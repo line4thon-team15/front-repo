@@ -32,7 +32,7 @@ const MyService = () => {
     };
 
     const handleMyServiceInfoButtonClick = () => {
-        navigate('/my-service-info');
+        navigate('/Detail/:teamId');
     };
 
     const handleGoLoginButtonClick = () => {

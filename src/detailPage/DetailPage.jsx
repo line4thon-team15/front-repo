@@ -54,7 +54,7 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.Header>
                     <Styled.ThumbnailBox>
                         {serviceData.thumbnail_image && (
-                            <img src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+                            <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
                         )}
                     </Styled.ThumbnailBox>
                 </Styled.Header>
@@ -90,7 +90,7 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
                 {serviceData.members && serviceData.members.map((member, index) => (
                     <Styled.Member key={index}>
-                        {member.part} | {member.name}
+                        {member.part} | {member.member}
                     </Styled.Member>
                 ))}
 
