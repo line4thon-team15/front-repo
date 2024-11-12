@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     position: fixed;
     top: 20px;
     background: transparent;
@@ -8,9 +11,7 @@ export const Wrapper = styled.div`
     width: 200px;
     height: 800px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding-left: 4vh;
 `;
 
 
@@ -28,7 +29,7 @@ export const Logo = styled.div`
         color: ${({ $isWhiteBackground }) => ($isWhiteBackground ? 'white' : 'black')};
         display: flex;
         align-items: left;
-        padding: 4vh;
+        padding: 4vh 0;
         text-align: left;
         line-height: 1.5;
         transition: color 0.3s ease; // 색상 전환을 부드럽게
@@ -44,7 +45,8 @@ export const Navbar = styled.nav`
         flex-direction: column;
         list-style-type: none;
         margin-left: 10%;
-        padding: 2vh;
+        padding: 2vh 0;
+        margin: 0;
         width: 100%;
     }
 `;

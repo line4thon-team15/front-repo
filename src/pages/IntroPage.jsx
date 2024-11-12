@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './IntroPagestyled';
 import FisrtText from '../components/Intro/FirstText';
 import MetroMap from '@/components/Intro/MetroMap';
 import TestImg1 from '@/assets/TestImg/TestImg1.png';
-import TestImg3 from '@/assets/TestImg/TestImg2.png';
-import TestImg5 from '@/assets/TestImg/TestImg3.png';
 import axios from 'axios';
 
 const IntroPage = ({ mainScroll }) => {
@@ -14,14 +13,13 @@ const IntroPage = ({ mainScroll }) => {
     const scrollRatio = Math.min(mainScroll / windowHeight, 1);
     const [activeIndex, setActiveIndex] = useState(0);
     const [currentGroup, setCurrentGroup] = useState(0);
+    const Navigate = useNavigate();
 
     const API_BASE_URL = import.meta.env.VITE_API_KEY;
 
     // 이미지 맵 설정 (API 데이터와 정확히 일치하는 키로 설정)
     const imageMap = {
         'TestImg1': TestImg1,
-        'TestImg3': TestImg3,
-        'TestImg5': TestImg5
     };
 
     useEffect(() => {
@@ -59,6 +57,10 @@ const IntroPage = ({ mainScroll }) => {
     const globalActiveIndex = currentGroup * 5 + activeIndex;
     const activeTeam = buttonGroups.flat()[globalActiveIndex];
 
+    const GoDetail = () => {
+        Navigate(`/Detail/${teamNum}`);
+    };
+
     return (
         <S.IntroPage>
             <S.ServiceCard scrollRatio={scrollRatio}>
@@ -78,7 +80,7 @@ const IntroPage = ({ mainScroll }) => {
                     </>
                 )}
                 <S.Overlay className="overlay">
-                    <S.GoReviewBtn className="view-more-btn">
+                    <S.GoReviewBtn className="view-more-btn" onClick={GoDetail}>
                         리뷰 남기기
                     </S.GoReviewBtn>
                 </S.Overlay>

@@ -12,7 +12,7 @@ export default defineConfig({
     server: {
       proxy: {
         '/main': {
-          target: 'https://4thline.kr', // 실제 백엔드 서버 URL로 변경
+          target: 'https://4thline.kr',
           changeOrigin: true,
         },
       },
