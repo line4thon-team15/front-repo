@@ -2,11 +2,18 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #e9ecef;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+`;
+
+export const Content = styled.div`
+  background-color: #f6f6f6;
+  position: relative;
+  margin-left: 200px;
+  width: calc(100%-200px);
+  flex-grow: 1;
 `;
 
 export const SignUpContainer = styled.div`
@@ -15,9 +22,13 @@ export const SignUpContainer = styled.div`
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  margin-left: 400px; /* 사이드바를 고려한 마진 */
+  margin-top: 50px;
+  margin-bottom: 150px;
 `;
 
-export const NameAndPw = styled.div`
+export const IDAndPw = styled.div`
   width: 470px;
   background-color: white;
 `;
@@ -27,7 +38,7 @@ export const Title = styled.h1`
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
-  padding-left: 15px; // 왼쪽 정렬
+  padding-left: 15px;
 `;
 
 export const StyledH2 = styled.h2`
@@ -94,8 +105,8 @@ export const Icon = styled.img`
 `;
 
 export const Input = styled.input`
-  width: 100%;
-  padding: 12px 12px 12px 45px; /* 왼쪽에 아이콘 공간 확보 */
+  width: 430px;
+  padding: 12px 12px 12px 45px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   font-size: 16px;
@@ -115,34 +126,102 @@ export const PasswordField2 = styled.div`
   position: relative;
 `;
 
+export const Information = styled.div`
+  margin-top: 30px;
+  width: 470px;
+  background-color: white;
+`;
+
+export const UnivAndTeam = styled.div`
+  margin-top: 30px;
+  // margin-bottom: 90px;
+  width: 470px;
+  background-color: white;
+`;
+
+export const InputWrapperNoIcon = styled.div`
+  position: relative;
+  width: 90%;
+  margin: 0 auto 15px auto;
+`;
+
+export const InputNOI = styled.input`
+  width: 430px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333;
+  box-sizing: border-box;
+  background-color: white;
+  cursor: pointer;
+  margin: 0 auto;
+
+  &::placeholder {
+    color: #d6d6d6;
+  }
+`;
+
 export const ToggleButton = styled.button`
   position: absolute;
-  right: 42px;
-  top: 25px;
+  right: 12px;
+  top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  cursor: pointer;
   font-size: 16px;
-  padding: 0;
+  cursor: pointer;
 
   img {
-    width: 20px;
+    width: 20px; /* 이미지 크기 조절 */
     height: 20px;
   }
 `;
 
-export const LoginButton = styled.button`
+export const ParticipantOptions = styled.div`
   width: 90%;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 25px;
+  overflow: hidden;
+  margin-top: 0; /* 위쪽 여백 제거 */
+`;
+
+export const Option = styled.div`
   padding: 12px;
-  background-color: #03f;
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  border-top: 1px solid #f5f5f5;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &:nth-child(2) {
+    color: #4f5500;
+  }
+`;
+
+export const LoginButton = styled.button`
+  width: 450px;
+  padding: 12px;
+  background-color: ${(props) => (props.disabled ? "#d3d3d3" : "#03f")}; /* 비활성화일 때는 회색, 활성화일 때 파란색 */
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 100px;
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 25px;
+  transition: background-color 0.3s;
 `;

@@ -9,11 +9,10 @@ export const ErrorMessage = styled.p`
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #e9ecef;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 `;
 
 export const LoginContainer = styled.div`
@@ -22,7 +21,17 @@ export const LoginContainer = styled.div`
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 250px; /* 사이드바를 고려한 마진 */
+  margin-left: 400px; /* 사이드바를 고려한 마진 */
+  margin-top: 50px;
+  margin-bottom: 150px;
+`;
+
+export const Content = styled.div`
+  background-color: #f6f6f6;
+  position: relative; /* absolute에서 relative로 변경 */
+  margin-left: 200px;
+  width: calc(100%-200px);
+  flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
 
 export const StyledH2 = styled.h2`
@@ -98,8 +107,8 @@ export const PasswordField = styled.div`
 
 export const ToggleButton = styled.button`
   position: absolute;
-  right: 42px;
-  top: 25px;
+  right: 46px;
+  top: 24px;
   // top: 50%;
   transform: translateY(-50%);
   background: none;
