@@ -11,6 +11,8 @@ export const Wrapper = styled.div`
     scroll-snap-type: y proximity;
 `;
 
+
+
 // Menubar 스타일 정의
 export const MenuBar = styled.div`
     font-size: 1rem;

@@ -19,7 +19,7 @@ export const Header = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 615px;
+    height: 700px;
     background-color: #BABABA;
     align-items: center; /* Header의 가로 가운데 정렬 */
     justify-content: center; /* Header의 세로 가운데 정렬 */
@@ -32,14 +32,19 @@ export const ThumbnailBox = styled.div`
 `;
 
 export const ThumbnailImage = styled.img`
-    width: 700px;
-    height: auto; /* 이미지의 비율을 유지 */
+    width: calc(100vw - 200px);
 `;
+
+export const ChangeBox = styled.div`
+    position: relative;
+`
 
 export const ChangeThumbnail = styled.img`
     width: 160px;
-    margin-left: 70%;
-    margin-top: 20px;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+
 `;
 
 export const Background = styled.div`
@@ -158,7 +163,6 @@ export const HeaderRow = styled.div`
 
 export const HeaderLabel = styled.div`
     font-weight: bold;
-    text-decoration: underline;
     font-size: 16px;
     width: 130px; /* Adjust this width for consistent alignment */
     text-align: center;

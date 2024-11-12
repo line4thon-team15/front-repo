@@ -62,20 +62,31 @@ const InputServiceInfo = () => {
             <Styled.Content>
                 <Styled.Header>
                     <Styled.ThumbnailBox>
+                    <Styled.ChangeThumbnail 
+                            src={changeThumbnail} 
+                            alt="changeThumbnail" 
+                            onClick={() => document.getElementById('thumbnailInput').click()} 
+                        />
+                        <input
+                            id="thumbnailInput"
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleThumbnailUpload}
+                        />
+
+
+
+
                         <Styled.ThumbnailImage src={thumbnailImage} alt="service thumbnail" />
                     </Styled.ThumbnailBox>
-                    <Styled.ChangeThumbnail 
-                        src={changeThumbnail} 
-                        alt="changeThumbnail" 
-                        onClick={() => document.getElementById('thumbnailInput').click()} 
-                    />
-                    <input
-                        id="thumbnailInput"
-                        type="file"
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        onChange={handleThumbnailUpload}
-                    />
+                    <Styled.ChangeBox>
+
+
+
+
+                    </Styled.ChangeBox>
+                    
                 </Styled.Header>
 
                 <Styled.Background>

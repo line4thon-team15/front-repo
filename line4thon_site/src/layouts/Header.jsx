@@ -14,13 +14,20 @@ import mypageiconHover from "../assets/mypageiconHover.svg";
 import loginicon from "../assets/loginicon.svg";
 import loginiconHover from "../assets/loginiconHover.svg";
 
-const Header = ({ scrollPosition, isWhiteBackground }) => {
+const Header = ({ isIntro }) => { // isIntro prop 추가
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const { scrollToHome, scrollToRanking } = useScroll();
 
+    const scrollToSection = (ref) => {
+        window.scrollTo({
+            top: ref.current.offsetTop,
+            behavior: "smooth"
+        });
+    };
+    
     return (
         <Styled.Wrapper>
-            <Styled.Logo $isWhiteBackground={isWhiteBackground}>
+            <Styled.Logo $isWhiteBackground={isIntro}> {/* isIntro에 따라 색상 설정 */}
             <button onClick={scrollToHome}> {/* 4호선톤 버튼 클릭 시 scrollToHome 호출 */}
                     4호선톤 <br />사이트
                 </button>
@@ -34,7 +41,7 @@ const Header = ({ scrollPosition, isWhiteBackground }) => {
                         onClick={scrollToRanking} // 랭킹 버튼 클릭 시 스크롤 이동
                     >
                         <img src={hoveredIndex === 0 ? rankingiconHover : rankingicon} alt="ranking icon" />
-                        <Styled.NavButton>랭킹</Styled.NavButton>
+                        <Styled.NavButton $isWhiteBackground={isIntro}>랭킹</Styled.NavButton>
                     </Styled.NavItem>
                     
                     {/* 전체 서비스 페이지로 이동 */}
@@ -44,7 +51,7 @@ const Header = ({ scrollPosition, isWhiteBackground }) => {
                     >
                         <Link to="/all-services">
                             <img src={hoveredIndex === 1 ? servicesiconHover : servicesicon} alt="services icon" />
-                            <Styled.NavButton>전체 서비스</Styled.NavButton>
+                            <Styled.NavButton $isWhiteBackground={isIntro}>전체 서비스</Styled.NavButton>
                         </Link>
                     </Styled.NavItem>
                     
@@ -55,7 +62,7 @@ const Header = ({ scrollPosition, isWhiteBackground }) => {
                     >
                         <Link to="/my-service">
                             <img src={hoveredIndex === 2 ? myserviceiconHover : myserviceicon} alt="myservice icon" />
-                            <Styled.NavButton>내 서비스</Styled.NavButton>
+                            <Styled.NavButton $isWhiteBackground={isIntro}>내 서비스</Styled.NavButton>
                         </Link>
                     </Styled.NavItem>
                     
@@ -66,7 +73,7 @@ const Header = ({ scrollPosition, isWhiteBackground }) => {
                     >
                         <Link to="/my-page">
                             <img src={hoveredIndex === 3 ? mypageiconHover : mypageicon} alt="mypage icon" />
-                            <Styled.NavButton>마이 페이지</Styled.NavButton>
+                            <Styled.NavButton $isWhiteBackground={isIntro}>마이 페이지</Styled.NavButton>
                         </Link>
                     </Styled.NavItem>
                     
@@ -77,7 +84,7 @@ const Header = ({ scrollPosition, isWhiteBackground }) => {
                     >
                         <Link to="/login">
                             <img src={hoveredIndex === 4 ? loginiconHover : loginicon} alt="login icon" />
-                            <Styled.NavButton>로그인</Styled.NavButton>
+                            <Styled.NavButton $isWhiteBackground={isIntro}>로그인</Styled.NavButton>
                         </Link>
                     </Styled.NavItem>
                 </ul>
