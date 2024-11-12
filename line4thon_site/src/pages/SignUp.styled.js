@@ -27,7 +27,7 @@ export const Title = styled.h1`
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
-  padding-left: 15px; // 왼쪽 정렬
+  padding-left: 15px; /* 왼쪽 정렬 */
 `;
 
 export const StyledH2 = styled.h2`
@@ -94,7 +94,7 @@ export const Icon = styled.img`
 `;
 
 export const Input = styled.input`
-  width: 100%;
+  width: 430px;
   padding: 12px 12px 12px 45px; /* 왼쪽에 아이콘 공간 확보 */
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 10px;
@@ -115,25 +115,43 @@ export const PasswordField2 = styled.div`
   position: relative;
 `;
 
-export const ToggleButton = styled.button`
-  position: absolute;
-  right: 42px;
-  top: 25px;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
+export const SelectContainer = styled.div`
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 16px;
-  padding: 0;
+`;
 
-  img {
-    width: 20px;
-    height: 20px;
+export const ParticipantOptions = styled.div`
+  margin-top: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+export const Option = styled.div`
+  padding: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #ddd;
   }
 `;
 
+export const ToggleButton = styled.button`
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+`;
+
 export const LoginButton = styled.button`
-  width: 90%;
+  width: 450;
   padding: 12px;
   background-color: #03f;
   color: #ffffff;
@@ -145,4 +163,60 @@ export const LoginButton = styled.button`
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 25px;
+`;
+
+// **참여자 정보 입력란**에서 아이콘을 제거하고, 입력란을 왼쪽으로 당기기
+export const InputWrapperNoIcon = styled.div`
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+  padding-left: 25px; /* 아이콘을 없앴으므로 왼쪽 패딩을 없애고 입력란을 왼쪽으로 당김 */
+`;
+
+export const InputNoIcon = styled.input`
+  width: 100%;
+  // padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #333;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #d6d6d6;
+  }
+`;
+
+export const InputNOI = styled.input`
+  width: 100%;
+  // padding: 12px 12px 12px 12px; /* 왼쪽에 아이콘 공간 확보 */
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #333;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #d6d6d6;
+  }
+`;
+
+export const ParticipantInputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+export const ParticipantInput = styled.input`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #333;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #d6d6d6;
+  }
 `;
