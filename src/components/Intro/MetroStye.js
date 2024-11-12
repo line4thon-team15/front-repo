@@ -19,8 +19,8 @@ export const Train = styled.img`
     width: 100px;
     height: 120px;
     position: absolute;
-    bottom: 11.5vh;
-    left: 12.5vw;
+    bottom: 0px;
+    left: -22px;
 
 `;
 
@@ -50,9 +50,10 @@ const groupExit = keyframes`
 
 export const MetroLine = styled.div`
     display: flex;
-    flex-direction: row;
+    position: relative;
+    align-items: flex-start;
+    flex-direction: column;
     width: 100%;
-    justify-content: space-between;
     padding: 50px 0px;
     margin-top: 40vh;
 
@@ -62,13 +63,14 @@ export const MetroLine = styled.div`
         width: 140vw;
         height: 10px;
         z-index: 0;
-        bottom: 12vh;
-        left: -300px;
+        left: -20vw; 
+        bottom: 0;
     }
 `
 export const GroupContainer = styled.div`
     display: flex;
-    position: relative;
+    position: absolute;
+    bottom: -15px;
     width: 100%;
     justify-content: space-between;
     ${({ isAnimating }) =>

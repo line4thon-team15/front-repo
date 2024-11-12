@@ -8,7 +8,7 @@ import Footer from '../layouts/Footer';
 import { useScroll } from '../layouts/ScrollContext';
 import IntroPage from '../pages/IntroPage';
 
-const MainPage = () => {
+const MainPage = ({ API_BASE_URL }) => {
     const servicesRef = useRef(null);
     const { homeRef, rankingRef } = useScroll();
     const [ mainScroll, setMainScroll ] = useState(0);
@@ -43,7 +43,7 @@ const MainPage = () => {
         <Styled.Wrapper id='MainPage'>
             {/* IntroPage */}
             <div ref={homeRef} id="home" >
-                <IntroPage mainScroll={mainScroll}/>
+                <IntroPage mainScroll={mainScroll} API_BASE_URL={API_BASE_URL}/>
             </div>
             
             {/* RankingPage와 MainAllServices 섹션을 고정된 Header와 함께 배치 */}
