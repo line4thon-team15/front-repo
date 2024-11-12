@@ -83,6 +83,10 @@ export const ServiceCard = styled.div`
 
   img{
     width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+
   }
   #descripCont{
     display: flex;

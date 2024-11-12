@@ -9,5 +9,14 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+    server: {
+      proxy: {
+        '/main': {
+          target: 'https://4thline.kr', // 실제 백엔드 서버 URL로 변경
+          changeOrigin: true,
+        },
+      },
+    },
   },
 });
+
