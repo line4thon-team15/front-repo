@@ -212,7 +212,7 @@ export const WriteReviewButton = styled.div`
     width: 120px;
     height: 25px;
     border-radius: 10px;
-    background-color: #D2D2D2;
+    background-color: #0033FF;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,11 +245,64 @@ export const UserReviewCount = styled.div`
     font-size: 20px;
 `
 
-export const Array = styled.img`
-    padding: 40px 20px 10px 0px;
-    margin-left: auto;
 
+export const DropdownWrapper = styled.div`
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+`;
+
+export const DropdownButtonBox = styled.button`
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    cursor: pointer;
+   
 `
+export const DropdownButton = styled.button`
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+`;
+
+export const DropdownMenu = styled.ul`
+    display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+    position: absolute;
+    top: 100%;
+    right: 0; /* 오른쪽 끝을 DropdownWrapper에 고정 */
+    background: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100px;
+    z-index: 1000;
+`;
+
+export const DropdownItem = styled.li`
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #f1f1f1;
+    }
+`;
+
+export const StyledArray = styled.div`
+    padding: 10px 0px 10px 10px;
+    cursor: pointer;
+    width: 16px;
+    color: #AAAAAA;
+`;
+
 
 export const ReviewContent = styled.div`
     display: flex;
