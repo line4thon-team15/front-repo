@@ -22,7 +22,7 @@ const WriteReview = () => {
     const maxChars = 400;
 
     const handleGoBack = () => {
-        navigate('/my-service-info');
+        navigate('/Detail/:teamId');
     };
 
     const handleTextChange = (e) => {

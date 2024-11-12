@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Styled from './DetailPage.styled';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
-const DetailPage = ({ serviceId, API_BASE_URL }) => {
+const DetailPage = ({ API_BASE_URL }) => {
     const navigate = useNavigate();
     const [serviceData, setServiceData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const params = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/services/4line-services/1`);
+
+                const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
                 console.log("데이터 로드 성공:", response.data);  // serviceData 로그 출력
                 setServiceData(response.data);
                 setIsLoading(false);
@@ -25,9 +27,9 @@ const DetailPage = ({ serviceId, API_BASE_URL }) => {
                 alert("데이터 불러오기 실패: 서비스 ID가 정의되지 않았습니다. 관리자에게 문의하세요.");
             }
         };
-        
         fetchData();
-    }, [serviceId]);
+
+    }, [params.teamId]);
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
@@ -52,7 +54,7 @@ const DetailPage = ({ serviceId, API_BASE_URL }) => {
                 <Styled.Header>
                     <Styled.ThumbnailBox>
                         {serviceData.thumbnail_image && (
-                            <img src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+                            <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
                         )}
                     </Styled.ThumbnailBox>
                 </Styled.Header>
@@ -60,7 +62,7 @@ const DetailPage = ({ serviceId, API_BASE_URL }) => {
                 <Styled.Line>
                     <Styled.NameBox>
                         <Styled.TeamCircle>
-                            <Styled.TeamNum>{serviceData.team}</Styled.TeamNum>
+                            <Styled.TeamNum>{serviceData.team_num}</Styled.TeamNum>
                         </Styled.TeamCircle>
                         <Styled.Name>
                             <Styled.NameText>{serviceData.service_name}</Styled.NameText>
@@ -88,13 +90,14 @@ const DetailPage = ({ serviceId, API_BASE_URL }) => {
                 <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
                 {serviceData.members && serviceData.members.map((member, index) => (
                     <Styled.Member key={index}>
-                        {member.part ? `${member.part} | ` : ''}{member.member}
+                        {member.part} | {member.member}
                     </Styled.Member>
                 ))}
 
+
                 <Styled.ServicePhotoBox>
                     <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
-                    <Styled.PhotoCount>{serviceData.presentation_cnt}</Styled.PhotoCount>
+                    <Styled.PhotoCount>{serviceData.presentation_num}</Styled.PhotoCount>
                 </Styled.ServicePhotoBox>
 
                 <Styled.PhotoBox>
@@ -129,11 +132,11 @@ const DetailPage = ({ serviceId, API_BASE_URL }) => {
                 {serviceData.review && serviceData.review.map((review, index) => (
                     <Styled.ReviewContent key={index}>
                         <Styled.User>
-                            <Styled.UserName>{review.writer_name}</Styled.UserName>
-                            <Styled.UserInfo>{review.team}팀 · {review.service_name}</Styled.UserInfo>
+                            <Styled.UserName>{review.writer_univ}{review.writer}</Styled.UserName>
+                            <Styled.UserInfo>{review.team_num}팀 · {review.service_name}</Styled.UserInfo>
                             <Styled.UserStar>★ {review.score}</Styled.UserStar>
                         </Styled.User>
-                        <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
+                        <Styled.UserReviewContent>{review.content}</Styled.UserReviewContent>
                     </Styled.ReviewContent>
                 ))}
             </Styled.Content>

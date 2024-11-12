@@ -12,27 +12,30 @@ export const Content = styled.div`
     background-color: white;
     position: relative;  /* absolute에서 relative로 변경 */
     margin-left: 200px;  
-    width: cal(100%-200px);
+    width: calc(100%-200px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
 
-// Header with ThumbnailBox
 export const Header = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: cal(100%-200px);
-    height: 600px;
+    flex-direction: column;
+    width: 100%;
+    height: 615px;
     background-color: #BABABA;
+    align-items: center; /* Header의 가로 가운데 정렬 */
+    justify-content: center; /* Header의 세로 가운데 정렬 */
 `;
 
 export const ThumbnailBox = styled.div`
-    font-size: 100px;
     color: #FFFFFF;
-    line-height: 119.34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;`;
+
+export const ThumbnailImage = styled.img`
+    width: 700px;
+    height: auto; /* 이미지의 비율을 유지 */
 `;
-
-
 
 export const Line = styled.div`
     width: 100%;
