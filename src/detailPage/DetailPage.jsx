@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Styled from './DetailPage.styled';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
-const DetailPage = ({ serviceId, API_BASE_URL }) => {
+const DetailPage = ({ API_BASE_URL }) => {
     const navigate = useNavigate();
     const [serviceData, setServiceData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const params = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/services/4line-services/1`);
+                const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
                 console.log("데이터 로드 성공:", response.data);  // serviceData 로그 출력
                 setServiceData(response.data);
                 setIsLoading(false);
@@ -25,9 +26,8 @@ const DetailPage = ({ serviceId, API_BASE_URL }) => {
                 alert("데이터 불러오기 실패: 서비스 ID가 정의되지 않았습니다. 관리자에게 문의하세요.");
             }
         };
-        
         fetchData();
-    }, [serviceId]);
+    }, [params.teamId]);
 
     const handleImageClick = (image) => {
         setSelectedImage(image);

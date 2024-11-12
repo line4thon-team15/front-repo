@@ -8,16 +8,16 @@ const MetroMap = ({ buttonGroups, activeIndex, setActiveIndex, currentGroup, set
     const trainRef = useRef();
     const buttonGroupRef = useRef(); // 버튼 그룹 div 참조
 
-    
+
 
     // 기차 애니메이션 및 버튼 Active 제어
     useEffect(() => {
         let interval;
-    
+
         if (buttonGroups.length > 0) {
             interval = setInterval(() => {
                 const groupSize = buttonGroups[currentGroup].length;
-    
+
                 if (activeIndex < groupSize - 1) {
                     setActiveIndex((prev) => prev + 1);
                 } else {
@@ -28,9 +28,9 @@ const MetroMap = ({ buttonGroups, activeIndex, setActiveIndex, currentGroup, set
                         setIsAnimating(false);  // 애니메이션 종료 후 위치 이동 허용
                     }, 1000); // 애니메이션이 완료될 때까지 1초
                 }
-            }, 6000); 
+            }, 6000);
         }
-    
+
         return () => clearInterval(interval);
     }, [currentGroup, activeIndex]);
 
@@ -47,10 +47,10 @@ const MetroMap = ({ buttonGroups, activeIndex, setActiveIndex, currentGroup, set
                     trainRef.current.style.transition = 'transform 2s ease';
                 }
             };
-    
-            updateTrainPosition(); 
+
+            updateTrainPosition();
             window.addEventListener('resize', updateTrainPosition);
-    
+
             return () => window.removeEventListener('resize', updateTrainPosition);
         }
     }, [activeIndex, isAnimating]);  // isAnimating 상태에 따라 updateTrainPosition 실행 여부 결정
@@ -61,8 +61,8 @@ const MetroMap = ({ buttonGroups, activeIndex, setActiveIndex, currentGroup, set
 
     return (
         <M.MetroMap>
-            <M.Train src={Train} ref={trainRef} isAnimating={isAnimating} alt='기차' />
             <M.MetroLine>
+                <M.Train src={Train} ref={trainRef} isAnimating={isAnimating} alt='기차' />
                 <div id='line'></div>
                 <M.GroupContainer ref={buttonGroupRef} isAnimating={isAnimating}>
                     {buttonGroups[currentGroup]?.map((team, index) => (
