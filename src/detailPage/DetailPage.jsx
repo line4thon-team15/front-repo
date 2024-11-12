@@ -15,7 +15,7 @@ const DetailPage = ({ serviceId, API_BASE_URL }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/services/4line-services/${serviceId}`);
+                const response = await axios.get(`${API_BASE_URL}/services/4line-services/1`);
                 console.log("데이터 로드 성공:", response.data);  // serviceData 로그 출력
                 setServiceData(response.data);
                 setIsLoading(false);
