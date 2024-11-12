@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Header from "../layouts/Header";
+import Footer from "../layouts/Footer";
+
 import * as Styled from "./Login.styled";
 import { useNavigate } from "react-router-dom"; // useNavigate 추가
 import Blind from "../assets/Blind.png";
@@ -44,32 +47,36 @@ const Login = () => {
 
   return (
     <Styled.Wrapper>
-      <Styled.LoginContainer>
-        <Styled.StyledH2>지금 로그인 하고</Styled.StyledH2>
-        <Styled.StyledH1>다양한 서비스를 만나보세요!</Styled.StyledH1>
-        <Styled.LoginBody>
-          <Styled.TabContainer>
-            <Styled.Tab active>로그인</Styled.Tab>
-            <Styled.Tab onClick={() => navigate("/SignUp")}>회원가입</Styled.Tab> {/* 회원가입 탭 클릭 시 이동 */}
-          </Styled.TabContainer>
-          <Styled.Form onSubmit={handleLogin}>
-            <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <Styled.PasswordField>
-              <Styled.Input
-                type={passwordVisible ? "text" : "password"}
-                placeholder="비밀번호를 입력해주세요"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Styled.ToggleButton type="button" onClick={togglePasswordVisibility}>
-                <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
-              </Styled.ToggleButton>
-            </Styled.PasswordField>
-            {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
-            <Styled.LoginButton type="submit">로그인</Styled.LoginButton>
-          </Styled.Form>
-        </Styled.LoginBody>
-      </Styled.LoginContainer>
+      <Header isWhiteBackground={true} />
+      <Styled.Content>
+        <Styled.LoginContainer>
+          <Styled.StyledH2>지금 로그인 하고</Styled.StyledH2>
+          <Styled.StyledH1>다양한 서비스를 만나보세요!</Styled.StyledH1>
+          <Styled.LoginBody>
+            <Styled.TabContainer>
+              <Styled.Tab active>로그인</Styled.Tab>
+              <Styled.Tab onClick={() => navigate("/SignUp")}>회원가입</Styled.Tab> {/* 회원가입 탭 클릭 시 이동 */}
+            </Styled.TabContainer>
+            <Styled.Form onSubmit={handleLogin}>
+              <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={(e) => setUsername(e.target.value)} />
+              <Styled.PasswordField>
+                <Styled.Input
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="비밀번호를 입력해주세요"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Styled.ToggleButton type="button" onClick={togglePasswordVisibility}>
+                  <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
+                </Styled.ToggleButton>
+              </Styled.PasswordField>
+              {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
+              <Styled.LoginButton type="submit">로그인</Styled.LoginButton>
+            </Styled.Form>
+          </Styled.LoginBody>
+        </Styled.LoginContainer>
+      </Styled.Content>
+      <Footer />
     </Styled.Wrapper>
   );
 };
