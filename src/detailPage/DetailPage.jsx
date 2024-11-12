@@ -16,6 +16,7 @@ const DetailPage = ({ API_BASE_URL }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+
                 const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
                 console.log("데이터 로드 성공:", response.data);  // serviceData 로그 출력
                 setServiceData(response.data);
@@ -27,6 +28,7 @@ const DetailPage = ({ API_BASE_URL }) => {
             }
         };
         fetchData();
+
     }, [params.teamId]);
 
     const handleImageClick = (image) => {
@@ -60,7 +62,7 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.Line>
                     <Styled.NameBox>
                         <Styled.TeamCircle>
-                            <Styled.TeamNum>{serviceData.team}</Styled.TeamNum>
+                            <Styled.TeamNum>{serviceData.team_num}</Styled.TeamNum>
                         </Styled.TeamCircle>
                         <Styled.Name>
                             <Styled.NameText>{serviceData.service_name}</Styled.NameText>
@@ -88,13 +90,14 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
                 {serviceData.members && serviceData.members.map((member, index) => (
                     <Styled.Member key={index}>
-                        {member.part ? `${member.part} | ` : ''}{member.member}
+                        {member.part} | {member.name}
                     </Styled.Member>
                 ))}
 
+
                 <Styled.ServicePhotoBox>
                     <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
-                    <Styled.PhotoCount>{serviceData.presentation_cnt}</Styled.PhotoCount>
+                    <Styled.PhotoCount>{serviceData.presentation_num}</Styled.PhotoCount>
                 </Styled.ServicePhotoBox>
 
                 <Styled.PhotoBox>
@@ -129,11 +132,11 @@ const DetailPage = ({ API_BASE_URL }) => {
                 {serviceData.review && serviceData.review.map((review, index) => (
                     <Styled.ReviewContent key={index}>
                         <Styled.User>
-                            <Styled.UserName>{review.writer_name}</Styled.UserName>
-                            <Styled.UserInfo>{review.team}팀 · {review.service_name}</Styled.UserInfo>
+                            <Styled.UserName>{review.writer_univ}{review.writer}</Styled.UserName>
+                            <Styled.UserInfo>{review.team_num}팀 · {review.service_name}</Styled.UserInfo>
                             <Styled.UserStar>★ {review.score}</Styled.UserStar>
                         </Styled.User>
-                        <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
+                        <Styled.UserReviewContent>{review.content}</Styled.UserReviewContent>
                     </Styled.ReviewContent>
                 ))}
             </Styled.Content>
