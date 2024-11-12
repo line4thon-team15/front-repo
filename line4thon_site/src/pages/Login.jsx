@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as Styled from "./Login.styled";
+import { useNavigate } from "react-router-dom"; // useNavigate 추가
 import Blind from "../assets/Blind.png";
 import BlindNone from "../assets/Blind_none.png";
 
@@ -7,11 +8,12 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [error, setError] = useState(""); // 에러 메시지 상태 추가
+  const [error, setError] = useState("");
+  const navigate = useNavigate(); // navigate 함수 생성
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // 에러 메시지 초기화
+    setError("");
 
     try {
       const response = await fetch("https://4thline.kr/services/4line-services", {
@@ -24,18 +26,14 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("로그인 성공:", data);
-        // 성공 시 access 토큰을 저장하거나 페이지를 이동
         localStorage.setItem("accessToken", data.access);
-        // 예시: 홈 화면으로 이동
+        // 성공 시 홈으로 이동 (예시)
         // window.location.href = "/home";
       } else {
         const data = await response.json();
-        console.log("로그인 실패:", data);
-        setError(data.error); // 에러 메시지를 상태에 저장
+        setError(data.error);
       }
     } catch (error) {
-      console.error("로그인 요청 중 오류 발생:", error);
       setError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
@@ -52,7 +50,7 @@ const Login = () => {
         <Styled.LoginBody>
           <Styled.TabContainer>
             <Styled.Tab active>로그인</Styled.Tab>
-            <Styled.Tab>회원가입</Styled.Tab>
+            <Styled.Tab onClick={() => navigate("/SignUp")}>회원가입</Styled.Tab> {/* 회원가입 탭 클릭 시 이동 */}
           </Styled.TabContainer>
           <Styled.Form onSubmit={handleLogin}>
             <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -67,7 +65,7 @@ const Login = () => {
                 <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
               </Styled.ToggleButton>
             </Styled.PasswordField>
-            {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>} {/* 에러 메시지 표시 */}
+            {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
             <Styled.LoginButton type="submit">로그인</Styled.LoginButton>
           </Styled.Form>
         </Styled.LoginBody>
