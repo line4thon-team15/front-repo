@@ -19,7 +19,7 @@ export const Train = styled.img`
     width: 100px;
     height: 120px;
     position: absolute;
-    bottom: 140px;
+    bottom: 11.5vh;
     left: 12.5vw;
 
 `;
@@ -54,7 +54,7 @@ export const MetroLine = styled.div`
     width: 100%;
     justify-content: space-between;
     padding: 50px 0px;
-    margin-top: 50vh;
+    margin-top: 40vh;
 
     #line{
         position: absolute;
@@ -62,7 +62,7 @@ export const MetroLine = styled.div`
         width: 140vw;
         height: 10px;
         z-index: 0;
-        bottom: 153px;
+        bottom: 12vh;
         left: -300px;
     }
 `
