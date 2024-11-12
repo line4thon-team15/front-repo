@@ -28,17 +28,19 @@ const Routes = () => {
   const location = useLocation();
   const isMainPage = location.pathname === "/";
 
+  const API_BASE_URL = import.meta.env.VITE_API_KEY;
+
   return (
     <LayoutWrapper>
       <ContentWrapper>
         <ReactRoutes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<MainPage API_BASE_URL={API_BASE_URL}/>} />
           <Route path="/all-services" element={<AllServices />} />
           <Route path="/my-service" element={<MyService />} />
           <Route path="/my-page" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/input-service-info" element={<InputServiceInfo />} />
-          <Route path="/Detail/:ID" element={<DetailPage />} />
+          <Route path="/Detail/:ID" element={<DetailPage API_BASE_URL={API_BASE_URL}/>} />
           <Route path="/write-review" element={<WriteReview />} />
           <Route path="/signup" element={<SignUp />} />
         </ReactRoutes>

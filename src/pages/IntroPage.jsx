@@ -6,7 +6,7 @@ import MetroMap from '@/components/Intro/MetroMap';
 import TestImg1 from '@/assets/TestImg/TestImg1.png';
 import axios from 'axios';
 
-const IntroPage = ({ mainScroll }) => {
+const IntroPage = ({ mainScroll, API_BASE_URL }) => {
     const [firstTextVisible, setFirstTextVisible] = useState(false);
     const [teamData, setTeamData] = useState([]);
     const windowHeight = window.innerHeight;
@@ -14,8 +14,6 @@ const IntroPage = ({ mainScroll }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [currentGroup, setCurrentGroup] = useState(0);
     const Navigate = useNavigate();
-
-    const API_BASE_URL = import.meta.env.VITE_API_KEY;
 
     // 이미지 맵 설정 (API 데이터와 정확히 일치하는 키로 설정)
     const imageMap = {
@@ -67,7 +65,7 @@ const IntroPage = ({ mainScroll }) => {
                 {activeTeam && (
                     <>
                         <img
-                           src={`${API_BASE_URL}${activeTeam.thumbnail_image || TestImg1}`}
+                           src={`${activeTeam.thumbnail_image || TestImg1}`}
                            alt={activeTeam.service_name}
                         />
                         <div id='descripCont'>
