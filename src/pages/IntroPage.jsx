@@ -15,11 +15,6 @@ const IntroPage = ({ mainScroll, API_BASE_URL }) => {
     const [currentGroup, setCurrentGroup] = useState(0);
     const Navigate = useNavigate();
 
-    // 이미지 맵 설정 (API 데이터와 정확히 일치하는 키로 설정)
-    const imageMap = {
-        'TestImg1': TestImg1,
-    };
-
     useEffect(() => {
         setFirstTextVisible(true);
     }, []);
@@ -56,7 +51,7 @@ const IntroPage = ({ mainScroll, API_BASE_URL }) => {
     const activeTeam = buttonGroups.flat()[globalActiveIndex];
 
     const GoDetail = () => {
-        Navigate(`/Detail/${teamNum}`);
+        Navigate(`/Detail/${activeTeam.id}`);
     };
 
     return (
