@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Styled from './WriteReview.styled';
 import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
 import find from '../assets/find.svg';
-import simple from '../assets/simple.svg';
+import simple from '../assets/simple.png';
 import easy from '../assets/easy.svg';
 import design from '../assets/design.svg';
 import ui from '../assets/ui.svg';

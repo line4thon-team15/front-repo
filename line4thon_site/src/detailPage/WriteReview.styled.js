@@ -80,7 +80,7 @@ export const RatingAsk = styled.div`
 `;
 
 export const RatingFive = styled.div`
-    padding: 20px; 0 0 10px; /* 패딩 조정 */
+    padding: 20px 0 0 10px; /* 패딩 조정 */
     font-size: 13px;
     line-height: 25px;
     color: #77A71D;
@@ -110,7 +110,7 @@ export const Find = styled.img`
 `
 
 export const Simple = styled.img`
-    padding: 0 10px 10px 32px; /* 패딩 조정 */
+    padding: 0 10px 10px 70px; /* 패딩 조정 */
     height: 40px;
 
 `
