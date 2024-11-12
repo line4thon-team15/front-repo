@@ -1,4 +1,3 @@
-// src/layouts/ScrollContext.js
 import React, { createContext, useContext, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -20,11 +19,15 @@ export const ScrollProvider = ({ children }) => {
     }, [location]);
 
     const scrollToHome = () => {
-        window.location.href = '/#home';
+        if (homeRef.current) {
+            homeRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     const scrollToRanking = () => {
-        window.location.href = '/#ranking';
+        if (rankingRef.current) {
+            rankingRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     return (

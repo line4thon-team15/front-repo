@@ -25,7 +25,7 @@ export const Logo = styled.div`
         border: none;
         font-size: 3.5vh;
         cursor: pointer;
-        color: ${({ $isWhiteBackground }) => ($isWhiteBackground ? 'black' : 'white')};
+        color: ${({ $isWhiteBackground }) => ($isWhiteBackground ? 'white' : 'black')};
         display: flex;
         align-items: left;
         padding: 4vh;
@@ -74,16 +74,14 @@ export const NavButton = styled.button`
     background: none;
     border: none;
     font-size: 2vh;
-
-
     cursor: pointer;
     width: 100%;
     text-align: left;
-    color: var(--main-text-color);
+    color: ${({ $isWhiteBackground }) => ($isWhiteBackground ? 'white' : 'black')};
     transition: color 0.3s ease, background-color 0.3s ease;
 
     &:hover {
-        color: var(--accent-color);
+        /* color: var(--accent-color); */
         background-color: var(--hover-bg-color);
     }
 `;
