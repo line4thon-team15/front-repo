@@ -12,6 +12,7 @@ export const Content = styled.div`
     background-color: white;
     position: relative;  /* absolute에서 relative로 변경 */
     margin-left: 200px;  
+    margin-bottom: 80px;
     width: calc(100%-200px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
@@ -20,7 +21,7 @@ export const Header = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 615px;
+    max-height: 615px;
     background-color: #BABABA;
     align-items: center; /* Header의 가로 가운데 정렬 */
     justify-content: center; /* Header의 세로 가운데 정렬 */
@@ -33,8 +34,10 @@ export const ThumbnailBox = styled.div`
 `;
 
 export const ThumbnailImage = styled.img`
-    width: 700px;
-    height: auto; /* 이미지의 비율을 유지 */
+    width: calc(100vw - 200px);
+    height: 615px; /* 세로 높이를 고정하여 넘칠 경우 잘리도록 설정 */
+    object-fit: cover; /* 이미지가 비율에 맞게 잘림 */
+    overflow: hidden; /* 넘치는 부분이 보이지 않도록 설정 */
 `;
 
 export const Background = styled.div`
@@ -103,19 +106,19 @@ export const RatingSelect = styled.div`
     color: black;
     font-weight: bold;
 `
-export const Find = styled.img`
+export const Easy = styled.img`
     padding: 10px 10px 10px 65px; /* 패딩 조정 */
     height: 40px;
 
 `
 
 export const Simple = styled.img`
-    padding: 0 10px 10px 70px; /* 패딩 조정 */
+    padding: 0 10px 10px 65px; /* 패딩 조정 */
     height: 40px;
-
+    width: 215px;
 `
 
-export const Easy = styled.img`
+export const Errorfree = styled.img`
     padding: 0 10px 10px 28px; /* 패딩 조정 */
     height: 40px;
 
@@ -126,7 +129,7 @@ export const Design = styled.img`
 
 `
 
-export const Ui = styled.img`
+export const Growth = styled.img`
     padding: 0 10px 10px 0px; /* 패딩 조정 */
     height: 40px;
 
@@ -152,7 +155,7 @@ export const RatingSelect2 = styled.div`
     font-weight: bold;
 `
 
-export const Idea = styled.img`
+export const Basic = styled.img`
     padding: 10px 0px 10px 30px; /* 패딩 조정 */
     height: 40px;
 
@@ -160,14 +163,14 @@ export const Idea = styled.img`
 export const Reuse = styled.img`
     padding: 0 0px 10px 70px; /* 패딩 조정 */
     height: 40px;
-
+    width: 195px;
 `
 export const Loading = styled.img`
     padding: 0 0px 10px 0px; /* 패딩 조정 */
     height: 40px;
 
 `
-export const Want = styled.img`
+export const Original = styled.img`
     padding: 0 0px 10px 75px; /* 패딩 조정 */
     height: 40px;
 

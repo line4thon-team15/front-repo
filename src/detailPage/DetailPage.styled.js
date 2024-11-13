@@ -3,25 +3,31 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
 `;
 
 export const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: white;
     position: relative;  /* absolute에서 relative로 변경 */
-    margin-left: 200px;  
+    margin-left: 300px;  
     margin-bottom: 80px;
-    width: calc(100%-200px);
+    width: calc(100%-300px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
 
 export const Header = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 615px;
+    height: min-content;
+    max-height: 500px;
     background-color: #BABABA;
     align-items: center; /* Header의 가로 가운데 정렬 */
     justify-content: center; /* Header의 세로 가운데 정렬 */
@@ -29,26 +35,31 @@ export const Header = styled.div`
 
 export const ThumbnailBox = styled.div`
     color: #FFFFFF;
+    width: 100%;
     display: flex;
+    height: min-content;
+    min-height: 200px;
     justify-content: center;
     align-items: center;`;
 
 export const ThumbnailImage = styled.img`
-    width: 700px;
+    width: 100%;
     height: auto; /* 이미지의 비율을 유지 */
+    max-height: 500px;
+    object-fit: cover;
 `;
-
 export const Line = styled.div`
     width: 100%;
     height: 40px;
     background: linear-gradient(90deg, #00A4E3 0%, #00A4E3 22.5%, #3F89A6 100%);
-    position: relative; /* Make Line a relative positioning reference */
+    position: absolute; /* Make Line a relative positioning reference */
+    bottom: 0;
 `;
 
 export const NameBox = styled.div`
-    width: 582px;  
+    width: min-content;  
     height: auto;
-    min-width: 420px;
+    min-width: 380px;
     padding: 20px 30px;
     border-radius: 100px;
     background: linear-gradient(90deg, #FFFFFF 53.5%, #1BFFF4 100%);
@@ -97,6 +108,7 @@ export const OneLine = styled.div`
 
 export const WholeContent = styled.div`
     max-width: 1200px;
+    margin: 0 auto; /* 수평 가운데 정렬 */
     padding: auto;
 `
 
@@ -104,7 +116,7 @@ export const Middle = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin: 40px 200px 0 0;
+    margin: 30px 60px;
     align-items: center;
 `
 
@@ -119,15 +131,17 @@ export const GreenStar = styled.img`
 export const TotalStar = styled.div`
     display: flex;
     font-size: 25px;
+    margin-right: 20px;
 `
-
-export const VisitServiceButton = styled.img`
+export const Visit = styled.div`
+`
+export const VisitServiceButton = styled.a`
     height: 50px;
     border-radius: 10px;
-    display: flex;
-    margin-left: 30px;
+    display: inline-block;
+    margin-left: 0px;
     cursor: pointer;
-`
+`;
 
 export const Arrowcircleright = styled.img`
     height: 17px;
@@ -140,11 +154,19 @@ export const VisitService = styled.div`
 
 export const ServiceContent = styled.div`
     width: 82%;
-    padding: 50px 20px 20px 100px;
+    padding: 50px 20px 20px 80px;
     font-size: 20px;
     line-height: 40px;
     color: black;
 `
+export const NoContentMessage = styled.div`
+    padding: 0px 20px 0px 0px;
+    font-size: 20px;
+    line-height: 30px;
+    color: black;
+`;
+
+
 export const TeamMember = styled.div`
     padding: 40px 20px 10px 80px;
     font-size: 20px;
@@ -158,22 +180,30 @@ export const Members = styled.div`
     flex-wrap: wrap; /* Add this if you want the boxes to wrap to a new line when they overflow */
     width: 80%;
     gap: 10px;
-    margin-left: 70px;
+    margin-left: 80px;
 
 `
 export const Member = styled.div`
     display: flex;
     margin-top: 10px;
-    padding: 15px;
+    padding: 5px 15px;
     align-items: center;
     justify-content: center;
-    width: 120px;
-    height: 10px;
-    border-radius: 10px;
+    width: auto;
+    border-radius: 12px;
     font-size: 18px;
+    font-weight: 200;
     background-color: #696969; 
     color: white;
 `
+
+export const NoMembersMessage = styled.div`
+    padding: 10px 20px 30px 0px;
+    font-size: 20px;
+    line-height: 25px;
+    color: black;
+`;
+
 
 export const ServicePhotoBox = styled.div`
     display: flex;
@@ -206,6 +236,7 @@ export const FullScreenModal = styled.div`
     z-index: 1000;
 `;
 
+
 export const CloseButton = styled.div`
     position: absolute;
     top: 20px;
@@ -234,13 +265,15 @@ export const ThumbnailList = styled.div`
 `;
 
 export const Thumbnail = styled.img`
-    width: 200px;
+    width: 150px;
+    height: auto;
     cursor: pointer;
     opacity: 0.7;
     &:hover {
         opacity: 1;
     }
 `;
+
 
 // 기존 스타일
 export const PhotoBox = styled.div`
@@ -251,12 +284,21 @@ export const PhotoBox = styled.div`
     width: 80%;
 `;
 
+export const ServicePhotoFile = styled.img`
+    width: 100px; /* Adjust as needed */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Center the image */
+    padding: 20px 0; /* Add spacing if needed */
+`;
+
+
 export const ExImage = styled.img`
     height: 150px;
     margin-right: 20px;
     cursor: pointer;
 `;
-export const Feedback = styled.div`
+export const Feedback1 = styled.div`
     padding: 50px 20px 10px 80px;
     font-size: 20px;
     line-height: 25px;
@@ -298,6 +340,7 @@ export const WriteReview = styled.div`
 export const UserReviews = styled.div`
     display: flex;
     flex-direction: row;
+    width: 95%;
 `
 
 export const UserReview = styled.div`
@@ -309,7 +352,7 @@ export const UserReview = styled.div`
 `
 export const UserReviewCount = styled.div`
     padding: 50px 20px 10px 10px;
-    color: #45DB00;
+    color: #AAAAAA;
 `
 
 export const ReviewList = styled.div`
@@ -321,6 +364,65 @@ export const ReviewContent = styled.div`
     margin: 30px 0 30px 70px;
     width: 85%;
 `
+
+
+export const DropdownWrapper = styled.div`
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+`;
+
+export const DropdownButtonBox = styled.button`
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 30px;
+   
+`
+export const DropdownButton = styled.button`
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+`;
+
+export const DropdownMenu = styled.ul`
+    display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+    position: absolute;
+    top: 100%;
+    right: 0; /* 오른쪽 끝을 DropdownWrapper에 고정 */
+    background: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100px;
+    z-index: 1000;
+`;
+
+export const DropdownItem = styled.li`
+    padding: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #f1f1f1;
+    }
+`;
+
+export const StyledArray = styled.div`
+    padding: 10px 0px 10px 10px;
+    cursor: pointer;
+    width: 16px;
+    color: #AAAAAA;
+`;
 
 export const User = styled.div`
     display: flex;
@@ -386,24 +488,54 @@ export const ScoreNum = styled.div`
     text-align: center;
 `
 
-
+export const ReviewTags = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    width: 100%; /* 부모 요소가 좌우 여백 없이 전체를 차지하게 설정 */
+    padding-left: 8px; /* 필요한 경우 여백 조정 */
+`
 export const ReviewKeyword = styled.div`
-    padding: 10px 20px 10px 0px;
+    padding: 10px 0px 10px 0px;
+    display: flex;
+    justify-content: flex-start;
+    gap: px; /* 태그들 사이의 간격 */
+
+`
+
+export const Easy = styled.img`
+    padding: 10px 10px 0px 0px;
+`
+export const Simple = styled.img`
+    padding: 10px 10px 0px 0px;
+    height: 34px
+`
+export const Errorfree = styled.img`
+    padding: 10px 10px 0px 0px;
 `
 
 export const Design = styled.img`
     padding: 10px 10px 0px 0px;
-
 `
 
-export const UI = styled.img`
+export const Growth = styled.img`
     padding: 8px 10px 0px 0px;
 
+`
+export const Feedback = styled.img`
+    padding: 10px 10px 0px 0px;
+`
+export const Basic = styled.img`
+    padding: 10px 10px 0px 0px;
+`
+export const Reuse = styled.img`
+    padding: 10px 10px 0px 0px;
 `
 
 export const Loading = styled.img`
     padding: 0px 10px 0px 0px;
-
+`
+export const Original = styled.img`
+    padding: 10px 10px 0px 0px;
 `
 
 
@@ -420,10 +552,42 @@ export const HeartBox = styled.div`
 
 `
 
-export const HeartButton = styled.img`
-`
+export const HeartButton = styled.button`
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 
 export const HeartCount = styled.div`
     padding: 0px 0px 0px 10px;
 
 `
+export const ReviewContent1 = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 0px;
+`;
+
+export const NoReview = styled.div`
+    padding: 20px 20px 10px 0px;
+    font-size: 20px;
+    color: black;
+`;
+
+export const WriteFirst = styled.div`
+    padding: 10px 20px 20px 0px;
+    font-size: 15px;
+    color: black;
+`;
+
+export const ThoughtfulMan = styled.img`
+    height: 150px;
+    padding: 0px 20px 50px 0px;
+`;

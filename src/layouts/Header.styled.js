@@ -21,18 +21,33 @@ export const Logo = styled.div`
         text-decoration: none;
     }
 
-    button {
+    #LogoBtn {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
         background: none;
         border: none;
         font-size: 3.5vh;
         cursor: pointer;
         color: ${({ $isWhiteBackground }) => ($isWhiteBackground ? 'white' : 'black')};
-        display: flex;
         align-items: left;
         padding: 4vh 0;
         text-align: left;
         line-height: 1.5;
         transition: color 0.3s ease; // 색상 전환을 부드럽게
+    }
+
+    p{ 
+        line-height: 1.2;
+        font-size: 35px;
+    }
+
+    #date{
+        color: #000;
+        font-family: Pretendard;
+        font-size: 20px;
+        font-weight: 200;
+        color: ${({ $isWhiteBackground }) => ($isWhiteBackground ? 'white' : 'black')};
     }
 `;
 
