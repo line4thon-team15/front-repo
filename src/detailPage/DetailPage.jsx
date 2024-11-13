@@ -10,14 +10,17 @@ import fiveStars from '../assets/fiveStars.svg';
 import writeFeedbackbtn from '../assets/writeFeedbackbtn.svg';
 import easy from '../assets/easy.svg';
 import simple from '../assets/simple.png';
-import error_free from '../assets/error_free.svg';
+import errorfree from '../assets/errorfree.svg';
 import design from '../assets/design.svg';
 import growth from '../assets/growth.svg';
 import feedback from '../assets/feedback.svg';
 import basic from '../assets/basic.svg';
-import reuse from '../assets/reuse.svg';
+import reuse from '../assets/reuse.png';
 import loading from '../assets/loading.svg';
 import original from '../assets/original.svg';
+import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
+import disableVisit from '../assets/disableVisit.svg';
+import thoughtfulMan from '../assets/thoughtfulMan.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
@@ -120,8 +123,13 @@ const DetailPage = ({ API_BASE_URL }) => {
     };
 
     const handleReviewClick = () => {
-        navigate('/write-review');
+        if (!serviceData.content) {
+            alert("현재 등록된 서비스가 없습니다.");
+        } else {
+            navigate('/write-review');
+        }
     };
+    
 
     if (isLoading) return <div>로딩 중...</div>;
 
@@ -130,23 +138,27 @@ const DetailPage = ({ API_BASE_URL }) => {
             <Header isWhiteBackground={true} />
             <Styled.Content>
                 <Styled.Header>
-                    <Styled.ThumbnailBox>
-                        {serviceData.thumbnail_image && (
-                            <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
-                        )}
-                    </Styled.ThumbnailBox>
+                <Styled.ThumbnailBox>
+                    {serviceData.thumbnail_image ? (
+                        <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+                    ) : (
+                        <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
+                    )}
+                </Styled.ThumbnailBox>
+
                 </Styled.Header>
 
                 <Styled.Line>
-                    <Styled.NameBox>
-                        <Styled.TeamCircle>
-                            <Styled.TeamNum>{serviceData.team}</Styled.TeamNum>
-                        </Styled.TeamCircle>
-                        <Styled.Name>
-                            <Styled.NameText>{serviceData.service_name}</Styled.NameText>
-                            <Styled.OneLine>{serviceData.intro}</Styled.OneLine>
-                        </Styled.Name>
-                    </Styled.NameBox>
+                <Styled.NameBox>
+                    <Styled.TeamCircle>
+                        <Styled.TeamNum>{serviceData?.team || '15'}</Styled.TeamNum>
+                    </Styled.TeamCircle>
+                    <Styled.Name>
+                        <Styled.NameText>{serviceData?.service_name || '서비스 이름을 입력해주세요'}</Styled.NameText>
+                        <Styled.OneLine>{serviceData?.intro || '한 줄 소개를 추가해주세요'}</Styled.OneLine>
+                    </Styled.Name>
+                </Styled.NameBox>
+
                 </Styled.Line>
 
                 <Styled.WholeContent>
@@ -154,30 +166,45 @@ const DetailPage = ({ API_BASE_URL }) => {
                     <Styled.GreenStar src={greenStar} alt="star" />
                     <Styled.TotalStar>{serviceData.score_average}</Styled.TotalStar>
                     <Styled.Visit>
-                        <Styled.VisitServiceButton 
-                            href={serviceData.site_url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                        >
-                            <img src={URLvisitBtn} alt="VisitURLbtn" style={{ height: "100%", borderRadius: "10px" }} />
-                        </Styled.VisitServiceButton>
+                        {serviceData?.site_url ? (
+                            <Styled.VisitServiceButton 
+                                href={serviceData.site_url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                            >
+                                <img src={URLvisitBtn} alt="VisitURLbtn" style={{ height: "100%", borderRadius: "10px" }} />
+                            </Styled.VisitServiceButton>
+                        ) : (
+                            <img src={disableVisit} alt="Disabled Visit Button" style={{ height: "50px", borderRadius: "10px" }} />
+                        )}
                     </Styled.Visit>
                 </Styled.Middle>
-
                 <Styled.ServiceContent>
-                    {serviceData.content}
+                    {serviceData.content ? (
+                        serviceData.content
+                    ) : (
+                        <Styled.NoContentMessage>
+                            잠시만 기다려 주세요! <br />
+                            서비스 설명이 준비중 입니다.
+                        </Styled.NoContentMessage>
+                    )}
                 </Styled.ServiceContent>
+
 
                 <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
                 <Styled.Members>
-                    {serviceData.members && serviceData.members.map((member, index) => (
-                        <Styled.Member key={index}>
-                            {member.part} | {member.member}
-                        </Styled.Member>
-                    ))}
+                    {serviceData.members && serviceData.members.length > 0 ? (
+                        serviceData.members.map((member, index) => (
+                            <Styled.Member key={index}>
+                                {member.part} | {member.member}
+                            </Styled.Member>
+                        ))
+                    ) : (
+                        <Styled.NoMembersMessage>
+                            개발에 참여한 팀원을 소개해 주세요.
+                        </Styled.NoMembersMessage>
+                    )}
                 </Styled.Members>
-
-
 
                 <Styled.ServicePhotoBox>
                     <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
@@ -194,7 +221,7 @@ const DetailPage = ({ API_BASE_URL }) => {
                         />
                     ))}
                 </Styled.PhotoBox>
-                
+
                 {isModalOpen && (
                 <Styled.FullScreenModal>
                     <Styled.CloseButton onClick={handleCloseModal}>✕</Styled.CloseButton>
@@ -217,7 +244,11 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.RankingBox>
                     <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
                     <Styled.Star src={fiveStars} alt="five stars"/>
-                    <Styled.WriteReviewButton src={writeFeedbackbtn} alt="피드백 작성 버튼"onClick={handleReviewClick}/>
+                    <Styled.WriteReviewButton 
+                        src={writeFeedbackbtn} 
+                        alt="피드백 작성 버튼" 
+                        onClick={handleReviewClick} 
+                    />
                 </Styled.RankingBox>
                 
                 <Styled.UserReviews>
@@ -239,24 +270,23 @@ const DetailPage = ({ API_BASE_URL }) => {
                             </Styled.DropdownMenu>
                         </Styled.DropdownWrapper>
                 </Styled.UserReviews>
-                
-                {serviceData.review && serviceData.review.map((review, index) => (
-                    <Styled.ReviewContent key={index}>
-
-                        <Styled.User>
-                            <Styled.UserNameBox>
-                                <Styled.UserName>{review.univ} {review.writer_name}</Styled.UserName>
-                                <Styled.UserInfo>
-                                    {review.team ? `${review.team}팀` : ''}
-                                    {review.team && review.writer_service ? ' · ' : ''}
-                                    {review.writer_service ? review.writer_service : ''}
-                                </Styled.UserInfo>
-                            </Styled.UserNameBox>
-                            <Styled.UserStarBox>
-                                <Styled.UserStar src={greenStar} alt="star"/> 
-                                <Styled.ScoreNum>{review.score}</Styled.ScoreNum>
-                            </Styled.UserStarBox>
-                        </Styled.User>
+                {serviceData.review && serviceData.review.length > 0 ? (
+                    serviceData.review.map((review, index) => (
+                        <Styled.ReviewContent key={index}>
+                            <Styled.User>
+                                <Styled.UserNameBox>
+                                    <Styled.UserName>{review.univ} {review.writer_name}</Styled.UserName>
+                                    <Styled.UserInfo>
+                                        {review.team ? `${review.team}팀` : ''}
+                                        {review.team && review.writer_service ? ' · ' : ''}
+                                        {review.writer_service ? review.writer_service : ''}
+                                    </Styled.UserInfo>
+                                </Styled.UserNameBox>
+                                <Styled.UserStarBox>
+                                    <Styled.UserStar src={greenStar} alt="star"/> 
+                                    <Styled.ScoreNum>{review.score}</Styled.ScoreNum>
+                                </Styled.UserStarBox>
+                            </Styled.User>
 
                             <Styled.ReviewTags>
                                 <Styled.ReviewKeyword>
@@ -267,36 +297,44 @@ const DetailPage = ({ API_BASE_URL }) => {
                                             case 'SIMPLE':
                                                 return <Styled.Simple key={tagIndex} src={simple} alt="Simple" />;
                                             case 'ERROR_FREE':
-                                                return <Styled.Error_free key={tagIndex} src={error_free} alt="Error Free" />;
+                                                return <Styled.Errorfree key={tagIndex} src={errorfree} alt="Error Free" />;
                                             case 'DESIGN':
                                                 return <Styled.Design key={tagIndex} src={design} alt="Design" />;
-                                                case 'GROWTH':
-                                                    return <Styled.Growth key={tagIndex} src={growth} alt="Growth" />;
-                                                case 'FEEDBACK':
-                                                    return <Styled.Feedback key={tagIndex} src={feedback} alt="Feedback" />;
-                                                case 'BASIC':
-                                                    return <Styled.Basic key={tagIndex} src={basic} alt="Basic" />;
-                                                case 'REUSE':
-                                                    return <Styled.Reuse key={tagIndex} src={reuse} alt="Reuse" />;
-                                                case 'LOADING':
-                                                    return <Styled.Loading key={tagIndex} src={loading} alt="Loading" />;
-                                                case 'ORIGINAL':
-                                                    return <Styled.Original key={tagIndex} src={original} alt="Original" />;
-                                                default:
-                                                    return null; // 정의되지 않은 태그는 표시하지 않음
-                                            }
-                                        })}
+                                            case 'GROWTH':
+                                                return <Styled.Growth key={tagIndex} src={growth} alt="Growth" />;
+                                            case 'FEEDBACK':
+                                                return <Styled.Feedback key={tagIndex} src={feedback} alt="Feedback" />;
+                                            case 'BASIC':
+                                                return <Styled.Basic key={tagIndex} src={basic} alt="Basic" />;
+                                            case 'REUSE':
+                                                return <Styled.Reuse key={tagIndex} src={reuse} alt="Reuse" />;
+                                            case 'LOADING':
+                                                return <Styled.Loading key={tagIndex} src={loading} alt="Loading" />;
+                                            case 'ORIGINAL':
+                                                return <Styled.Original key={tagIndex} src={original} alt="Original" />;
+                                            default:
+                                                return null; // Undefined tags are not displayed
+                                        }
+                                    })}
                                 </Styled.ReviewKeyword>
                             </Styled.ReviewTags>
-                        <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
+                            <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
                             <Styled.HeartBox>
-                            <Styled.HeartButton onClick={() => toggleLike(review.id)}>
-                                <FontAwesomeIcon icon={likeStatus[review.id]?.isLiked ? solidHeart : regularHeart} />
-                            </Styled.HeartButton>
+                                <Styled.HeartButton onClick={() => toggleLike(review.id)}>
+                                    <FontAwesomeIcon icon={likeStatus[review.id]?.isLiked ? solidHeart : regularHeart} />
+                                </Styled.HeartButton>
                                 <Styled.HeartCount>{likeStatus[review.id]?.likesCount}</Styled.HeartCount>
                             </Styled.HeartBox>
-                    </Styled.ReviewContent>
-                ))}
+                        </Styled.ReviewContent>
+                    ))
+                ) : (
+                    <Styled.ReviewContent1>
+                        <Styled.NoReview>아직 리뷰가 없어요</Styled.NoReview>
+                        <Styled.WriteFirst>첫 번째로 리뷰를 남겨주세요!</Styled.WriteFirst>
+                        <Styled.ThoughtfulMan src={thoughtfulMan} alt="thoughtfulMan" />
+                    </Styled.ReviewContent1>
+                )}
+
                 </Styled.WholeContent>
             </Styled.Content>
             <Footer />
