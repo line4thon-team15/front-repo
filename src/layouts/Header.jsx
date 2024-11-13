@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Styled from './Header.styled';
 import { useScroll } from './ScrollContext';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -23,8 +22,10 @@ const Header = ({ isIntro }) => { // isIntro prop 추가
     return (
         <Styled.Wrapper>
             <Styled.Logo $isWhiteBackground={isIntro}> {/* isIntro에 따라 색상 설정 */}
-                <button onClick={GoHome}> {/* 4호선톤 버튼 클릭 시 scrollToHome 호출 */}
-                    4호선톤 <br />사이트
+                <button id='LogoBtn' onClick={GoHome}> {/* 4호선톤 버튼 클릭 시 scrollToHome 호출 */}
+                    <p>4호선톤</p>
+                    <p>사이트</p>
+                    <p id='date'>24.11.16</p>
                 </button>
             </Styled.Logo>
             <Styled.Navbar>

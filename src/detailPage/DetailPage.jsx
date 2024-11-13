@@ -63,99 +63,100 @@ const DetailPage = ({ API_BASE_URL }) => {
                             <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
                         )}
                     </Styled.ThumbnailBox>
+
+                    <Styled.Line>
+                        <Styled.NameBox>
+                            <Styled.TeamCircle>
+                                <Styled.TeamNum>{serviceData.team}</Styled.TeamNum>
+                            </Styled.TeamCircle>
+                            <Styled.Name>
+                                <Styled.NameText>{serviceData.service_name}</Styled.NameText>
+                                <Styled.OneLine>{serviceData.intro}</Styled.OneLine>
+                            </Styled.Name>
+                        </Styled.NameBox>
+                    </Styled.Line>
                 </Styled.Header>
 
-                <Styled.Line>
-                    <Styled.NameBox>
-                        <Styled.TeamCircle>
-                            <Styled.TeamNum>{serviceData.team}</Styled.TeamNum>
-                        </Styled.TeamCircle>
-                        <Styled.Name>
-                            <Styled.NameText>{serviceData.service_name}</Styled.NameText>
-                            <Styled.OneLine>{serviceData.intro}</Styled.OneLine>
-                        </Styled.Name>
-                    </Styled.NameBox>
-                </Styled.Line>
 
                 <Styled.WholeContent>
-                <Styled.Middle>
-                    <Styled.GreenStar src={greenStar} alt="star" />
-                    <Styled.TotalStar>{serviceData.score_average}</Styled.TotalStar>
-                   <Styled.VisitServiceButton 
-                        href={serviceData.site_url} 
-                        src={URLvisitBtn} 
-                        alt="VisitURLbtn">
-                    </Styled.VisitServiceButton>
-                </Styled.Middle>
+                    <Styled.Middle>
+                        <Styled.GreenStar src={greenStar} alt="star" />
+                        <Styled.TotalStar>{serviceData.score_average}</Styled.TotalStar>
+                        <Styled.VisitServiceButton
+                            href={serviceData.site_url}
+                            src={URLvisitBtn}
+                            alt="VisitURLbtn">
+                        </Styled.VisitServiceButton>
+                    </Styled.Middle>
 
-                <Styled.ServiceContent>
-                    {serviceData.content}
-                </Styled.ServiceContent>
+                    <Styled.ServiceContent>
+                        {serviceData.content}
+                    </Styled.ServiceContent>
 
-                <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
-                <Styled.Members>
-                    {serviceData.members && serviceData.members.map((member, index) => (
-                        <Styled.Member key={index}>
-                            {member.part} | {member.member}
-                        </Styled.Member>
+                    <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
+                    <Styled.Members>
+                        {serviceData.members && serviceData.members.map((member, index) => (
+                            <Styled.Member key={index}>
+                                {member.part} | {member.member}
+                            </Styled.Member>
+                        ))}
+                    </Styled.Members>
+
+
+
+                    <Styled.ServicePhotoBox>
+                        <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
+                        <Styled.PhotoCount>{serviceData.presentation_cnt}</Styled.PhotoCount>
+                    </Styled.ServicePhotoBox>
+
+                    <Styled.PhotoBox>
+                        {serviceData.presentations && serviceData.presentations.map((presentation, index) => (
+                            <Styled.ExImage
+                                key={index}
+                                src={presentation.image}
+                                alt={`발표자료-${index}`}
+                                onClick={() => handleImageClick(presentation.image)}
+                            />
+                        ))}
+                    </Styled.PhotoBox>
+
+                    {isModalOpen && (
+                        <Styled.FullScreenModal>
+                            <Styled.CloseButton onClick={handleCloseModal}>✕</Styled.CloseButton>
+                            <Styled.ModalImage src={selectedImage} alt="확대 이미지" />
+                        </Styled.FullScreenModal>
+                    )}
+
+                    <Styled.Feedback>내가 쓴 피드백</Styled.Feedback>
+                    <Styled.RankingBox>
+                        <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
+                        <Styled.Star src={fiveStars} alt="five stars" />
+                        <Styled.WriteReviewButton src={writeFeedbackbtn} alt="피드백 작성 버튼" onClick={handleReviewClick} />
+                    </Styled.RankingBox>
+
+                    <Styled.UserReviews>
+                        <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
+                        <Styled.UserReviewCount>{serviceData.review_cnt}</Styled.UserReviewCount>
+                    </Styled.UserReviews>
+
+                    {serviceData.review && serviceData.review.map((review, index) => (
+                        <Styled.ReviewContent key={index}>
+                            <Styled.User>
+                                <Styled.UserNameBox>
+                                    <Styled.UserName>{review.univ} {review.writer_name}</Styled.UserName>
+                                    <Styled.UserInfo>{review.team}팀 · {review.writer_service}</Styled.UserInfo>
+                                </Styled.UserNameBox>
+                                <Styled.UserStarBox>
+                                    <Styled.UserStar src={greenStar} alt="star" />
+                                    <Styled.ScoreNum>{review.score}</Styled.ScoreNum>
+                                </Styled.UserStarBox>
+                            </Styled.User>
+                            <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
+                            <Styled.HeartBox>
+                                <Styled.HeartCount>{review.likes_count}</Styled.HeartCount>
+                            </Styled.HeartBox>
+                        </Styled.ReviewContent>
                     ))}
-                </Styled.Members>
-
-
-
-                <Styled.ServicePhotoBox>
-                    <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
-                    <Styled.PhotoCount>{serviceData.presentation_cnt}</Styled.PhotoCount>
-                </Styled.ServicePhotoBox>
-
-                <Styled.PhotoBox>
-                    {serviceData.presentations && serviceData.presentations.map((presentation, index) => (
-                        <Styled.ExImage
-                            key={index}
-                            src={presentation.image}
-                            alt={`발표자료-${index}`}
-                            onClick={() => handleImageClick(presentation.image)}
-                        />
-                    ))}
-                </Styled.PhotoBox>
-
-                {isModalOpen && (
-                    <Styled.FullScreenModal>
-                        <Styled.CloseButton onClick={handleCloseModal}>✕</Styled.CloseButton>
-                        <Styled.ModalImage src={selectedImage} alt="확대 이미지" />
-                    </Styled.FullScreenModal>
-                )}
-
-                <Styled.Feedback>내가 쓴 피드백</Styled.Feedback>
-                <Styled.RankingBox>
-                    <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
-                    <Styled.Star src={fiveStars} alt="five stars"/>
-                    <Styled.WriteReviewButton src={writeFeedbackbtn} alt="피드백 작성 버튼"onClick={handleReviewClick}/>
-                </Styled.RankingBox>
-                
-                <Styled.UserReviews>
-                    <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
-                    <Styled.UserReviewCount>{serviceData.review_cnt}</Styled.UserReviewCount>
-                </Styled.UserReviews>
-                
-                {serviceData.review && serviceData.review.map((review, index) => (
-                    <Styled.ReviewContent key={index}>
-                        <Styled.User>
-                            <Styled.UserNameBox>
-                                <Styled.UserName>{review.univ} {review.writer_name}</Styled.UserName>
-                                <Styled.UserInfo>{review.team}팀 · {review.writer_service}</Styled.UserInfo>
-                            </Styled.UserNameBox>
-                            <Styled.UserStarBox>
-                                <Styled.UserStar src={greenStar} alt="star"/> 
-                                <Styled.ScoreNum>{review.score}</Styled.ScoreNum>
-                            </Styled.UserStarBox>
-                        </Styled.User>
-                        <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
-                        <Styled.HeartBox>
-                            <Styled.HeartCount>{review.likes_count}</Styled.HeartCount>
-                        </Styled.HeartBox>
-                    </Styled.ReviewContent>
-                ))}
                 </Styled.WholeContent>
             </Styled.Content>
             <Footer />
