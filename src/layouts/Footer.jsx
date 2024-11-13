@@ -10,7 +10,7 @@ const Footer = () => {
         animationData={FooterAnimation}
         loop={true}       // 반복 애니메이션
         style={{
-          width: '32.5%',
+          width: '220px',
           position: 'absolute',
           left: '-15px',
           bottom: '150px',

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   position: relative;            /* fixed에서 relative로 변경 */
-  width: 100%;
+  width: calc(100vw - 4vw);
   height: 120px;
   flex-direction: column;         /* 세로 방향으로 나열 */
   align-items: flex-start;
