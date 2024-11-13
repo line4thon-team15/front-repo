@@ -4,31 +4,35 @@ import ArrowImage from "../assets/Arrowright.png";
 import RankingImage from "../assets/Ranking.png";
 
 const Ranking = () => {
-  // 예시 데이터 - 나중에 API 데이터로 대체할 예정
   const rankingServices = [
     {
       rank: 1,
+      rankChange: 0,
       image: "/path/to/image-1.png",
       name: "[서비스명]",
       description: "서비스 한줄소개",
     },
     {
       rank: 2,
+      rankChange: -4,
       image: "/path/to/image-2.png",
       name: "[너만 노란색]",
     },
     {
       rank: 3,
+      rankChange: 4,
       image: "/path/to/image-3.png",
       name: "[서브웨이]",
     },
     {
       rank: 4,
+      rankChange: 0,
       image: "/path/to/image-4.png",
       name: "[지하철 대탐험]",
     },
     {
       rank: 5,
+      rankChange: 0,
       image: "/path/to/image-5.png",
       name: "[서브웨이]",
     },
@@ -63,7 +67,6 @@ const Ranking = () => {
     },
   ];
 
-  // 각 부문의 1등과 나머지 항목들을 분리
   const firstPlaceRanking = rankingServices[0];
   const otherPlacesRanking = rankingServices.slice(1);
 
@@ -74,7 +77,10 @@ const Ranking = () => {
     <Styled.Wrapper>
       <Styled.Content>
         <Styled.Header>
-          <Styled.Title>명예의 전당</Styled.Title>
+          <Styled.TitleWrapper>
+            <Styled.Title>명예의 전당</Styled.Title>
+            <Styled.RankingImageStyled src={RankingImage} alt="RankingImage" />
+          </Styled.TitleWrapper>
           <Styled.Subtitle>최고의 서비스를 위해 참여해주세요</Styled.Subtitle>
         </Styled.Header>
 
@@ -90,8 +96,8 @@ const Ranking = () => {
             <Styled.FirstPlace>
               <Styled.FirstPlaceImage src={firstPlaceRanking.image} alt={`Service ${firstPlaceRanking.rank}`} />
               <Styled.FirstPlaceInfo>
-                <Styled.ServiceName>{firstPlaceRanking.name}</Styled.ServiceName>
-                <Styled.ServiceDescription>{firstPlaceRanking.description}</Styled.ServiceDescription>
+                <Styled.ServiceNameFirst>{firstPlaceRanking.name}</Styled.ServiceNameFirst>
+                <Styled.ServiceDescriptionFirst>{firstPlaceRanking.description}</Styled.ServiceDescriptionFirst>
               </Styled.FirstPlaceInfo>
             </Styled.FirstPlace>
 
@@ -99,7 +105,12 @@ const Ranking = () => {
             <Styled.ServiceList>
               {otherPlacesRanking.map((service) => (
                 <Styled.ServiceItem key={service.rank}>
-                  <Styled.Rank>{service.rank}</Styled.Rank>
+                  <Styled.Rank>
+                    {service.rank}
+                    {service.rankChange > 0 && <Styled.RankChangeUp>▲{service.rankChange}</Styled.RankChangeUp>}
+                    {service.rankChange < 0 && <Styled.RankChangeDown>▼{Math.abs(service.rankChange)}</Styled.RankChangeDown>}
+                    {service.rankChange === 0 && <Styled.RankChangeNone>-</Styled.RankChangeNone>}
+                  </Styled.Rank>
                   <Styled.ServiceImage src={service.image} alt={`Service ${service.rank}`} />
                   <Styled.ServiceInfo>
                     <Styled.ServiceName>{service.name}</Styled.ServiceName>
@@ -123,16 +134,21 @@ const Ranking = () => {
             <Styled.FirstPlace>
               <Styled.FirstPlaceImage src={firstPlaceBadge.image} alt={`Service ${firstPlaceBadge.rank}`} />
               <Styled.FirstPlaceInfo>
-                <Styled.ServiceName>{firstPlaceBadge.name}</Styled.ServiceName>
-                <Styled.ServiceDescription>{firstPlaceBadge.description}</Styled.ServiceDescription>
+                <Styled.ServiceNameFirst>{firstPlaceBadge.name}</Styled.ServiceNameFirst>
+                <Styled.ServiceDescriptionFirst>{firstPlaceBadge.description}</Styled.ServiceDescriptionFirst>
               </Styled.FirstPlaceInfo>
             </Styled.FirstPlace>
 
             {/* 2등부터 나머지 항목들 */}
             <Styled.ServiceList>
-              {otherPlacesBadge.map((service) => (
+              {otherPlacesRanking.map((service) => (
                 <Styled.ServiceItem key={service.rank}>
-                  <Styled.Rank>{service.rank}</Styled.Rank>
+                  <Styled.Rank>
+                    {service.rank}
+                    {service.rankChange > 0 && <Styled.RankChangeUp>▲{service.rankChange}</Styled.RankChangeUp>}
+                    {service.rankChange < 0 && <Styled.RankChangeDown>▼{Math.abs(service.rankChange)}</Styled.RankChangeDown>}
+                    {service.rankChange === 0 && <Styled.RankChangeNone>-</Styled.RankChangeNone>}
+                  </Styled.Rank>
                   <Styled.ServiceImage src={service.image} alt={`Service ${service.rank}`} />
                   <Styled.ServiceInfo>
                     <Styled.ServiceName>{service.name}</Styled.ServiceName>
