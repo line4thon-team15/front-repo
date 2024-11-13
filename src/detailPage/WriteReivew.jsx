@@ -4,12 +4,12 @@ import * as Styled from './WriteReview.styled';
 import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
 import easy from '../assets/easy.svg';
 import simple from '../assets/simple.png';
-import error_free from '../assets/error_free.svg';
+import errorfree from '../assets/errorfree.svg';
 import design from '../assets/design.svg';
 import growth from '../assets/growth.svg';
 import feedback from '../assets/feedback.svg';
 import basic from '../assets/basic.svg';
-import reuse from '../assets/reuse.svg';
+import reuse from '../assets/reuse.png';
 import loading from '../assets/loading.svg';
 import original from '../assets/original.svg';
 import Header from '../layouts/Header';
@@ -54,21 +54,21 @@ const WriteReview = () => {
                         <Styled.RatingBox>
                             <Styled.RatingBox1>
                                 <Styled.RatingSelect>UI/편의성</Styled.RatingSelect>
-                                <Styled.Find src={find} alt="find" />
-                                <Styled.Simple src={simple} alt="simple" />
                                 <Styled.Easy src={easy} alt="easy" />
+                                <Styled.Simple src={simple} alt="simple" />
+                                <Styled.Errorfree src={errorfree} alt="errorfree" />
                                 <Styled.Design src={design} alt="design" />
-                                <Styled.Ui src={ui} alt="ui" />
+                                <Styled.Growth src={growth} alt="growth" />
                                 <Styled.Feedback src={feedback} alt="feedback" />
 
 
                             </Styled.RatingBox1>
                             <Styled.RatingBox2>
                                 <Styled.RatingSelect2>독창성/완성도</Styled.RatingSelect2>
-                                <Styled.Idea src={idea} alt="idea" />
+                                <Styled.Basic src={basic} alt="basic" />
                                 <Styled.Reuse src={reuse} alt="reuse" />
                                 <Styled.Loading src={loading} alt="loading" />
-                                <Styled.Want src={want} alt="want" />
+                                <Styled.Original src={original} alt="original" />
                             </Styled.RatingBox2>
 
 

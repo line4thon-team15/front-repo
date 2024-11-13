@@ -131,6 +131,7 @@ export const GreenStar = styled.img`
 export const TotalStar = styled.div`
     display: flex;
     font-size: 25px;
+    margin-right: 20px;
 `
 export const Visit = styled.div`
 `
@@ -138,7 +139,7 @@ export const VisitServiceButton = styled.a`
     height: 50px;
     border-radius: 10px;
     display: inline-block;
-    margin-left: 30px;
+    margin-left: 0px;
     cursor: pointer;
 `;
 
@@ -158,6 +159,14 @@ export const ServiceContent = styled.div`
     line-height: 40px;
     color: black;
 `
+export const NoContentMessage = styled.div`
+    padding: 0px 20px 0px 0px;
+    font-size: 20px;
+    line-height: 30px;
+    color: black;
+`;
+
+
 export const TeamMember = styled.div`
     padding: 40px 20px 10px 80px;
     font-size: 20px;
@@ -187,6 +196,14 @@ export const Member = styled.div`
     background-color: #696969; 
     color: white;
 `
+
+export const NoMembersMessage = styled.div`
+    padding: 10px 20px 30px 0px;
+    font-size: 20px;
+    line-height: 25px;
+    color: black;
+`;
+
 
 export const ServicePhotoBox = styled.div`
     display: flex;
@@ -266,6 +283,15 @@ export const PhotoBox = styled.div`
     padding: 0px 70px 10px 80px;
     width: 80%;
 `;
+
+export const ServicePhotoFile = styled.img`
+    width: 100px; /* Adjust as needed */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Center the image */
+    padding: 20px 0; /* Add spacing if needed */
+`;
+
 
 export const ExImage = styled.img`
     height: 150px;
@@ -483,7 +509,7 @@ export const Simple = styled.img`
     padding: 10px 10px 0px 0px;
     height: 34px
 `
-export const Error_free = styled.img`
+export const Errorfree = styled.img`
     padding: 10px 10px 0px 0px;
 `
 
@@ -540,3 +566,28 @@ export const HeartCount = styled.div`
     padding: 0px 0px 0px 10px;
 
 `
+export const ReviewContent1 = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 0px;
+`;
+
+export const NoReview = styled.div`
+    padding: 20px 20px 10px 0px;
+    font-size: 20px;
+    color: black;
+`;
+
+export const WriteFirst = styled.div`
+    padding: 10px 20px 20px 0px;
+    font-size: 15px;
+    color: black;
+`;
+
+export const ThoughtfulMan = styled.img`
+    height: 150px;
+    padding: 0px 20px 50px 0px;
+`;
