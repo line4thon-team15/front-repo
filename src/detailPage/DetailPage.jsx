@@ -135,19 +135,20 @@ const DetailPage = ({ API_BASE_URL }) => {
                             <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
                         )}
                     </Styled.ThumbnailBox>
+
+                    <Styled.Line>
+                        <Styled.NameBox>
+                            <Styled.TeamCircle>
+                                <Styled.TeamNum>{serviceData.team}</Styled.TeamNum>
+                            </Styled.TeamCircle>
+                            <Styled.Name>
+                                <Styled.NameText>{serviceData.service_name}</Styled.NameText>
+                                <Styled.OneLine>{serviceData.intro}</Styled.OneLine>
+                            </Styled.Name>
+                        </Styled.NameBox>
+                    </Styled.Line>
                 </Styled.Header>
 
-                <Styled.Line>
-                    <Styled.NameBox>
-                        <Styled.TeamCircle>
-                            <Styled.TeamNum>{serviceData.team}</Styled.TeamNum>
-                        </Styled.TeamCircle>
-                        <Styled.Name>
-                            <Styled.NameText>{serviceData.service_name}</Styled.NameText>
-                            <Styled.OneLine>{serviceData.intro}</Styled.OneLine>
-                        </Styled.Name>
-                    </Styled.NameBox>
-                </Styled.Line>
 
                 <Styled.WholeContent>
                 <Styled.Middle>
@@ -164,25 +165,25 @@ const DetailPage = ({ API_BASE_URL }) => {
                     </Styled.Visit>
                 </Styled.Middle>
 
-                <Styled.ServiceContent>
-                    {serviceData.content}
-                </Styled.ServiceContent>
+                    <Styled.ServiceContent>
+                        {serviceData.content}
+                    </Styled.ServiceContent>
 
-                <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
-                <Styled.Members>
-                    {serviceData.members && serviceData.members.map((member, index) => (
-                        <Styled.Member key={index}>
-                            {member.part} | {member.member}
-                        </Styled.Member>
-                    ))}
-                </Styled.Members>
+                    <Styled.TeamMember>프로젝트 팀원</Styled.TeamMember>
+                    <Styled.Members>
+                        {serviceData.members && serviceData.members.map((member, index) => (
+                            <Styled.Member key={index}>
+                                {member.part} | {member.member}
+                            </Styled.Member>
+                        ))}
+                    </Styled.Members>
 
 
 
-                <Styled.ServicePhotoBox>
-                    <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
-                    <Styled.PhotoCount>{serviceData.presentation_cnt}</Styled.PhotoCount>
-                </Styled.ServicePhotoBox>
+                    <Styled.ServicePhotoBox>
+                        <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
+                        <Styled.PhotoCount>{serviceData.presentation_cnt}</Styled.PhotoCount>
+                    </Styled.ServicePhotoBox>
 
                 <Styled.PhotoBox>
                     {serviceData.presentations && serviceData.presentations.map((presentation, index) => (

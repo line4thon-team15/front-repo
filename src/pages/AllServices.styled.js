@@ -5,7 +5,8 @@ export const Wrapper = styled.div`
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 100%;
+  padding: 60px 0 60px 200px;
+  align-items: center;
 `;
 
 export const Content = styled.div`
@@ -13,7 +14,6 @@ export const Content = styled.div`
   top: 0;
   right: 0;
   width: calc(100% - 200px);
-  height: calc(100% - 120px);
   background-color: #e9ecef;
 `;
 
@@ -42,19 +42,19 @@ export const Title = styled.div`
   font-family: Arial, sans-serif;
 
   .singlequo {
-    font-size: 24px;
-    margin-right: 8px;
+    font-size: 50px;
+    font-weight: 700;
   }
 
   .smalltitle1 {
     color: #00a4e3;
-    font-size: 40px;
-    font-weight: bold;
+    font-size: 50px;
+    font-weight: 700;
   }
 
   .smalltitle2 {
-    font-size: 60px;
-    font-weight: bold;
+    font-size: 100px;
+    font-weight: 700;
     color: black;
     margin: 4px 0;
   }
@@ -76,7 +76,6 @@ export const SearchBar = styled.div`
   width: 100%;
   max-width: 600px;
   margin-top: 20px;
-  margin-left: 450px;
 
   .search-icon {
     width: 20px;
@@ -101,42 +100,55 @@ export const ServiceCardAll = styled.div`
   align-items: center;
   text-align: center;
   width: 100%;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 // CardGrid 스타일 정의
 export const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  width: 100%;
+  width: calc(100%);
   max-width: 1200px;
   margin-top: 40px;
-  padding: 0 20px;
   justify-items: center;
 `;
 
 // ServiceCard 스타일 정의
 export const ServiceCard = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 250px;
+  aspect-ratio: 16/9;
   border-radius: 12px;
   overflow: hidden;
   background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px;
   text-align: center;
 `;
 
 // CardImage 스타일 정의
 export const CardImage = styled.img`
-  width: 100%;
-  height: auto;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  object-fit: cover;
 `;
 
 // CardText 스타일 정의
 export const CardText = styled.div`
-  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px 0 10px 15px;
   font-size: 14px;
   color: #333;
+  gap: 5px;
 
   .service-name {
     font-weight: bold;
@@ -149,3 +161,8 @@ export const CardText = styled.div`
 `;
 
 export const Box = styled.div``;
+
+
+
+
+

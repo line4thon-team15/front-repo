@@ -3,25 +3,31 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
+    /* align-items: center; */
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
 `;
 
 export const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: white;
     position: relative;  /* absolute에서 relative로 변경 */
-    margin-left: 200px;  
+    margin-left: 300px;  
     margin-bottom: 80px;
-    width: calc(100%-200px);
+    width: calc(100%-300px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
 
 export const Header = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-height: 615px;
+    height: min-content;
+    max-height: 500px;
     background-color: #BABABA;
     align-items: center; /* Header의 가로 가운데 정렬 */
     justify-content: center; /* Header의 세로 가운데 정렬 */
@@ -29,29 +35,31 @@ export const Header = styled.div`
 
 export const ThumbnailBox = styled.div`
     color: #FFFFFF;
+    width: 100%;
     display: flex;
+    height: min-content;
+    min-height: 200px;
     justify-content: center;
-    align-items: center;
-`;
+    align-items: center;`;
 
 export const ThumbnailImage = styled.img`
-    width: calc(100vw - 200px);
-    height: 615px; /* 세로 높이를 고정하여 넘칠 경우 잘리도록 설정 */
-    object-fit: cover; /* 이미지가 비율에 맞게 잘림 */
-    overflow: hidden; /* 넘치는 부분이 보이지 않도록 설정 */
+    width: 100%;
+    height: auto; /* 이미지의 비율을 유지 */
+    max-height: 500px;
+    object-fit: cover;
 `;
-
 export const Line = styled.div`
     width: 100%;
     height: 40px;
     background: linear-gradient(90deg, #00A4E3 0%, #00A4E3 22.5%, #3F89A6 100%);
-    position: relative; /* Make Line a relative positioning reference */
+    position: absolute; /* Make Line a relative positioning reference */
+    bottom: 0;
 `;
 
 export const NameBox = styled.div`
-    width: 582px;  
+    width: min-content;  
     height: auto;
-    min-width: 420px;
+    min-width: 380px;
     padding: 20px 30px;
     border-radius: 100px;
     background: linear-gradient(90deg, #FFFFFF 53.5%, #1BFFF4 100%);
@@ -108,7 +116,7 @@ export const Middle = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin: 40px 100px 0 0;
+    margin: 30px 60px;
     align-items: center;
 `
 
@@ -169,13 +177,13 @@ export const Members = styled.div`
 export const Member = styled.div`
     display: flex;
     margin-top: 10px;
-    padding: 15px;
+    padding: 5px 15px;
     align-items: center;
     justify-content: center;
-    width: 120px;
-    height: 5px;
+    width: auto;
     border-radius: 12px;
     font-size: 18px;
+    font-weight: 200;
     background-color: #696969; 
     color: white;
 `
@@ -255,8 +263,7 @@ export const PhotoBox = styled.div`
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
-    padding: 0px 70px 10px 0px;
-    margin-left: 80px;
+    padding: 0px 70px 10px 80px;
     width: 80%;
 `;
 
