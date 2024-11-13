@@ -12,6 +12,7 @@ export const Content = styled.div`
     background-color: white;
     position: relative;  /* absolute에서 relative로 변경 */
     margin-left: 200px;  
+    margin-bottom: 80px;
     width: calc(100%-200px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
 `;
@@ -94,32 +95,37 @@ export const OneLine = styled.div`
     margin-top: 10px; /* Space between NameText and OneLine */
 `;
 
+export const WholeContent = styled.div`
+    max-width: 1200px;
+    padding: auto;
+`
+
 export const Middle = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
+    margin: 40px 200px 0 0;
+    align-items: center;
+`
+
+
+export const GreenStar = styled.img`
+    display: flex;
+    width: 45px;
+    margin-right: 10px;
+
 `
 
 export const TotalStar = styled.div`
-    margin-left: 83%;
-    margin-top: 50px;
-    position: absolute; /* 위치를 상대적으로 지정 */
+    display: flex;
     font-size: 25px;
 `
 
-export const VisitServiceButton = styled.div`
-    margin-left: 90%;
-    margin-top: 40px;
-    position: absolute; /* 위치를 상대적으로 지정 */
-    font-size: 22px;
-    padding: 10px;
-    width: 120px;
-    height: 25px;
+export const VisitServiceButton = styled.img`
+    height: 50px;
     border-radius: 10px;
-    background-color: #0033FF;
-    color: white;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-left: 30px;
     cursor: pointer;
 `
 
@@ -133,9 +139,10 @@ export const VisitService = styled.div`
 `
 
 export const ServiceContent = styled.div`
-    padding: 100px 20px 20px 80px;
+    width: 82%;
+    padding: 50px 20px 20px 100px;
     font-size: 20px;
-    line-height: 30px;
+    line-height: 40px;
     color: black;
 `
 export const TeamMember = styled.div`
@@ -145,18 +152,25 @@ export const TeamMember = styled.div`
     color: black;
     font-weight: bold;
 `
-export const Member = styled.div`
-    margin-top: 10px;
-    margin-left: 70px;
-    padding: 20px;
+export const Members = styled.div`
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Add this if you want the boxes to wrap to a new line when they overflow */
+    width: 80%;
+    gap: 10px;
+    margin-left: 70px;
+
+`
+export const Member = styled.div`
+    display: flex;
+    margin-top: 10px;
+    padding: 15px;
     align-items: center;
     justify-content: center;
     width: 120px;
     height: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 18px;
-    line-height: 25px;
     background-color: #696969; 
     color: white;
 `
@@ -233,7 +247,8 @@ export const PhotoBox = styled.div`
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
-    padding: 0px 20px 10px 80px;
+    padding: 0px 70px 10px 80px;
+    width: 80%;
 `;
 
 export const ExImage = styled.img`
@@ -268,23 +283,11 @@ export const Ask = styled.div`
     text-align: center;
     font-weight: bold;
 `
-export const Star = styled.div`
+export const Star = styled.img`
     padding: 10px 0 20px;
-    font-size: 30px;
-    color: black;
-    text-align: center;
-    letter-spacing: 10px; /* Adjust spacing as needed */
-
 `
-export const WriteReviewButton = styled.div`
-    padding: 10px;
-    width: 130px;
-    height: 25px;
-    border-radius: 10px;
-    background-color: #0033FF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+export const WriteReviewButton = styled.img`
+    height: 40px;
     cursor: pointer;
 `
 
@@ -292,14 +295,21 @@ export const WriteReview = styled.div`
     color: white;
     font-size: 17px;
 `
-
+export const UserReviews = styled.div`
+    display: flex;
+    flex-direction: row;
+`
 
 export const UserReview = styled.div`
-    padding: 40px 20px 10px 80px;
+    padding: 48px 0px 10px 80px;
     font-size: 20px;
     line-height: 25px;
     color: black;
     font-weight: bold;
+`
+export const UserReviewCount = styled.div`
+    padding: 50px 20px 10px 10px;
+    color: #45DB00;
 `
 
 export const ReviewList = styled.div`
@@ -308,13 +318,15 @@ export const ReviewList = styled.div`
 `
 
 export const ReviewContent = styled.div`
+    margin: 30px 0 30px 70px;
+    width: 85%;
 `
 
 export const User = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: center; /* UserPic와 UserNameBox가 수직으로 정렬되도록 설정 */
-    gap: 10px; /* 요소 간 간격 조정 */
+    justify-content: space-between; /* 자식 요소들을 양쪽 끝으로 정렬 */
+    width: 100%;
 `
 
 export const UserPic = styled.img`
@@ -322,18 +334,11 @@ export const UserPic = styled.img`
     display: flex;
     flex-direction: column;
 `
-export const UserGap = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between; /* Pushes UserReviewInfo to the right */
-    gap: 10px; /* Space between UserPic and UserNameBox */
-    width: 80%; /* Ensures it spans the full width of the container */
-`
 
 export const UserNameBox = styled.div`
     display: flex;  
     flex-direction: column;
+    margin: 0 0 0 10px;
 `
 
 export const UserName = styled.div`
@@ -360,9 +365,26 @@ export const UserReviewInfo = styled.div`
     justify-content: center;
 `
 
-export const UserStar = styled.div`
+export const UserStarBox = styled.div`
+    display: flex;
+    align-items: center;
+    border: 1px solid #908E8E80;
+    border-radius: 10px;
+    width: 65px;
+    height: 30px;
+    gap: 10px;
+    margin-left: auto; /* 오른쪽으로 정렬되도록 설정 */
+    justify-content: center;
 `
 
+export const UserStar = styled.img`
+    display: flex;
+    width: 20px;
+`
+export const ScoreNum = styled.div`
+    display: flex;
+    text-align: center;
+`
 
 
 export const ReviewKeyword = styled.div`
@@ -387,6 +409,7 @@ export const Loading = styled.img`
 
 export const UserReviewContent = styled.div`
     padding: 10px 20px 10px 10px;
+    line-height: 25px;
 
 `
 export const HeartBox = styled.div`
