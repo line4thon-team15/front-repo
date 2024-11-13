@@ -120,13 +120,13 @@ export const Easy = styled.img`
     height: 40px;
 
 `
-export const Design = styled.img`
+export const simple = styled.img`
     padding: 0 10px 10px 0px; /* 패딩 조정 */
     height: 40px;
 
 `
 
-export const Ui = styled.img`
+export const error_free = styled.img`
     padding: 0 10px 10px 0px; /* 패딩 조정 */
     height: 40px;
 

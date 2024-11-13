@@ -8,8 +8,20 @@ import URLvisitBtn from '../assets/URLvisitBtn.svg';
 import greenStar from '../assets/greenStar.svg';
 import fiveStars from '../assets/fiveStars.svg';
 import writeFeedbackbtn from '../assets/writeFeedbackbtn.svg';
+import easy from '../assets/easy.svg';
+import simple from '../assets/simple.png';
+import error_free from '../assets/error_free.svg';
+import design from '../assets/design.svg';
+import growth from '../assets/growth.svg';
+import feedback from '../assets/feedback.svg';
+import basic from '../assets/basic.svg';
+import reuse from '../assets/reuse.svg';
+import loading from '../assets/loading.svg';
+import original from '../assets/original.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+
 
 const DetailPage = ({ API_BASE_URL }) => {
     const navigate = useNavigate();
@@ -17,16 +29,25 @@ const DetailPage = ({ API_BASE_URL }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('인기순'); // 기본값을 '인기순'으로 설정
+    const [likeStatus, setLikeStatus] = useState({});
     const params = useParams();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-
                 const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
-                console.log("데이터 로드 성공:", response.data);  // serviceData 로그 출력
                 setServiceData(response.data);
                 setIsLoading(false);
+                console.log("데이터 로드 성공:", response.data);  // serviceData 로그 출력
+
+                // 초기 likeStatus 설정
+                const initialLikeStatus = response.data.review.reduce((status, review) => {
+                    status[review.id] = { isLiked: review.is_liked, likesCount: review.likes_count };
+                    return status;
+                }, {});
+                setLikeStatus(initialLikeStatus);
             } catch (error) {
                 console.error("데이터 불러오기 실패:", error);
                 setIsLoading(false);
@@ -34,8 +55,59 @@ const DetailPage = ({ API_BASE_URL }) => {
             }
         };
         fetchData();
+    }, [API_BASE_URL, params.teamId]);
 
-    }, [params.teamId]);
+    const toggleLike = async (reviewId) => {
+        try {
+            const currentStatus = likeStatus[reviewId];
+            const updatedIsLiked = !currentStatus.isLiked;
+            const updatedLikesCount = updatedIsLiked ? currentStatus.likesCount + 1 : currentStatus.likesCount - 1;
+
+            // 서버에 좋아요 상태 업데이트
+            await axios.post(`${API_BASE_URL}/reviews/${reviewId}/like/`);
+
+            // 상태 업데이트
+            setLikeStatus({
+                ...likeStatus,
+                [reviewId]: {
+                    isLiked: updatedIsLiked,
+                    likesCount: updatedLikesCount,
+                },
+            });
+        } catch (error) {
+            console.error("좋아요 업데이트 실패:", error);
+        }
+    };
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const handleSelection = (option) => {
+        setSelectedOption(option);
+        setIsOpen(false);
+        
+        let sortedReviews;
+        switch (option) {
+            case '인기순':
+                sortedReviews = [...serviceData.review].sort((a, b) => b.likes_count - a.likes_count);
+                break;
+            case '최신순':
+                sortedReviews = [...serviceData.review].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                break;
+            case '높은 평점 순':
+                sortedReviews = [...serviceData.review].sort((a, b) => b.score - a.score);
+                break;
+            case '낮은 평점 순':
+                sortedReviews = [...serviceData.review].sort((a, b) => a.score - b.score);
+                break;
+            default:
+                sortedReviews = serviceData.review;
+                break;
+        }
+        
+        setServiceData({ ...serviceData, review: sortedReviews });
+    };
 
     const handleImageClick = (image) => {
         setSelectedImage(image);
@@ -81,11 +153,15 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.Middle>
                     <Styled.GreenStar src={greenStar} alt="star" />
                     <Styled.TotalStar>{serviceData.score_average}</Styled.TotalStar>
-                   <Styled.VisitServiceButton 
-                        href={serviceData.site_url} 
-                        src={URLvisitBtn} 
-                        alt="VisitURLbtn">
-                    </Styled.VisitServiceButton>
+                    <Styled.Visit>
+                        <Styled.VisitServiceButton 
+                            href={serviceData.site_url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                        >
+                            <img src={URLvisitBtn} alt="VisitURLbtn" style={{ height: "100%", borderRadius: "10px" }} />
+                        </Styled.VisitServiceButton>
+                    </Styled.Visit>
                 </Styled.Middle>
 
                 <Styled.ServiceContent>
@@ -118,15 +194,26 @@ const DetailPage = ({ API_BASE_URL }) => {
                         />
                     ))}
                 </Styled.PhotoBox>
-
+                
                 {isModalOpen && (
-                    <Styled.FullScreenModal>
-                        <Styled.CloseButton onClick={handleCloseModal}>✕</Styled.CloseButton>
-                        <Styled.ModalImage src={selectedImage} alt="확대 이미지" />
-                    </Styled.FullScreenModal>
-                )}
+                <Styled.FullScreenModal>
+                    <Styled.CloseButton onClick={handleCloseModal}>✕</Styled.CloseButton>
+                    <Styled.ThumbnailList>
+                        {serviceData.presentations && serviceData.presentations.map((presentation, index) => (
+                            <Styled.Thumbnail
+                                key={index}
+                                src={presentation.image}
+                                alt={`Thumbnail-${index}`}
+                                onClick={() => handleImageClick(presentation.image)}
+                            />
+                        ))}
+                    </Styled.ThumbnailList>
+                    <Styled.ModalImage src={selectedImage} alt="확대 이미지" />
+                </Styled.FullScreenModal>
+            )}
 
-                <Styled.Feedback>내가 쓴 피드백</Styled.Feedback>
+
+                <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
                 <Styled.RankingBox>
                     <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
                     <Styled.Star src={fiveStars} alt="five stars"/>
@@ -136,24 +223,78 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.UserReviews>
                     <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
                     <Styled.UserReviewCount>{serviceData.review_cnt}</Styled.UserReviewCount>
+                    <Styled.DropdownWrapper>
+                        <Styled.DropdownButtonBox onClick={toggleDropdown}>
+                            <Styled.DropdownButton>
+                                {selectedOption}
+                            </Styled.DropdownButton>
+                            <Styled.StyledArray>▼</Styled.StyledArray>
+                        </Styled.DropdownButtonBox>
+                            
+                            <Styled.DropdownMenu isOpen={isOpen}>
+                                <Styled.DropdownItem onClick={() => handleSelection('인기순')}>인기순</Styled.DropdownItem>
+                                <Styled.DropdownItem onClick={() => handleSelection('최신순')}>최신순</Styled.DropdownItem>
+                                <Styled.DropdownItem onClick={() => handleSelection('높은 평점 순')}>높은 평점 순</Styled.DropdownItem>
+                                <Styled.DropdownItem onClick={() => handleSelection('낮은 평점 순')}>낮은 평점 순</Styled.DropdownItem>
+                            </Styled.DropdownMenu>
+                        </Styled.DropdownWrapper>
                 </Styled.UserReviews>
                 
                 {serviceData.review && serviceData.review.map((review, index) => (
                     <Styled.ReviewContent key={index}>
+
                         <Styled.User>
                             <Styled.UserNameBox>
                                 <Styled.UserName>{review.univ} {review.writer_name}</Styled.UserName>
-                                <Styled.UserInfo>{review.team}팀 · {review.writer_service}</Styled.UserInfo>
+                                <Styled.UserInfo>
+                                    {review.team ? `${review.team}팀` : ''}
+                                    {review.team && review.writer_service ? ' · ' : ''}
+                                    {review.writer_service ? review.writer_service : ''}
+                                </Styled.UserInfo>
                             </Styled.UserNameBox>
                             <Styled.UserStarBox>
                                 <Styled.UserStar src={greenStar} alt="star"/> 
                                 <Styled.ScoreNum>{review.score}</Styled.ScoreNum>
                             </Styled.UserStarBox>
                         </Styled.User>
+
+                            <Styled.ReviewTags>
+                                <Styled.ReviewKeyword>
+                                    {review.tags.map((tag, tagIndex) => {
+                                        switch (tag) {
+                                            case 'EASY':
+                                                return <Styled.Easy key={tagIndex} src={easy} alt="Easy" />;
+                                            case 'SIMPLE':
+                                                return <Styled.Simple key={tagIndex} src={simple} alt="Simple" />;
+                                            case 'ERROR_FREE':
+                                                return <Styled.Error_free key={tagIndex} src={error_free} alt="Error Free" />;
+                                            case 'DESIGN':
+                                                return <Styled.Design key={tagIndex} src={design} alt="Design" />;
+                                                case 'GROWTH':
+                                                    return <Styled.Growth key={tagIndex} src={growth} alt="Growth" />;
+                                                case 'FEEDBACK':
+                                                    return <Styled.Feedback key={tagIndex} src={feedback} alt="Feedback" />;
+                                                case 'BASIC':
+                                                    return <Styled.Basic key={tagIndex} src={basic} alt="Basic" />;
+                                                case 'REUSE':
+                                                    return <Styled.Reuse key={tagIndex} src={reuse} alt="Reuse" />;
+                                                case 'LOADING':
+                                                    return <Styled.Loading key={tagIndex} src={loading} alt="Loading" />;
+                                                case 'ORIGINAL':
+                                                    return <Styled.Original key={tagIndex} src={original} alt="Original" />;
+                                                default:
+                                                    return null; // 정의되지 않은 태그는 표시하지 않음
+                                            }
+                                        })}
+                                </Styled.ReviewKeyword>
+                            </Styled.ReviewTags>
                         <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
-                        <Styled.HeartBox>
-                            <Styled.HeartCount>{review.likes_count}</Styled.HeartCount>
-                        </Styled.HeartBox>
+                            <Styled.HeartBox>
+                            <Styled.HeartButton onClick={() => toggleLike(review.id)}>
+                                <FontAwesomeIcon icon={likeStatus[review.id]?.isLiked ? solidHeart : regularHeart} />
+                            </Styled.HeartButton>
+                                <Styled.HeartCount>{likeStatus[review.id]?.likesCount}</Styled.HeartCount>
+                            </Styled.HeartBox>
                     </Styled.ReviewContent>
                 ))}
                 </Styled.WholeContent>
