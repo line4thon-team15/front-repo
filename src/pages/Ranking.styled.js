@@ -8,10 +8,13 @@ export const RankingPage = styled.div`
   height: 100vh;
   background-color: white;
   scroll-snap-align: start;
+
+  padding-bottom: 200px;
 `;
 
 export const Content = styled.div`
   height: 100vh;
+  margin: 15px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -27,7 +30,7 @@ export const Title = styled.h1`
   position: relative;
   display: flex;
   justify-content: center;
-  font-size: 55px;
+  font-size: 70px;
   text-align: center;
   font-weight: bold;
   color: black;
@@ -37,10 +40,10 @@ export const Title = styled.h1`
 
 export const Werath = styled.img`
   position: absolute;
-  top: 12px;
-  left: calc(50% + 120px);
+  top: 31px;
+  left: calc(55% + 120px);
   transform: translateX(-50%);
-  width: 50px;
+  width: 53px;
   height: auto;
 `;
 
@@ -86,10 +89,12 @@ export const FirstPlace = styled.div`
 `;
 
 export const FirstPlaceImage = styled.img`
-  width: 300px;
-  height: auto;
+  width: 100%; /* 부모 요소의 너비에 맞게 설정 */
+  height: 250px; /* 원하는 높이로 설정 */
   border-radius: 8px;
-  margin-right: 16px;
+  object-fit: cover; /* 이미지가 박스에 꽉 차도록 설정 */
+  display: block;
+  margin: 0 auto; /* 이미지가 중앙에 정렬되도록 설정 */
 `;
 
 export const FirstPlaceInfo = styled.div`
@@ -160,4 +165,16 @@ export const ServiceDescriptionFirst = styled.p`
   font-size: 20px;
   color: #555;
   margin-top: 8px;
+`;
+
+export const ServiceTeam = styled.div`
+  font-size: 14px;
+  color: #777;
+  margin-top: 4px;
+`;
+
+export const ServiceCardAll = styled.div`
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
