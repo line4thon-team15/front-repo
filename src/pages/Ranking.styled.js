@@ -12,7 +12,7 @@ export const RankingPage = styled.div`
 
 export const Content = styled.div`
   height: 100vh;
-  padding: 24px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -20,14 +20,24 @@ export const Content = styled.div`
 
 export const Header = styled.div`
   text-align: center;
-  margin-bottom: 24px;
+  margin: 20px 0;
 `;
 
 export const Title = styled.h1`
+  position: relative;
+  display: flex;
+  justify-content: center;
   font-size: 55px;
+  text-align: center;
   font-weight: bold;
   color: black;
-  margin-bottom: 10px;
+  margin: 10px;
+`;
+
+export const Werath = styled.img`
+  position: absolute;
+  top: 0;
+  left: 300px;
 `;
 
 export const Subtitle = styled.p`
