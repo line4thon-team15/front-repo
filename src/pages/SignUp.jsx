@@ -137,6 +137,8 @@ const SignUp = ({ API_BASE_URL }) => {
                   <Styled.InputWrapper>
                     <Styled.Icon src={Customer} alt="아이디 아이콘" />
                     <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <Styled.Ment>한글은 입력 불가능합니다.</Styled.Ment>
+                    <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
                   </Styled.InputWrapper>
 
                   <Styled.PasswordField1>
@@ -152,6 +154,8 @@ const SignUp = ({ API_BASE_URL }) => {
                         <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
                       </Styled.ToggleButton>
                     </Styled.InputWrapper>
+                    <Styled.Ment>8자리 이상 입력해주세요.(특수문자 1개 이상 포함)</Styled.Ment>
+                    <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
                   </Styled.PasswordField1>
 
                   <Styled.PasswordField2>
@@ -164,6 +168,7 @@ const SignUp = ({ API_BASE_URL }) => {
                         onChange={(e) => setPasswordConfirm(e.target.value)}
                       />
                     </Styled.InputWrapper>
+                    <Styled.MentWarning>비밀번호가 일치하지 않습니다.</Styled.MentWarning>
                   </Styled.PasswordField2>
                 </Styled.IDAndPw>
 
