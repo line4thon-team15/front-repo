@@ -1,6 +1,7 @@
 // src/contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../contexts/AuthContext"; // AuthContext에서 useAuth 불러오기
 
 const AuthContext = createContext();
 
