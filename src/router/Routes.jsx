@@ -39,11 +39,11 @@ const Routes = () => {
           <Route path="/" element={<MainPage API_BASE_URL={API_BASE_URL} />} />
           <Route path="/all-services" element={<AllServices API_BASE_URL={API_BASE_URL} />} />
           <Route path="/my-service" element={<MyService />} />
-          <Route path="/my-page" element={<MyPage />} />
+          <Route path="/my-page" element={<MyPage API_BASE_URL={API_BASE_URL}/>} />
           <Route path="/login" element={<Login API_BASE_URL={API_BASE_URL} />} />
           <Route path="/input-service-info" element={<InputServiceInfo />} />
-          <Route path="/Detail/:teamId" element={<DetailPage API_BASE_URL={API_BASE_URL} />} />
-          <Route path="/write-review" element={<WriteReview />} />
+          <Route path="/Detail/:teamId" element={<DetailPage API_BASE_URL={API_BASE_URL}/>} />
+          <Route path="/write-review/:service_id" element={<WriteReview API_BASE_URL={API_BASE_URL}/>} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/ranking" element={<Ranking API_BASE_URL={API_BASE_URL} />} />
         </ReactRoutes>
