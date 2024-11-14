@@ -38,22 +38,31 @@ const SignUp = ({ API_BASE_URL }) => {
       return;
     }
 
-    const userData = {
-      username: username,
-      password: password,
-      password2: passwordConfirm,
-      is_participant: isParticipant,
-      name: participantName,
-      univ: selectedSchool,
-      team: selectedTeam,
-    };
+    const userData = isParticipant
+        ? {
+            username: username,
+            password: password,
+            password2: passwordConfirm,
+            is_participant: true,
+            name: participantName,
+            univ: selectedSchool,
+            team: selectedTeam,
+        }
+        : {
+            username: username,
+            password: password,
+            password2: passwordConfirm,
+            is_participant: false,
+            name: participantName,
+        };
 
     console.log("서버에 전송할 데이터:", userData);
 
     try {
       const response = await axios.post(`${API_BASE_URL}accounts/signup/`, userData);
       console.log("회원가입 성공:", response.data);
-      alert(response.data.success);
+      alert("회원가입이 성공했습니다. 로그인 페이지로 이동합니다.");
+      navigate("/login"); // 회원가입 성공 시 로그인 페이지로 이동
     } catch (error) {
       if (error.response) {
         console.log("HTTP 상태 코드:", error.response.status);
@@ -235,7 +244,7 @@ const SignUp = ({ API_BASE_URL }) => {
                 )}
 
                 {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
-                <Styled.LoginButton type="submit" disabled={!isFormValid()}>
+                <Styled.LoginButton type="submit" disabled={!isFormValid()} >
                   가입하기
                 </Styled.LoginButton>
               </Styled.Form>

@@ -14,7 +14,7 @@ export const Content = styled.div`
     align-items: center;
     /* background-color: #EEEEEE; */
     position: relative;  /* absolute에서 relative로 변경 */
-    margin-left: 300px;  
+    margin-left: 220px;  
     width: calc(100%-300px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
     padding-bottom: 60px;

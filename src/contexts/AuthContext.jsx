@@ -47,7 +47,11 @@ export const AuthProvider = ({ children }) => {
     navigate("/login"); // 로그아웃 후 로그인 페이지로 이동
   };
 
-  return <AuthContext.Provider value={{ setIsAuthenticated, isAuthenticated, accessToken, login, logout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ setIsAuthenticated, isAuthenticated, accessToken, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);
