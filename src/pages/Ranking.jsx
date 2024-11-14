@@ -55,7 +55,10 @@ const Ranking = ({ API_BASE_URL }) => {
     <Styled.RankingPage>
       <Styled.Content>
         <Styled.Header>
-          <Styled.Title>명예의 전당</Styled.Title>
+          <Styled.Title>
+            명예의 전당
+            <Styled.Werath src={RankingImage} alt="RankingImage" />
+          </Styled.Title>
           <Styled.Subtitle>최고의 서비스를 위해 참여해주세요</Styled.Subtitle>
         </Styled.Header>
 
