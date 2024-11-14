@@ -1,43 +1,48 @@
 import React, { useState } from "react";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
-
 import * as Styled from "./Login.styled";
-import { useNavigate } from "react-router-dom"; // useNavigate 추가
+import { useNavigate } from "react-router-dom";
 import Blind from "../assets/Blind.png";
 import BlindNone from "../assets/Blind_none.png";
+import axios from "axios"; // axios를 import
 
-const Login = () => {
+const Login = ({ API_BASE_URL }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // navigate 함수 생성
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const response = await fetch("https://4thline.kr/services/4line-services", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
+      // API URL과 요청 데이터 확인
+      console.log("로그인 요청 URL:", `${API_BASE_URL}/accounts/login/`);
+      console.log("로그인 요청 데이터:", { username, password });
+
+      const response = await axios.post(`${API_BASE_URL}/accounts/login/`, {
+        username,
+        password,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("accessToken", data.access);
-        // 성공 시 홈으로 이동 (예시)
-        // window.location.href = "/home";
-      } else {
-        const data = await response.json();
-        setError(data.error);
-      }
+      const data = response.data;
+      console.log("로그인 성공:", data); // 성공 시 응답 데이터 출력
+      localStorage.setItem("accessToken", data.access);
+      navigate("/"); // 로그인 성공 시 홈으로 이동
     } catch (error) {
-      setError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+      console.log("로그인 요청 실패:", error); // 오류 객체 출력
+
+      if (error.response && error.response.data) {
+        // 서버에서 보내는 에러 메시지 확인
+        setError(error.response.data.error || "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+        console.log("서버 에러 메시지:", error.response.data.error); // 서버 에러 메시지 로그 출력
+      } else {
+        setError("오류가 발생했습니다. 다시 시도해주세요.");
+        console.log("요청 오류:", error.message); // 일반 오류 메시지 출력
+      }
     }
   };
 

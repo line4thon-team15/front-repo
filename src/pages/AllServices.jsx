@@ -7,7 +7,6 @@ import axios from "axios";
 
 const AllServices = () => {
   const [services, setServices] = useState([]);
-  
 
   useEffect(() => {
     // API 호출하여 데이터 가져오기
