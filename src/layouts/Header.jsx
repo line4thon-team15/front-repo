@@ -4,16 +4,15 @@ import * as Styled from './Header.styled';
 import { useScroll } from './ScrollContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faBars, faCircleArrowRight, faFaceSmile, faUserCheck } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from '../contexts/AuthContext'; // AuthContext import
+import { useAuth } from '../contexts/AuthContext'; 
 import axios from 'axios';
-import LogoutModal from './LogoutModal'; // 로그아웃 모달 컴포넌트 import
+import LogoutModal from './LogoutModal'; 
 
 const Header = ({ isIntro }) => {
-    const [hoveredIndex, setHoveredIndex] = useState(null);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [userName, setUserName] = useState('');
     const { scrollToHome, scrollToRanking } = useScroll();
-    const { isAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
+    const { isAuthenticated, setIsAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
     const navigate = useNavigate();
 
     const API_BASE_URL = import.meta.env.VITE_API_KEY;
@@ -24,7 +23,6 @@ const Header = ({ isIntro }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken"); // 토큰 확인
-        console.log(token);
 
         if (isAuthenticated && token) {
             console.log("Starting API call for user data...");
@@ -49,16 +47,28 @@ const Header = ({ isIntro }) => {
         }
     }, [isAuthenticated, logout, navigate]);
 
+    useEffect(() => {
+        // 페이지가 로드될 때마다 localStorage에서 토큰을 확인하여 로그인 상태 업데이트
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            setIsAuthenticated(true); // 토큰이 존재하면 로그인 상태로 설정
+        } else {
+            setIsAuthenticated(false); // 토큰이 없으면 비로그인 상태로 설정
+        }
+    }, [setIsAuthenticated]);
+
 
     // 로그아웃 모달 열기
     const handleLogoutClick = () => {
         setShowLogoutModal(true);
     };
 
-    // 로그아웃 수행
     const handleLogoutConfirm = () => {
-        logout();
-        setShowLogoutModal(false);
+        logout(); // 로그아웃 처리
+        setShowLogoutModal(false); // 모달 닫기
+        setIsAuthenticated(false); // 로그아웃 후 인증 상태 변경
+        localStorage.removeItem("accessToken"); // 로컬스토리지에서 토큰 제거
+        navigate('/'); // 로그아웃 후 홈으로 리디렉션
     };
 
     return (
