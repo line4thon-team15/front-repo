@@ -1,48 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Styled from "./AllServices.styled";
-import * as DT from '@/detailPage/DetailPage.styled';
+import * as DT from "@/detailPage/DetailPage.styled";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
 import Search from "../assets/Search.png";
 import axios from "axios";
 
-const AllServices = ({API_BASE_URL}) => {
+const AllServices = ({ API_BASE_URL }) => {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('인기순'); // 기본값을 '인기순'으로 설정
+  const [selectedOption, setSelectedOption] = useState("인기순"); // 기본값을 '인기순'으로 설정
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSorting = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
-  
+
     let sortedServices;
     switch (option) {
-      case '인기순':
-        // review_cnt 기준으로 내림차순 정렬
+      case "인기순":
         sortedServices = [...services].sort((a, b) => b.review_cnt - a.review_cnt);
         break;
-      case '높은 평점 순':
-        // score_average 기준으로 내림차순 정렬
+      case "높은 평점 순":
         sortedServices = [...services].sort((a, b) => b.score_average - a.score_average);
         break;
-      case '낮은 평점 순':
-        // score_average 기준으로 오름차순 정렬
+      case "낮은 평점 순":
         sortedServices = [...services].sort((a, b) => a.score_average - b.score_average);
         break;
-      case '최신순':
-        // created_at 기준으로 최신순 정렬
+      case "최신순":
         sortedServices = [...services].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         break;
       default:
         sortedServices = services;
         break;
     }
-  
-    setServices(sortedServices);
+
+    setFilteredServices(sortedServices);
   };
-
-
 
   const navigate = useNavigate();
 
@@ -56,13 +52,12 @@ const AllServices = ({API_BASE_URL}) => {
       .catch((error) => {
         console.error("Error fetching services:", error);
       });
-  }, []);
+  }, [API_BASE_URL]);
 
   const handleSearchChange = (event) => {
     const lowercasedSearchTerm = event.target.value.toLowerCase();
     setSearchTerm(lowercasedSearchTerm);
 
-    // 검색어가 포함된 서비스 필터링
     const filtered = services.filter((service) => {
       const serviceText = `${service.service_name} by ${service.team}팀`.toLowerCase();
       return lowercasedSearchTerm.split("").some((char) => serviceText.includes(char));
@@ -93,46 +88,42 @@ const AllServices = ({API_BASE_URL}) => {
           <p className="subtitle">최고의 서비스를 위해 리뷰해주세요</p>
         </Styled.Title>
 
-        <div id='SearchContainner'>
-          <div style={{width: '120px'}}></div>
+        <div id="SearchContainner">
+          <div style={{ width: "120px" }}></div>
           <Styled.SearchBar>
             <img src={Search} alt="검색 아이콘" className="search-icon" />
-            <input type="text" placeholder="서비스 명으로 검색해보세요" />
+            <input type="text" placeholder="서비스 명으로 검색해보세요" value={searchTerm} onChange={handleSearchChange} />
           </Styled.SearchBar>
 
-          <DT.DropdownWrapper style={{margin: '0', width: '125px', display: 'flex', justifyContent: 'flex-end'  }}>  {/* 토글 버튼 */}
-            <DT.DropdownButtonBox onClick={toggleDropdown} style={{margin: '0', BackgroundColor: 'yellow' }} >
-              <DT.DropdownButton>
-                {selectedOption}
-              </DT.DropdownButton>
+          <DT.DropdownWrapper style={{ margin: "0", width: "125px", display: "flex", justifyContent: "flex-end" }}>
+            <DT.DropdownButtonBox onClick={toggleDropdown} style={{ margin: "0", BackgroundColor: "yellow" }}>
+              <DT.DropdownButton>{selectedOption}</DT.DropdownButton>
               <DT.StyledArray>▼</DT.StyledArray>
             </DT.DropdownButtonBox>
             <DT.DropdownMenu isOpen={isOpen}>
-              <DT.DropdownItem onClick={() => handleSorting('인기순')}>인기순</DT.DropdownItem>
-              <DT.DropdownItem onClick={() => handleSorting('최신순')}>최신순</DT.DropdownItem>
-              <DT.DropdownItem onClick={() => handleSorting('높은 평점 순')}>높은 평점 순</DT.DropdownItem>
-              <DT.DropdownItem onClick={() => handleSorting('낮은 평점 순')}>낮은 평점 순</DT.DropdownItem>
+              <DT.DropdownItem onClick={() => handleSorting("인기순")}>인기순</DT.DropdownItem>
+              <DT.DropdownItem onClick={() => handleSorting("최신순")}>최신순</DT.DropdownItem>
+              <DT.DropdownItem onClick={() => handleSorting("높은 평점 순")}>높은 평점 순</DT.DropdownItem>
+              <DT.DropdownItem onClick={() => handleSorting("낮은 평점 순")}>낮은 평점 순</DT.DropdownItem>
             </DT.DropdownMenu>
           </DT.DropdownWrapper>
         </div>
 
-        {/* 서비스 카드 그리드 */}
         <Styled.CardGrid>
-          {services.map((service) => (
+          {filteredServices.map((service) => (
             <Styled.ServiceCardAll key={service.id} onClick={() => GoDetail(service)}>
               <Styled.ServiceCard>
                 <Styled.CardImage src={service.thumbnail_image} alt={`${service.service_name} 이미지`} />
               </Styled.ServiceCard>
               <Styled.CardText>
-                <span className="service-name">[{service.service_name}]</span> by 팀 {service.team}
+                <span className="service-name">[{service.service_name}]</span> by {service.team}팀
               </Styled.CardText>
             </Styled.ServiceCardAll>
           ))}
         </Styled.CardGrid>
-
       </Styled.Wrapper>
       <Footer />
-    </Styled.AllServices >
+    </Styled.AllServices>
   );
 };
 
