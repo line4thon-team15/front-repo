@@ -32,6 +32,27 @@ export const Header = styled.div`
     justify-content: center; /* Header의 세로 가운데 정렬 */
 `;
 
+export const ServiceInfoButton = styled.div`
+    margin-left: 92%;
+    background-color: #FFD64D;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    position: absolute; /* 위치를 상대적으로 지정 */
+    top: 30px; 
+    right: 30px;
+    transition: all 0.3s ease;
+
+    &:hover{
+        background-color: #FFE39A;
+        transform: scale(1.05);
+    }
+
+`
+export const InfoVector = styled.img`
+    padding: 15px;
+`
+
 export const ThumbnailBox = styled.div`
     color: #FFFFFF;
     width: 100%;
