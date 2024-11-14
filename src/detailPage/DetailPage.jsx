@@ -47,11 +47,13 @@ const DetailPage = ({ API_BASE_URL }) => {
                 const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
                 setServiceData(response.data);
                 setIsLoading(false);
+                console.log("데이터 로드 성공:", response.data);
 
-                // 내가 작성한 리뷰 가져오기 (로그인한 사용자와 일치하는 리뷰 필터링)
-                const userReview = response.data.review.find((r) => r.writer_id === loggedInUserId); // loggedInUserId는 로그인한 사용자 ID
-                setMyReview(userReview);
-
+                const initialLikeStatus = response.data.review.reduce((status, review) => {
+                    status[review.id] = { isLiked: review.is_liked, likesCount: review.likes_count };
+                    return status;
+                }, {});
+                setLikeStatus(initialLikeStatus);
             } catch (error) {
                 console.error("데이터 불러오기 실패:", error);
                 setIsLoading(false);
@@ -62,7 +64,7 @@ const DetailPage = ({ API_BASE_URL }) => {
     }, [API_BASE_URL, params.teamId]);
 
     const toggleLike = async (reviewId) => {
-        if (!isAuthenticated) { // 로그인 상태 확인
+        if (!isAuthenticated) {
             alert("로그인이 필요합니다.");
             navigate("/login");
             return;
@@ -73,18 +75,16 @@ const DetailPage = ({ API_BASE_URL }) => {
             const updatedIsLiked = !currentStatus.isLiked;
             const updatedLikesCount = updatedIsLiked ? currentStatus.likesCount + 1 : currentStatus.likesCount - 1;
 
-            // 서버에 좋아요 상태 업데이트
             await axios.post(
                 `${API_BASE_URL}/reviews/${reviewId}/like/`,
                 {},
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`, // 인증 토큰 추가
+                        Authorization: `Bearer ${accessToken}`,
                     },
                 }
             );
 
-            // 상태 업데이트
             setLikeStatus({
                 ...likeStatus,
                 [reviewId]: {
@@ -96,6 +96,7 @@ const DetailPage = ({ API_BASE_URL }) => {
             console.error("좋아요 업데이트 실패:", error);
         }
     };
+
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
@@ -137,7 +138,7 @@ const DetailPage = ({ API_BASE_URL }) => {
     };
 
     const handleReviewClick = () => {
-        if (!serviceData.content) {
+        if (!serviceData.service_name) {
             alert("현재 등록된 서비스가 없습니다.");
         } else {
             navigate(`/write-review/${teamId}/`);
@@ -152,14 +153,13 @@ const DetailPage = ({ API_BASE_URL }) => {
             <Header isWhiteBackground={true} />
             <Styled.Content>
                 <Styled.Header>
-                <Styled.ThumbnailBox>
-                    {serviceData.thumbnail_image ? (
-                        <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
-                    ) : (
-                        <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
-                    )}
-                </Styled.ThumbnailBox>
-
+                    <Styled.ThumbnailBox>
+                        {serviceData.thumbnail_image ? (
+                            <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+                        ) : (
+                            <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
+                        )}
+                    </Styled.ThumbnailBox>
                 </Styled.Header>
 
                 <Styled.Line>
@@ -224,7 +224,6 @@ const DetailPage = ({ API_BASE_URL }) => {
                     <Styled.ServicePhoto>발표자료</Styled.ServicePhoto>
                     <Styled.PhotoCount>{serviceData.presentation_cnt}</Styled.PhotoCount>
                 </Styled.ServicePhotoBox>
-
                 <Styled.PhotoBox>
                     {serviceData.presentations && serviceData.presentations.map((presentation, index) => (
                         <Styled.ExImage
@@ -253,48 +252,18 @@ const DetailPage = ({ API_BASE_URL }) => {
                 </Styled.FullScreenModal>
             )}
 
-            // 로그인 여부와 작성한 리뷰 여부에 따른 조건 분기
-            {isAuthenticated && (
-                myReview ? (
-                    // 로그인 상태에서 내가 작성한 리뷰가 있을 경우
-                    <Styled.ReviewContent>
-                        <Styled.User>
-                            <Styled.UserNameBox>
-                                <Styled.UserName>{myReview.univ} {myReview.writer_name}</Styled.UserName>
-                                <Styled.UserInfo>
-                                    {myReview.team ? `${myReview.team}팀` : ''} {myReview.writer_service ? `· ${myReview.writer_service}` : ''}
-                                </Styled.UserInfo>
-                            </Styled.UserNameBox>
-                            <Styled.UserStarBox>
-                                <Styled.UserStar src={greenStar} alt="star" />
-                                <Styled.ScoreNum>{myReview.score}</Styled.ScoreNum>
-                            </Styled.UserStarBox>
-                        </Styled.User>
-                        <Styled.UserReviewContent>{myReview.review}</Styled.UserReviewContent>
-                        <Styled.HeartBox>
-                            <Styled.HeartButton onClick={() => toggleLike(myReview.id)}>
-                                <FontAwesomeIcon icon={likeStatus[myReview.id]?.isLiked ? solidHeart : regularHeart} />
-                            </Styled.HeartButton>
-                            <Styled.HeartCount>{likeStatus[myReview.id]?.likesCount}</Styled.HeartCount>
-                        </Styled.HeartBox>
-                    </Styled.ReviewContent>
-                ) : (
-                    // 로그인 상태에서 내가 작성한 리뷰가 없을 경우
-                    <Styled.MyFeedback>
-                        <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
-                        <Styled.RankingBox>
-                            <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
-                            <Styled.Star src={fiveStars} alt="five stars"/>
-                            <Styled.WriteReviewButton 
-                                src={writeFeedbackbtn} 
-                                alt="피드백 작성 버튼" 
-                                onClick={handleReviewClick} 
-                            />
-                        </Styled.RankingBox>
-                    </Styled.MyFeedback>
-                )
-            )}
-
+                <Styled.MyFeedback>
+                    <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
+                    <Styled.RankingBox>
+                        <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
+                        <Styled.Star src={fiveStars} alt="five stars"/>
+                        <Styled.WriteReviewButton 
+                            src={writeFeedbackbtn} 
+                            alt="피드백 작성 버튼" 
+                            onClick={handleReviewClick} 
+                        />
+                    </Styled.RankingBox>
+                </Styled.MyFeedback>
                 
                 <Styled.UserReviews>
                     <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
