@@ -3,15 +3,15 @@ import styled from "styled-components";
 export const AllServices = styled.div`
   display: flex;
   flex-direction: column;
-  
 
-  #SearchContainner{
+  #SearchContainner {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
   }
-`
+`;
 
 export const Wrapper = styled.div`
   display: flex;
@@ -34,7 +34,6 @@ export const Content = styled.div`
 export const TitleTop = styled.div`
   display: flex;
   flex-direction: row;
-
 `;
 
 // MenuBar 스타일 정의
@@ -126,10 +125,11 @@ export const CardGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  width: calc(100%);
+  width: 100%;
   max-width: 1200px;
-  margin: 40px px;
+  margin: 40px 0;
   justify-items: center;
+  min-height: calc(100vh - 500px); /* 화면 높이에서 다른 요소 높이를 뺀 값 */
 `;
 
 // ServiceCard 스타일 정의
