@@ -125,6 +125,9 @@ export const UserReviewCount = styled.div`
     padding: 30px 20px 10px 10px;
     color: #AAAAAA;
 `
+
+export const Service = styled.div`
+`
 export const ReviewList = styled.div`
     margin-top: 10px;
     display: flex;
@@ -143,6 +146,7 @@ export const ReviewService = styled.div`
     border-radius: 10px;
 
 `
+
 
 export const ThumbnailPic = styled.div`
     margin-left: 10px;

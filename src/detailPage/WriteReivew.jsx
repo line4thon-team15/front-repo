@@ -3,16 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import * as Styled from './WriteReview.styled';
 import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
-import easy from '../assets/easy.svg';
-import simple from '../assets/simple.png';
-import errorfree from '../assets/errorfree.svg';
-import design from '../assets/design.svg';
-import growth from '../assets/growth.svg';
-import feedback from '../assets/feedback.svg';
-import basic from '../assets/basic.svg';
-import reuse from '../assets/reuse.png';
-import loading from '../assets/loading.svg';
-import original from '../assets/original.svg';
+import EASY from '../assets/easy.svg';
+import SIMPLE from '../assets/simple.png';
+import ERROR_FREE from '../assets/errorfree.svg';
+import DESIGN from '../assets/design.svg';
+import GROWTH from '../assets/growth.svg';
+import FEEDBACK from '../assets/feedback.svg';
+import BASIC from '../assets/basic.svg';
+import REUSE from '../assets/reuse.jpg';
+import LOADING from '../assets/loading.svg';
+import ORIGINAL from '../assets/original.svg';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import HeartRating from './HeartRating';
@@ -26,26 +26,36 @@ import basicS from '../assets/basicS.svg';
 import reuseS from '../assets/reuseS.png';
 import loadingS from '../assets/loadingS.svg';
 import originalS from '../assets/originalS.svg';
+import { useAuth } from '../contexts/AuthContext';
 
 const WriteReview = ({ API_BASE_URL }) => {
+    const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
-    const { service_id } = useParams();
-    console.log("service_id:", service_id);
+    const { service_id } = useParams(); // URL에서 service_id를 가져옵니다.
+    console.log("useParams에서 받아온 service_id:", service_id); // service_id 값 확인
 
+     // 로그인 여부 확인
+     if (!isAuthenticated) {
+        alert("로그인이 필요합니다.");
+        navigate("/login");
+        return null; // 로그인 상태가 아니면 컴포넌트를 렌더링하지 않음
+    }
+
+    // 로그인 상태라면 이하의 코드가 실행됩니다
     const [review, setReviewText] = useState('');
-    const [rating, setRating] = useState(0);
+    const [score, setScore] = useState(0); // rating 대신 score로 상태 이름 변경
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedImages, setSelectedImages] = useState({
-        easy: false,
-        simple: false,
-        errorfree: false,
-        design: false,
-        growth: false,
-        feedback: false,
-        basic: false,
-        reuse: false,
-        loading: false,
-        original: false
+        EASY: false,
+        SIMPLE: false,
+        ERROR_FREE: false,
+        DESIGN: false,
+        GROWTH: false,
+        FEEDBACK: false,
+        BASIC: false,
+        REUSE: false,
+        LOADING: false,
+        ORIGINAL: false
     });
     
     const maxChars = 400;
@@ -77,34 +87,55 @@ const WriteReview = ({ API_BASE_URL }) => {
         }));
     };
     
-    console.log("API URL:", `${API_BASE_URL}/services/4line-services/${service_id}`);
-
     const handleSubmit = async () => {
-        if (!review || rating === 0) {
-            alert("리뷰와 평점을 입력해주세요.");
-            return;
-        }
-
-        if (!API_BASE_URL || !service_id) {
-            console.error("API_BASE_URL 또는 service_id가 정의되지 않았습니다");
-            alert("URL에 문제가 있습니다. 다시 시도해 주세요.");
-            return;
-        }
-        
         try {
-            const response = await axios.patch(`${API_BASE_URL}/services/4line-services/${service_id}`, {
-                score: rating,
-                tags: selectedTags,
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) throw new Error('Access token not found');
+    
+            const url = `${API_BASE_URL}/services/4line-services/${service_id}/`;
+    
+            const response = await axios.post(
+                url,
+                {
+                    score: score,
+                    tags: selectedTags, // 선택된 태그만 포함
+                    review: review
+                },
+                {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                }
+            );
+
+            console.log("전송할 데이터:", {
+                score: score,
+                tags: selectedTags, // 선택된 태그만 포함
                 review: review
             });
-            console.log("리뷰 등록 성공:", response.data);
+    
+            console.log("리뷰 생성 성공:", response.data);
+            console.log("Service ID:", service_id);
+            console.log("Request URL:", url);
+
+    
+            // 생성 성공 후 상태 초기화 및 페이지 이동
+            setReviewText("");
+            setScore(0);
+            setSelectedTags([]);
             navigate(`/Detail/${service_id}`);
+    
         } catch (error) {
-            console.error("리뷰 등록 실패:", error);
-            alert("리뷰 등록 중 오류가 발생했습니다. 다시 시도해주세요.");
+            if (error.response && error.response.status === 404) {
+                alert('리뷰 생성에 실패했습니다.');
+            } else {
+                console.error('리뷰 생성 오류:', error.message || error);
+                alert('리뷰 생성에 실패했습니다.');
+            }
         }
     };
+    
 
+
+ 
     return (
         <Styled.Wrapper>
             <Header isWhiteBackground={true} />
@@ -118,7 +149,7 @@ const WriteReview = ({ API_BASE_URL }) => {
                 <Styled.Background>
                     <Styled.InfoBox>
                         <Styled.InfoTitle>서비스 이름의 사용 경험을 들려주세요!</Styled.InfoTitle>
-                        <HeartRating rating={rating} setRating={setRating} />
+                        <HeartRating rating={score} setRating={setScore} /> {/* score와 setScore를 전달 */}
                         <Styled.Rating>
                             <Styled.RatingAsk>어떤 점이 좋았나요?</Styled.RatingAsk>
                             <Styled.RatingFive>5개까지 선택할 수 있어요</Styled.RatingFive>
@@ -128,58 +159,58 @@ const WriteReview = ({ API_BASE_URL }) => {
                             <Styled.RatingBox1>
                                 <Styled.RatingSelect>UI/편의성</Styled.RatingSelect>
                                 <Styled.Easy
-                                    src={selectedImages.easy ? easyS : easy}
+                                    src={selectedImages.EASY ? easyS : EASY}
                                     alt="easy"
-                                    onClick={() => handleTagToggle('easy')}
+                                    onClick={() => handleTagToggle('EASY')}
                                 />
                                 <Styled.Simple
-                                    src={selectedImages.simple ? simpleS : simple}
+                                    src={selectedImages.SIMPLE ? simpleS : SIMPLE}
                                     alt="simple"
-                                    onClick={() => handleTagToggle('simple')}
+                                    onClick={() => handleTagToggle('SIMPLE')}
                                 />
                                 <Styled.Errorfree
-                                    src={selectedImages.errorfree ? errorfreeS : errorfree}
+                                    src={selectedImages.ERROR_FREE ? errorfreeS : ERROR_FREE}
                                     alt="errorfree"
-                                    onClick={() => handleTagToggle('errorfree')}
+                                    onClick={() => handleTagToggle('ERROR_FREE')}
                                 />
                                 <Styled.Design
-                                    src={selectedImages.design ? designS : design}
+                                    src={selectedImages.DESIGN ? designS : DESIGN}
                                     alt="design"
-                                    onClick={() => handleTagToggle('design')}
+                                    onClick={() => handleTagToggle('DESIGN')}
                                 />
                                 <Styled.Growth
-                                    src={selectedImages.growth ? growthS : growth}
+                                    src={selectedImages.GROWTH ? growthS : GROWTH}
                                     alt="growth"
-                                    onClick={() => handleTagToggle('growth')}
+                                    onClick={() => handleTagToggle('GROWTH')}
                                 />
                                 <Styled.Feedback
-                                    src={selectedImages.feedback ? feedbackS : feedback}
+                                    src={selectedImages.FEEDBACK ? feedbackS : FEEDBACK}
                                     alt="feedback"
-                                    onClick={() => handleTagToggle('feedback')}
+                                    onClick={() => handleTagToggle('FEEDBACK')}
                                 />
                                                                                                 
                             </Styled.RatingBox1>
                             <Styled.RatingBox2>
                                 <Styled.RatingSelect2>독창성/완성도</Styled.RatingSelect2>
                                 <Styled.Basic
-                                    src={selectedImages.basic ? basicS : basic}
+                                    src={selectedImages.BASIC ? basicS : BASIC}
                                     alt="basic"
-                                    onClick={() => handleTagToggle('basic')}
+                                    onClick={() => handleTagToggle('BASIC')}
                                 />
                                 <Styled.Reuse
-                                    src={selectedImages.reuse ? reuseS : reuse}
+                                    src={selectedImages.REUSE ? reuseS : REUSE}
                                     alt="reuse"
-                                    onClick={() => handleTagToggle('reuse')}
+                                    onClick={() => handleTagToggle('REUSE')}
                                 />
                                 <Styled.Loading
-                                    src={selectedImages.loading ? loadingS : loading}
+                                    src={selectedImages.LOADING ? loadingS : LOADING}
                                     alt="loading"
-                                    onClick={() => handleTagToggle('loading')}
+                                    onClick={() => handleTagToggle('LOADING')}
                                 />
                                 <Styled.Original
-                                    src={selectedImages.original ? originalS : original}
+                                    src={selectedImages.ORIGINAL ? originalS : ORIGINAL}
                                     alt="original"
-                                    onClick={() => handleTagToggle('original')}
+                                    onClick={() => handleTagToggle('ORIGINAL')}
                                 />
 
 
