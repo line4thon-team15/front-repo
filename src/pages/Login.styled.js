@@ -66,7 +66,7 @@ export const LoginBody = styled.div`
 
 export const TabContainer = styled.div`
   display: flex;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   overflow: hidden;
 `;
 
