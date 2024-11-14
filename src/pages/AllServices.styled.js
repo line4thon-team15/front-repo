@@ -161,8 +161,3 @@ export const CardText = styled.div`
 `;
 
 export const Box = styled.div``;
-
-
-
-
-

@@ -13,6 +13,8 @@ import InputServiceInfo from "../detailPage/InputServiceInfo";
 import DetailPage from "../detailPage/DetailPage";
 import WriteReview from "../detailPage/WriteReivew";
 
+import Ranking from "../pages/Ranking";
+
 const LayoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,7 +37,7 @@ const Routes = () => {
       <ContentWrapper>
         <ReactRoutes>
           <Route path="/" element={<MainPage API_BASE_URL={API_BASE_URL} />} />
-          <Route path="/all-services" element={<AllServices />} />
+          <Route path="/all-services" element={<AllServices API_BASE_URL={API_BASE_URL} />} />
           <Route path="/my-service" element={<MyService />} />
           <Route path="/my-page" element={<MyPage />} />
           <Route path="/login" element={<Login API_BASE_URL={API_BASE_URL} />} />
@@ -43,6 +45,7 @@ const Routes = () => {
           <Route path="/Detail/:teamId" element={<DetailPage API_BASE_URL={API_BASE_URL} />} />
           <Route path="/write-review" element={<WriteReview />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/ranking" element={<Ranking API_BASE_URL={API_BASE_URL} />} />
         </ReactRoutes>
       </ContentWrapper>
     </LayoutWrapper>
