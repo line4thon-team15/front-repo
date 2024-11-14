@@ -5,9 +5,9 @@ import * as Styled from './Header.styled';
 import { useScroll } from './ScrollContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faBars, faCircleArrowRight, faFaceSmile, faUserCheck } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from '../contexts/AuthContext'; 
+import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
-import LogoutModal from './LogoutModal'; 
+import LogoutModal from './LogoutModal';
 
 const Header = ({ isIntro }) => {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -23,6 +23,7 @@ const Header = ({ isIntro }) => {
         navigate('/')
     };
 
+    //이름 가져오기
     useEffect(() => {
         const token = localStorage.getItem("accessToken"); // 토큰 확인
 
@@ -49,8 +50,8 @@ const Header = ({ isIntro }) => {
         }
     }, [isAuthenticated, logout, navigate]);
 
+    // 페이지가 로드될 때마다 localStorage에서 토큰을 확인하여 로그인 상태 업데이트
     useEffect(() => {
-        // 페이지가 로드될 때마다 localStorage에서 토큰을 확인하여 로그인 상태 업데이트
         const token = localStorage.getItem("accessToken");
         if (token) {
             setIsAuthenticated(true); // 토큰이 존재하면 로그인 상태로 설정
@@ -73,6 +74,34 @@ const Header = ({ isIntro }) => {
         navigate('/'); // 로그아웃 후 홈으로 리디렉션
     };
 
+    // 내 서비스 버튼 클릭 시 참여자 여부 확인
+    const handleMyServiceClick = async () => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/services/my-service`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+    
+                if (response.data[0].service_member) {
+                    // 참여자인 경우
+                    navigate(`Detail/${response.data[0].id}`);
+                } else {
+                    // 외부인인 경우
+                    alert('내 서비스는 해커톤 참여자만 접근할 수 있습니다.');
+                }
+            } catch (error) {
+                console.error('Error checking service member status:', error);
+                alert('내 서비스는 해커톤 참여자만 접근할 수 있습니다.');
+            }
+        } else {
+            alert('로그인이 필요합니다.');
+            navigate('/login');
+        }
+    };
+
     return (
         <Styled.Wrapper>
             <Styled.Logo $isWhiteBackground={isIntro}>
@@ -85,16 +114,12 @@ const Header = ({ isIntro }) => {
             <Styled.Navbar>
                 <ul>
                     <Styled.NavItem
-                        onMouseEnter={() => setHoveredIndex(0)}
-                        onMouseLeave={() => setHoveredIndex(null)}
                         onClick={scrollToRanking}
                     >
                         <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faCrown} /> &nbsp;랭킹</Styled.NavButton>
                     </Styled.NavItem>
 
                     <Styled.NavItem
-                        onMouseEnter={() => setHoveredIndex(1)}
-                        onMouseLeave={() => setHoveredIndex(null)}
                     >
                         <Link to="/all-services">
                             <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faBars} /> &nbsp;전체 서비스</Styled.NavButton>
@@ -102,17 +127,15 @@ const Header = ({ isIntro }) => {
                     </Styled.NavItem>
 
                     <Styled.NavItem
-                        onMouseEnter={() => setHoveredIndex(2)}
-                        onMouseLeave={() => setHoveredIndex(null)}
                     >
-                        <Link to="/my-service">
-                            <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faCircleArrowRight} /> &nbsp;내 서비스</Styled.NavButton>
-                        </Link>
+                        
+                            <Styled.NavButton $isWhiteBackground={isIntro} onClick={handleMyServiceClick}>
+                                <FontAwesomeIcon icon={faCircleArrowRight} /> &nbsp;내 서비스
+                            </Styled.NavButton>
+                     
                     </Styled.NavItem>
 
                     <Styled.NavItem
-                        onMouseEnter={() => setHoveredIndex(3)}
-                        onMouseLeave={() => setHoveredIndex(null)}
                     >
                         <Link to="/my-page">
                             <Styled.NavButton $isWhiteBackground={isIntro}>

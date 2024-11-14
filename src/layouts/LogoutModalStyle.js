@@ -19,6 +19,7 @@ export const ModalContent = styled.div`
     border-radius: 8px;
     width: 300px;
     text-align: center;
+    z-index: 1000;
 `;
 
 export const ButtonContainer = styled.div`
