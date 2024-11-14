@@ -2,29 +2,24 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 // Wrapper 스타일 정의
-export const Wrapper = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: calc(100% - 200px);
-  height: calc(100% - 120px);
-  background-color: #e9ecef;
-`;
-
-// MenuBar 스타일 정의
-export const MenuBar = styled.div`
-  font-size: 1rem;
-  width: 100%;
-  padding: 10px;
-  background-color: white;
-  text-align: center;
-  font-weight: bold;
+export const MainAllPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  width: calc(100% - 220px);
+  margin-left: 200px;
+  padding: 40px 10px;
+  scroll-snap-align: start;
 `;
 
 // Title 스타일 정의
 export const Title = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
   margin: 20px 0;
   font-family: Arial, sans-serif;
 

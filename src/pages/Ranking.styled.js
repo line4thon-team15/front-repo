@@ -1,15 +1,17 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const RankingPage = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  margin-left: 200px;
+  width: calc(100vw - 200px);
+  height: 100vh;
   background-color: white;
+  scroll-snap-align: start;
 `;
 
 export const Content = styled.div`
-  flex: 1;
+  height: 100vh;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -78,8 +80,7 @@ export const FirstPlaceImage = styled.img`
 
 export const FirstPlaceInfo = styled.div`
   display: flex;
-  flex-direction: row;S
-;
+  flex-direction: row;
 `;
 
 export const ServiceDescription = styled.p`
