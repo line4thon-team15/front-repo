@@ -10,18 +10,24 @@ export const ErrorMessage = styled.p`
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
+  min-height: 100vh;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 60px;
 `;
 
 export const Content = styled.div`
-  width: 380px;
-  padding: 30px;
+  width: 500px;
+  padding: 40px;
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 200px;
   margin-top: 30px;
   margin-bottom: 150px;
 `;
@@ -50,7 +56,7 @@ export const StyledH2 = styled.h2`
 export const StyledH1 = styled.h1`
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   color: black;
   margin-left: 5px;
 `;

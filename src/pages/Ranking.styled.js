@@ -89,6 +89,8 @@ export const FirstPlace = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 24px;
+
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 `;
 
 export const FirstPlaceImage = styled.img`
@@ -157,6 +159,8 @@ export const ServiceName = styled.div`
 export const Arrow = styled.div`
   font-size: 24px;
   color: #999;
+
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 `;
 
 export const ServiceNameFirst = styled.div`
