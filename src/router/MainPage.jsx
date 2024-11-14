@@ -43,7 +43,7 @@ const MainPage = ({ API_BASE_URL }) => {
       <div style={{ position: "sticky", top: 0, width: "200px", height: "100vh" }}>
         <Header isIntro={isIntro} /> {/* isIntro 상태를 prop으로 전달 */}
       </div>
-      <Ranking ref={rankingRef} id="ranking" />
+      <Ranking ref={rankingRef} id="ranking" API_BASE_URL={API_BASE_URL} />
       <MainAllServices ref={servicesRef} API_BASE_URL={API_BASE_URL} />
       <Footer />
     </M.MainPage>
