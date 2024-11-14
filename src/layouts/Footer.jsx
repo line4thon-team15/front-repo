@@ -6,18 +6,18 @@ import FooterAnimation from '@/assets/Lotties/SubwayAnii.json'
 const Footer = () => {
   return (
     <Styled.Wrapper>
-      <Lottie
+      {/* <Lottie
         animationData={FooterAnimation}
         loop={true}       // 반복 애니메이션
         style={{
-          width: '220px',
+          width: '210px',
           position: 'absolute',
-          left: '-15px',
-          bottom: '150px',
+          left: '-10px',
+          bottom: '118px',
           zIndex: '0',
           // opacity: '30%',
         }}  // 아이콘 크기 조정
-      />
+      /> */}
       <Styled.List>
         <Styled.ListItem style={{ zIndex: '1' }}>
           PD 전효준<br />

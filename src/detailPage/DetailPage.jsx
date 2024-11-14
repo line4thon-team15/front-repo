@@ -261,7 +261,6 @@ const DetailPage = ({ API_BASE_URL }) => {
                             </Styled.DropdownButton>
                             <Styled.StyledArray>▼</Styled.StyledArray>
                         </Styled.DropdownButtonBox>
-                            
                             <Styled.DropdownMenu isOpen={isOpen}>
                                 <Styled.DropdownItem onClick={() => handleSelection('인기순')}>인기순</Styled.DropdownItem>
                                 <Styled.DropdownItem onClick={() => handleSelection('최신순')}>최신순</Styled.DropdownItem>

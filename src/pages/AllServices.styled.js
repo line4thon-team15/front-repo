@@ -1,11 +1,24 @@
 import styled from "styled-components";
 
+export const AllServices = styled.div`
+  display: flex;
+  flex-direction: column;
+  
+
+  #SearchContainner{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+`
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 60px 0 60px 200px;
+  padding: 30px 10px 0px 210px;
   align-items: center;
 `;
 
@@ -21,6 +34,7 @@ export const Content = styled.div`
 export const TitleTop = styled.div`
   display: flex;
   flex-direction: row;
+
 `;
 
 // MenuBar 스타일 정의
@@ -69,13 +83,13 @@ export const Title = styled.div`
 // SearchBar 스타일 정의
 export const SearchBar = styled.div`
   display: flex;
+  height: min-content;
   align-items: center;
   background-color: #e1e1e1;
   padding: 10px 16px;
   border-radius: 8px;
-  width: 100%;
-  max-width: 600px;
-  margin-top: 20px;
+  flex-grow: 1;
+  max-width: 800px;
 
   .search-icon {
     width: 20px;
@@ -114,7 +128,7 @@ export const CardGrid = styled.div`
   gap: 20px;
   width: calc(100%);
   max-width: 1200px;
-  margin-top: 40px;
+  margin: 40px px;
   justify-items: center;
 `;
 
