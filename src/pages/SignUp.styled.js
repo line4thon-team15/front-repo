@@ -12,7 +12,7 @@ export const Content = styled.div`
   background-color: #f6f6f6;
   position: relative;
   margin-left: 200px;
-  width: calc(100%-200px);
+  width: calc(100% - 200px);
   flex-grow: 1;
 `;
 
@@ -22,8 +22,7 @@ export const SignUpContainer = styled.div`
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  margin-left: 400px; /* 사이드바를 고려한 마진 */
+  margin-left: 400px;
   margin-top: 50px;
   margin-bottom: 150px;
 `;
@@ -134,7 +133,6 @@ export const Information = styled.div`
 
 export const UnivAndTeam = styled.div`
   margin-top: 30px;
-  // margin-bottom: 90px;
   width: 470px;
   background-color: white;
 `;
@@ -173,7 +171,7 @@ export const ToggleButton = styled.button`
   cursor: pointer;
 
   img {
-    width: 20px; /* 이미지 크기 조절 */
+    width: 20px;
     height: 20px;
   }
 `;
@@ -185,7 +183,7 @@ export const ParticipantOptions = styled.div`
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   margin-left: 25px;
   overflow: hidden;
-  margin-top: 0; /* 위쪽 여백 제거 */
+  margin-top: 0;
 `;
 
 export const Option = styled.div`
@@ -204,16 +202,12 @@ export const Option = styled.div`
   &:hover {
     background-color: #e0e0e0;
   }
-
-  &:nth-child(2) {
-    color: #4f5500;
-  }
 `;
 
 export const LoginButton = styled.button`
   width: 450px;
   padding: 12px;
-  background-color: ${(props) => (props.disabled ? "#d3d3d3" : "#03f")}; /* 비활성화일 때는 회색, 활성화일 때 파란색 */
+  background-color: ${(props) => (props.disabled ? "#d3d3d3" : "#03f")};
   color: #ffffff;
   border: none;
   border-radius: 10px;
