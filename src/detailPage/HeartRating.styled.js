@@ -13,7 +13,7 @@ export const HeartContainer = styled.div`
 export const Heart = styled.div`
     width: 50px;
     height: 50px;
-    background-color: #E0E0E0;
+    background-color: #A9A9A9;
     clip-path: polygon(
         50% 0%,
         61% 35%,
@@ -37,7 +37,7 @@ export const Heart = styled.div`
     ${({ halfFilled }) =>
         halfFilled === "true" &&
         `
-        background: linear-gradient(to right, #D6FF22 50%, #E0E0E0 50%);
+        background: linear-gradient(to right, #D6FF22 50%, #A9A9A9 50%);
     `}
 `;
 

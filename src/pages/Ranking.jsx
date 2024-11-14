@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // navigate 추가
 import * as Styled from "./Ranking.styled";
 import ArrowImage from "../assets/Arrowright.png";
 import RankingImage from "../assets/Ranking.png";
+import axios from "axios";
 
 const Ranking = ({ API_BASE_URL }) => {
   const [rankingServices, setRankingServices] = useState([]);
   const [badgeServices, setBadgeServices] = useState([]);
-  const token = localStorage.getItem("accessToken");
+  const navigate = useNavigate(); // navigate 초기화
 
-  const totalScoreApiUrl = `${API_BASE_URL}/main/HOF-score`;
-  const badgeApiUrl = `${API_BASE_URL}/main/HOF_badge`;
+  const totalScoreApiUrl = `${API_BASE_URL}/main/HOF-score/`;
+  const badgeApiUrl = `${API_BASE_URL}/main/HOF-badge/`;
+
+  const GoDetail = (service) => {
+    navigate(`/Detail/${service.id}`);
+  };
 
   useEffect(() => {
     const fetchTotalScoreData = async () => {
       try {
-        const response = await fetch(totalScoreApiUrl, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+        const response = await axios.get(totalScoreApiUrl, {
+          headers: { "Content-Type": "application/json" },
         });
-
-        const data = await response.json();
-        setRankingServices(data);
+        console.log("Total Score Data:", response.data);
+        setRankingServices(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("총 별점 데이터를 가져오는 중 오류 발생:", error);
       }
@@ -31,25 +32,21 @@ const Ranking = ({ API_BASE_URL }) => {
 
     const fetchBadgeData = async () => {
       try {
-        const response = await fetch(badgeApiUrl, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+        const response = await axios.get(badgeApiUrl, {
+          headers: { "Content-Type": "application/json" },
         });
-
-        const data = await response.json();
-        setBadgeServices(data);
+        console.log("Badge Data:", response.data);
+        setBadgeServices(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("뱃지 데이터를 가져오는 중 오류 발생:", error);
       }
     };
 
-    // 두 가지 데이터를 모두 호출하도록 수정
-    fetchTotalScoreData();
-    fetchBadgeData();
-  }, [token, totalScoreApiUrl, badgeApiUrl]);
+    if (API_BASE_URL) {
+      fetchTotalScoreData();
+      fetchBadgeData();
+    }
+  }, [API_BASE_URL]);
 
   return (
     <Styled.RankingPage>
@@ -71,26 +68,26 @@ const Ranking = ({ API_BASE_URL }) => {
             </Styled.SectionTitleAll>
 
             {/* 1등 항목 */}
-            {rankingServices.length > 0 && (
-              <Styled.FirstPlace as="a" href={rankingServices[0].site_url} target="_blank" rel="noopener noreferrer">
-                <Styled.FirstPlaceImage src={rankingServices[0].thumbnail_image} alt={`Service ${rankingServices[0].id}`} />
+            {rankingServices[0] && (
+              <Styled.FirstPlace onClick={() => GoDetail(rankingServices[0])}>
+                <Styled.FirstPlaceImage src={rankingServices[0].thumbnail_image || ""} alt={`Service ${rankingServices[0].id}`} />
                 <Styled.FirstPlaceInfo>
-                  <Styled.ServiceNameFirst>{rankingServices[0].service_name}</Styled.ServiceNameFirst>
-                  <Styled.ServiceDescriptionFirst>{rankingServices[0].team_name}</Styled.ServiceDescriptionFirst>
+                  <Styled.ServiceNameFirst>[{rankingServices[0].service_name || "Unknown Service"}]</Styled.ServiceNameFirst>
+                  <Styled.ServiceDescriptionFirst>{rankingServices[0].intro || "서비스 한줄소개"}</Styled.ServiceDescriptionFirst>
                 </Styled.FirstPlaceInfo>
               </Styled.FirstPlace>
             )}
 
-            {/* 2등부터 나머지 항목들 */}
+            {/* 2, 3, 4, 5위 항목 */}
             <Styled.ServiceList>
-              {rankingServices.slice(1).map((service) => (
-                <Styled.ServiceItem key={service.id}>
-                  <Styled.Rank>{service.total_score}</Styled.Rank>
-                  <Styled.ServiceImage src={service.thumbnail_image} alt={`Service ${service.id}`} />
+              {[1, 2, 3, 4].map((index) => (
+                <Styled.ServiceItem key={index} onClick={() => GoDetail(rankingServices[index])}>
+                  <Styled.Rank>{index + 1}</Styled.Rank>
+                  <Styled.ServiceImage src={rankingServices[index]?.thumbnail_image || ""} alt={`Service ${rankingServices[index]?.id || "Unknown"}`} />
                   <Styled.ServiceInfo>
-                    <Styled.ServiceName>{service.service_name}</Styled.ServiceName>
+                    <Styled.ServiceName>[{rankingServices[index]?.service_name || "Unknown Service"}]</Styled.ServiceName>
                   </Styled.ServiceInfo>
-                  <Styled.Arrow as="a" href={service.site_url} target="_blank" rel="noopener noreferrer">
+                  <Styled.Arrow>
                     <img src={ArrowImage} alt="Arrow Right" width="24" height="24" />
                   </Styled.Arrow>
                 </Styled.ServiceItem>
@@ -106,26 +103,26 @@ const Ranking = ({ API_BASE_URL }) => {
             </Styled.SectionTitleAll>
 
             {/* 1등 항목 */}
-            {badgeServices.length > 0 && (
-              <Styled.FirstPlace as="a" href={badgeServices[0].site_url} target="_blank" rel="noopener noreferrer">
-                <Styled.FirstPlaceImage src={badgeServices[0].thumbnail_image} alt={`Service ${badgeServices[0].id}`} />
+            {rankingServices[0] && (
+              <Styled.FirstPlace onClick={() => GoDetail(rankingServices[0])}>
+                <Styled.FirstPlaceImage src={rankingServices[0].thumbnail_image || ""} alt={`Service ${rankingServices[0].id}`} />
                 <Styled.FirstPlaceInfo>
-                  <Styled.ServiceNameFirst>{badgeServices[0].service_name}</Styled.ServiceNameFirst>
-                  <Styled.ServiceDescriptionFirst>{badgeServices[0].team_name}</Styled.ServiceDescriptionFirst>
+                  <Styled.ServiceNameFirst>[{rankingServices[0].service_name || "Unknown Service"}]</Styled.ServiceNameFirst>
+                  <Styled.ServiceDescriptionFirst>{rankingServices[0].intro || "서비스 한줄소개"}</Styled.ServiceDescriptionFirst>
                 </Styled.FirstPlaceInfo>
               </Styled.FirstPlace>
             )}
 
-            {/* 2등부터 나머지 항목들 */}
+            {/* 2, 3, 4, 5위 항목 */}
             <Styled.ServiceList>
-              {badgeServices.slice(1).map((service) => (
-                <Styled.ServiceItem key={service.id}>
-                  <Styled.Rank>{service.tag_num}</Styled.Rank>
-                  <Styled.ServiceImage src={service.thumbnail_image} alt={`Service ${service.id}`} />
+              {[1, 2, 3, 4].map((index) => (
+                <Styled.ServiceItem key={index} onClick={() => GoDetail(badgeServices[index])}>
+                  <Styled.Rank>{index + 1}</Styled.Rank>
+                  <Styled.ServiceImage src={badgeServices[index]?.thumbnail_image || ""} alt={`Service ${badgeServices[index]?.id || "Unknown"}`} />
                   <Styled.ServiceInfo>
-                    <Styled.ServiceName>{service.service_name}</Styled.ServiceName>
+                    <Styled.ServiceName>[{badgeServices[index]?.service_name || "Unknown Service"}]</Styled.ServiceName>
                   </Styled.ServiceInfo>
-                  <Styled.Arrow as="a" href={service.site_url} target="_blank" rel="noopener noreferrer">
+                  <Styled.Arrow>
                     <img src={ArrowImage} alt="Arrow Right" width="24" height="24" />
                   </Styled.Arrow>
                 </Styled.ServiceItem>

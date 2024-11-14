@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
@@ -13,12 +12,12 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    /* background-color: #EEEEEE; */
     position: relative;  /* absolute에서 relative로 변경 */
     margin-left: 300px;  
-    margin-bottom: 80px;
     width: calc(100%-300px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
+    padding-bottom: 60px;
 `;
 
 export const Header = styled.div`
