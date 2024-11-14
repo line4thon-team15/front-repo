@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Styled from "./AllServices.styled";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
@@ -7,7 +8,8 @@ import axios from "axios";
 
 const AllServices = () => {
   const [services, setServices] = useState([]);
-  
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // API 호출하여 데이터 가져오기
@@ -20,6 +22,10 @@ const AllServices = () => {
         console.error("Error fetching services:", error);
       });
   }, []);
+
+  const GoDetail = (service) => {
+    navigate(`/Detail/${service.id}`);
+  };
 
   return (
     <Styled.Wrapper>
@@ -43,7 +49,7 @@ const AllServices = () => {
       {/* 서비스 카드 그리드 */}
       <Styled.CardGrid>
         {services.map((service) => (
-          <Styled.ServiceCardAll key={service.id}>
+          <Styled.ServiceCardAll key={service.id} onClick={() => GoDetail(service)}>
             <Styled.ServiceCard>
               <Styled.CardImage src={service.thumbnail_image} alt={`${service.service_name} 이미지`} />
             </Styled.ServiceCard>

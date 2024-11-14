@@ -20,29 +20,12 @@ export const Header = styled.div`
   text-align: center;
   margin-bottom: 24px;
 `;
-export const TitleWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-  text-align: center;
-`;
 
 export const Title = styled.h1`
   font-size: 55px;
   font-weight: bold;
   color: black;
   margin-bottom: 10px;
-  display: inline;
-  position: relative;
-  z-index: 1;
-`;
-
-export const RankingImageStyled = styled.img`
-  position: absolute;
-  right: -20px; /* 제목과 이미지가 겹쳐 보이도록 위치 조정 */
-  top: 15px; /* 제목 높이와 맞추기 위해 위쪽 정렬 */
-  width: 60px;
-  height: 50px;
-  z-index: 0;
 `;
 
 export const Subtitle = styled.p`
@@ -96,6 +79,7 @@ export const FirstPlaceImage = styled.img`
 export const FirstPlaceInfo = styled.div`
   display: flex;
   flex-direction: row;S
+;
 `;
 
 export const ServiceDescription = styled.p`
@@ -118,7 +102,7 @@ export const ServiceItem = styled.div`
 `;
 
 export const Rank = styled.div`
-  font-size: 27px;
+  font-size: 24px;
   font-weight: bold;
   width: 40px;
   text-align: center;
@@ -161,23 +145,4 @@ export const ServiceDescriptionFirst = styled.p`
   font-size: 20px;
   color: #555;
   margin-top: 8px;
-`;
-
-// Ranking 순위변동
-export const RankChangeUp = styled.div`
-  color: green;
-  font-size: 14px;
-  margin-top: 4px;
-`;
-
-export const RankChangeDown = styled.div`
-  color: red;
-  font-size: 14px;
-  margin-top: 4px;
-`;
-
-export const RankChangeNone = styled.div`
-  color: #999;
-  font-size: 14px;
-  margin-top: 4px;
 `;
