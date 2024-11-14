@@ -7,7 +7,7 @@ export const MainAllPage = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 100vh;
+  height: auto;
   width: calc(100% - 220px);
   margin-left: 200px;
   padding: 40px 10px;
@@ -76,5 +76,25 @@ export const MoreInformation = styled(Link)`
   img {
     width: 16px;
     height: 16px;
+  }
+`;
+
+export const MainCardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr)); /* 기본 2x2 레이아웃 */
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px 10px;
+  justify-items: center;
+
+  /* 작은 화면에서는 한 열에 하나씩 */
+  @media (max-width: 400px) {
+    grid-template-columns: 1fr;
+  }
+
+  /* 큰 화면에서는 2x2 레이아웃 유지 */
+  @media (min-width: 401) and (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 `;

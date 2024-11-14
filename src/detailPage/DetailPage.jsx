@@ -40,24 +40,27 @@ const DetailPage = ({ API_BASE_URL }) => {
   const params = useParams();
   const { teamId } = useParams(); // teamId를 그대로 사용
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
-        setServiceData(response.data);
-        setIsLoading(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
+                setServiceData(response.data);
+                setIsLoading(false);
+                console.log("데이터 로드 성공:", response.data);
 
-        // 내가 작성한 리뷰 가져오기 (로그인한 사용자와 일치하는 리뷰 필터링)
-        const userReview = response.data.review.find((r) => r.writer_id === loggedInUserId); // loggedInUserId는 로그인한 사용자 ID
-        setMyReview(userReview);
-      } catch (error) {
-        console.error("데이터 불러오기 실패:", error);
-        setIsLoading(false);
-        alert("데이터 불러오기 실패: 서비스 ID가 정의되지 않았습니다. 관리자에게 문의하세요.");
-      }
-    };
-    fetchData();
-  }, [API_BASE_URL, params.teamId]);
+                const initialLikeStatus = response.data.review.reduce((status, review) => {
+                    status[review.id] = { isLiked: review.is_liked, likesCount: review.likes_count };
+                    return status;
+                }, {});
+                setLikeStatus(initialLikeStatus);
+            } catch (error) {
+                console.error("데이터 불러오기 실패:", error);
+                setIsLoading(false);
+                alert("데이터 불러오기 실패: 서비스 ID가 정의되지 않았습니다. 관리자에게 문의하세요.");
+            }
+        };
+        fetchData();
+    }, [API_BASE_URL, params.teamId]);
 
   const toggleLike = async (reviewId) => {
     if (!isAuthenticated) {
@@ -135,13 +138,14 @@ const DetailPage = ({ API_BASE_URL }) => {
     setSelectedImage(null);
   };
 
-  const handleReviewClick = () => {
-    if (!serviceData.content) {
-      alert("현재 등록된 서비스가 없습니다.");
-    } else {
-      navigate(`/write-review/${teamId}/`);
-    }
-  };
+    const handleReviewClick = () => {
+        if (!serviceData.service_name) {
+            alert("현재 등록된 서비스가 없습니다.");
+        } else {
+            navigate(`/write-review/${teamId}/`);
+        }
+    };
+    
 
   if (isLoading) return <div>로딩 중...</div>;
 

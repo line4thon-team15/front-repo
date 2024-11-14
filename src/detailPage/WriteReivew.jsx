@@ -88,11 +88,15 @@ const WriteReview = ({ API_BASE_URL }) => {
     };
     
     const handleSubmit = async () => {
+        console.log("handleSubmit 호출됨");
         try {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) throw new Error('Access token not found');
     
-            const url = `${API_BASE_URL}/services/4line-services/${service_id}/`;
+            const url = `${ API_BASE_URL }/services/4line-services/${service_id}/`;
+            
+            console.log("Service ID:", service_id);
+            console.log("Request URL:", url);
     
             const response = await axios.post(
                 url,
@@ -105,37 +109,31 @@ const WriteReview = ({ API_BASE_URL }) => {
                     headers: { Authorization: `Bearer ${accessToken}` }
                 }
             );
-
+    
             console.log("전송할 데이터:", {
                 score: score,
-                tags: selectedTags, // 선택된 태그만 포함
+                tags: selectedTags,
                 review: review
             });
-    
+            
             console.log("리뷰 생성 성공:", response.data);
-            console.log("Service ID:", service_id);
-            console.log("Request URL:", url);
-
     
-            // 생성 성공 후 상태 초기화 및 페이지 이동
+            // 생성 후 초기화 및 페이지 이동
             setReviewText("");
             setScore(0);
             setSelectedTags([]);
             navigate(`/Detail/${service_id}`);
     
         } catch (error) {
+            console.error("오류 발생:", error.message || error);
             if (error.response && error.response.status === 404) {
                 alert('리뷰 생성에 실패했습니다.');
             } else {
-                console.error('리뷰 생성 오류:', error.message || error);
-                alert('리뷰 생성에 실패했습니다.');
+                alert('리뷰 생성 중 오류가 발생했습니다.');
             }
         }
     };
     
-
-
- 
     return (
         <Styled.Wrapper>
             <Header isWhiteBackground={true} />

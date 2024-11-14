@@ -41,7 +41,7 @@ const MainAllServices = ({ API_BASE_URL }) => {
           </MA.MoreInformation>
         </Link>
       </MA.Title>
-      <A.CardGrid>
+      <MA.MainCardGrid>
         {mainService.map((mainService) => (
           <A.ServiceCardAll key={mainService.id} onClick={() => GoDetail(mainService)}>
             <A.ServiceCard>
@@ -52,7 +52,7 @@ const MainAllServices = ({ API_BASE_URL }) => {
             </A.CardText>
           </A.ServiceCardAll>
         ))}
-      </A.CardGrid>
+      </MA.MainCardGrid>
     </MA.MainAllPage>
   );
 };
