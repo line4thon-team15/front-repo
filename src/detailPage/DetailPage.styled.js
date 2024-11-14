@@ -52,7 +52,7 @@ export const Line = styled.div`
     width: 100%;
     height: 40px;
     background: linear-gradient(90deg, #00A4E3 0%, #00A4E3 22.5%, #3F89A6 100%);
-    position: absolute; /* Make Line a relative positioning reference */
+    position: relative; /* Make Line a relative positioning reference */
     bottom: 0;
 `;
 
@@ -108,11 +108,13 @@ export const OneLine = styled.div`
 
 export const WholeContent = styled.div`
     max-width: 1200px;
+    min-width: 90%;
     margin: 0 auto; /* 수평 가운데 정렬 */
     padding: auto;
 `
 
 export const Middle = styled.div`
+    width: 85%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -154,7 +156,7 @@ export const VisitService = styled.div`
 
 export const ServiceContent = styled.div`
     width: 82%;
-    padding: 50px 20px 20px 80px;
+    padding: 20px 20px 20px 80px;
     font-size: 20px;
     line-height: 40px;
     color: black;
@@ -371,6 +373,7 @@ export const DropdownWrapper = styled.div`
     display: inline-flex;
     align-items: center;
     margin-left: auto;
+    margin-right: 5%;
 `;
 
 export const DropdownButtonBox = styled.button`

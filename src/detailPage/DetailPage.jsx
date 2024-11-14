@@ -126,7 +126,7 @@ const DetailPage = ({ API_BASE_URL }) => {
         if (!serviceData.content) {
             alert("현재 등록된 서비스가 없습니다.");
         } else {
-            navigate('/write-review');
+            navigate('/write-review/:service_id');
         }
     };
     

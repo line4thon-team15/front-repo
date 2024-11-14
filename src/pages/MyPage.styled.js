@@ -108,8 +108,58 @@ export const ReviewBox = styled.div`
     border-radius: 10px;
 
 `
+export const ReviewTitleBox = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
 export const ReviewTitle = styled.div`
+    display: flex;
     margin: 30px 0 0 30px;
     font-size: 20px;
     font-weight: bold;
 `
+
+export const UserReviewCount = styled.div`
+    display: flex;
+    padding: 30px 20px 10px 10px;
+    color: #AAAAAA;
+`
+export const ReviewList = styled.div`
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+`
+
+export const ReviewService = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 95%;
+    height: 70px;
+    background-color: #EDEDED;
+    border-radius: 10px;
+
+`
+
+export const ThumbnailPic = styled.div`
+    margin-left: 10px;
+    display: flex;
+    width: 95px;
+    height: 55px;
+    border-radius: 5px;
+    background-color: grey;
+`
+export const ServiceTitle = styled.div`
+    margin-left: 30px;
+    font-weight: 500;
+    font-size: 20px;
+
+`
+export const Goservice = styled.img`
+    margin-left: auto;
+    margin-right: 30px; /* 오른쪽 여백을 약간 추가 */
+    display: flex;
+    align-items: center;`
