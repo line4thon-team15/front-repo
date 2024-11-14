@@ -11,7 +11,6 @@ export const ContentContainer = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
-
   margin-top: 60px;
 `;
 
@@ -28,17 +27,11 @@ export const Content = styled.div`
 export const SignUpContainer = styled.div`
   width: 490px;
   padding: 20px;
-  border-radius: 0px;
   background-color: #ffffff;
-  box-shadow: 0;
-  // margin-left: 50px;
-  // margin-top: 50px;
-  // margin-bottom: 150px;
 `;
 
 export const IDAndPw = styled.div`
   width: 470px;
-  background-color: white;
 `;
 
 export const Title = styled.h1`
@@ -72,10 +65,8 @@ export const LoginBody = styled.div`
 export const TabContainer = styled.div`
   display: flex;
   margin-bottom: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-
   border-radius: 10px 10px 0 0;
+  overflow: hidden;
 `;
 
 export const Tab = styled.button`
@@ -134,6 +125,28 @@ export const PasswordField1 = styled.div`
 
 export const PasswordField2 = styled.div`
   position: relative;
+`;
+
+export const Ment = styled.div`
+  font-size: 13px;
+  color: #77a71d;
+  margin-top: 5px;
+  margin-left: 0;
+  text-align: right;
+  padding-right: 20px;
+  height: 20px;
+  line-height: 20px;
+`;
+
+export const MentWarning = styled.div`
+  font-size: 13px;
+  color: red;
+  margin-top: 5px;
+  margin-left: 0;
+  text-align: right;
+  padding-right: 20px;
+  height: 20px;
+  line-height: 20px;
 `;
 
 export const Information = styled.div`
@@ -229,4 +242,11 @@ export const LoginButton = styled.button`
   margin-right: 15px;
   margin-bottom: 25px;
   transition: background-color 0.3s;
+`;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
 `;
