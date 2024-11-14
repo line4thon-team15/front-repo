@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as MA from "./MainAllServices.Styled";
-import * as A from '@/pages/AllServices.Styled';
+import * as A from "@/pages/AllServices.Styled";
 import ArrowrightBlue from "../assets/ArrowrightBlue.png";
-import axios from 'axios';
+import axios from "axios";
 
-const MainAllServices = ({API_BASE_URL}) => {
+const MainAllServices = ({ API_BASE_URL }) => {
   const [mainService, setMainService] = useState([]);
 
   useEffect(() => {
@@ -14,14 +14,13 @@ const MainAllServices = ({API_BASE_URL}) => {
         const respons = await axios.get(`${API_BASE_URL}/main/recent`);
         setMainService(Array.isArray(respons.data) ? respons.data : []);
         console.log("받은 데이터", respons.data);
-      } catch(error) {
+      } catch (error) {
         console.error("에러 메세지", error);
         setMainService([]);
       }
     };
     GetMainService();
-  }, [])
-
+  }, []);
 
   return (
     <MA.MainAllPage>
