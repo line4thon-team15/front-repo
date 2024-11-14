@@ -21,10 +21,6 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
     const [uploadedImages, setUploadedImages] = useState([]); // 발표자료 이미지 배열
     const maxImages = 10;
 
-    const handleGoBack = () => {
-        navigate('/my-service');
-    };
-
     const handleImageUpload = (event) => {
         const files = event.target.files;
         if (files) {
@@ -245,7 +241,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             )}
                         </Styled.ImageGallery>
                         <Styled.Bottom>
-                            <Styled.GoBack onClick={handleGoBack}>&lt; 이전</Styled.GoBack>
+                            <Styled.GoBack >&lt; 이전</Styled.GoBack>
                             <Styled.SignUp onClick={handleSubmit}>등록하기</Styled.SignUp>
                             </Styled.Bottom>
                     </Styled.InfoBox>
