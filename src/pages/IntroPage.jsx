@@ -26,7 +26,7 @@ const IntroPage = ({ mainScroll, API_BASE_URL }) => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/main/route-map`);
                 setTeamData(Array.isArray(response.data) ? response.data : []);
-                console.log("받은 데이터 :", response.data);
+                // console.log("받은 데이터 :", response.data);
             } catch (error) {
                 console.error("데이터 가져오기 오류:", error);
                 setTeamData([]);

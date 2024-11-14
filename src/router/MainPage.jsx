@@ -19,7 +19,6 @@ const MainPage = ({ API_BASE_URL }) => {
         let TargetElement = document.getElementById("MainPage");
         let y = TargetElement.scrollTop;
         setMainScroll(y);
-        console.log(y);
 
         // IntroPage의 높이를 예로 600px로 가정, 스크롤 위치에 따라 isIntro 값 변경
         const threshold = window.innerHeight * 2
