@@ -17,31 +17,35 @@ const Login = ({ API_BASE_URL }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-
+  
     try {
-      // API URL과 요청 데이터 확인
       console.log("로그인 요청 URL:", `${API_BASE_URL}/accounts/login/`);
       console.log("로그인 요청 데이터:", { username, password });
-
+  
       const response = await axios.post(`${API_BASE_URL}/accounts/login/`, {
         username,
         password,
       });
-
+  
       const data = response.data;
-      console.log("로그인 성공:", data); // 성공 시 응답 데이터 출력
-      localStorage.setItem("accessToken", data.access);
-      navigate("/"); // 로그인 성공 시 홈으로 이동
-    } catch (error) {
-      console.log("로그인 요청 실패:", error); // 오류 객체 출력
+      console.log("로그인 성공:", data); // 서버 응답 확인
+  
+      // 서버에서 받은 토큰 확인 (예: data.token 또는 data.access)
+      localStorage.setItem("accessToken", data.token || data.access);  // 저장된 키에 맞게 수정
+      console.log("저장된 토큰:", localStorage.getItem("accessToken"));
 
+      // 로그인 후 홈 페이지로 이동
+      navigate("/");
+  
+    } catch (error) {
+      console.log("로그인 요청 실패:", error);
+  
       if (error.response && error.response.data) {
-        // 서버에서 보내는 에러 메시지 확인
         setError(error.response.data.error || "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
-        console.log("서버 에러 메시지:", error.response.data.error); // 서버 에러 메시지 로그 출력
+        console.log("서버 에러 메시지:", error.response.data.error);
       } else {
         setError("오류가 발생했습니다. 다시 시도해주세요.");
-        console.log("요청 오류:", error.message); // 일반 오류 메시지 출력
+        console.log("요청 오류:", error.message);
       }
     }
   };

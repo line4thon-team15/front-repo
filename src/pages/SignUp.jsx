@@ -48,35 +48,23 @@ const SignUp = ({ API_BASE_URL }) => {
       team: selectedTeam,
     };
 
-    console.log("Submitted data:", { username, password, passwordConfirm, selectedSchool, selectedTeam, isParticipant });
-
+    console.log("서버에 전송할 데이터:", userData);
+    
     try {
-      const response = await axios.post(`${API_BASE_URL}/accounts/signup/`, userData);
+      const response = await axios.post(`${API_BASE_URL}accounts/signup/`, userData);
       console.log("회원가입 성공:", response.data);
       alert(response.data.success);
     } catch (error) {
       if (error.response) {
         console.log("HTTP 상태 코드:", error.response.status);
         console.log("응답 데이터:", error.response.data);
+        alert(`회원가입 실패: ${error.response.data}`);
       } else {
         console.log("요청 오류:", error.message);
+        alert("요청 오류가 발생했습니다.");
       }
     }
 
-    // try {
-    //   const response = await axios.post(`${API_BASE_URL}accounts/signup/`, userData);
-    //   console.log("회원가입 성공:", response.data);
-    //   alert(response.data.success);
-    //   // navigate("/login"); // 주석 해제 시 로그인 페이지로 이동
-    // } catch (error) {
-    //   if (error.response && error.response.data) {
-    //     // setError(error.response.data.error || "회원가입에 실패했습니다. 다시 시도해주세요.");
-    //     console.log("서버 에러 메시지:", error.response.data.error);
-    //   } else {
-    //     // setError("오류가 발생했습니다. 다시 시도해주세요.");
-    //     console.log("요청 오류:", error.message);
-    //   }
-    // }
   };
 
   const togglePasswordVisibility = () => {

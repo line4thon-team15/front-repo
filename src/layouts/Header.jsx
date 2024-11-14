@@ -1,20 +1,64 @@
-// src/layouts/Header.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Styled from './Header.styled';
 import { useScroll } from './ScrollContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faBars, faCircleArrowRight, faFaceSmile, faUserCheck } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from '../contexts/AuthContext'; // AuthContext import
+import axios from 'axios';
+import LogoutModal from './LogoutModal'; // 로그아웃 모달 컴포넌트 import
 
 const Header = ({ isIntro }) => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+    const [userName, setUserName] = useState('');
     const { scrollToHome, scrollToRanking } = useScroll();
     const { isAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
     const navigate = useNavigate();
 
+    const API_BASE_URL = import.meta.env.VITE_API_KEY;
+
     const GoHome = () => {
         navigate('/')
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken"); // 토큰 확인
+        console.log(token);
+
+        if (isAuthenticated && token) {
+            console.log("Starting API call for user data...");
+            axios.get(`${API_BASE_URL}/accounts/mypage`, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // 예: 로컬 스토리지에 저장된 토큰 사용
+                }
+            })
+                .then(response => {
+                    console.log("API response:", response);
+                    setUserName(response.data.name);
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    if (error.response && error.response.status === 401) {
+                        // 토큰 만료 또는 인증 오류 시 처리 (로그아웃 처리)
+                        console.log("Unauthorized, logging out...");
+                        logout();
+                        navigate('/login'); // 로그인 페이지로 리디렉션
+                    }
+                });
+        }
+    }, [isAuthenticated, logout, navigate]);
+
+
+    // 로그아웃 모달 열기
+    const handleLogoutClick = () => {
+        setShowLogoutModal(true);
+    };
+
+    // 로그아웃 수행
+    const handleLogoutConfirm = () => {
+        logout();
+        setShowLogoutModal(false);
     };
 
     return (
@@ -59,7 +103,11 @@ const Header = ({ isIntro }) => {
                         onMouseLeave={() => setHoveredIndex(null)}
                     >
                         <Link to="/my-page">
-                            <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faFaceSmile} /> &nbsp;마이 페이지</Styled.NavButton>
+                            <Styled.NavButton $isWhiteBackground={isIntro}>
+                                <FontAwesomeIcon icon={faFaceSmile} />
+                                &nbsp;
+                                {isAuthenticated ? ` 안녕하세요 ${userName}님` : ' 마이 페이지'}
+                            </Styled.NavButton>
                         </Link>
                     </Styled.NavItem>
 
@@ -71,7 +119,7 @@ const Header = ({ isIntro }) => {
                         {isAuthenticated ? (
                             <Styled.NavButton
                                 $isWhiteBackground={isIntro}
-                                onClick={logout} // 로그아웃 함수 호출
+                                onClick={handleLogoutClick} // 로그아웃 함수 호출
                             >
                                 <FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그아웃
                             </Styled.NavButton>
@@ -83,6 +131,14 @@ const Header = ({ isIntro }) => {
                     </Styled.NavItem>
                 </ul>
             </Styled.Navbar>
+
+            {/* 로그아웃 모달 */}
+            {showLogoutModal && (
+                <LogoutModal
+                    onCancel={() => setShowLogoutModal(false)}
+                    onConfirm={handleLogoutConfirm}
+                />
+            )}
         </Styled.Wrapper>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as MA from "./MainAllServices.Styled";
 import * as A from "@/pages/AllServices.Styled";
 import ArrowrightBlue from "../assets/ArrowrightBlue.png";
@@ -7,20 +7,24 @@ import axios from "axios";
 
 const MainAllServices = ({ API_BASE_URL }) => {
   const [mainService, setMainService] = useState([]);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const GetMainService = async () => {
       try {
         const respons = await axios.get(`${API_BASE_URL}/main/recent`);
         setMainService(Array.isArray(respons.data) ? respons.data : []);
-        console.log("받은 데이터", respons.data);
-      } catch (error) {
+      } catch(error) {
         console.error("에러 메세지", error);
         setMainService([]);
       }
     };
     GetMainService();
-  }, []);
+  }, [])
+
+  const GoDetail = (mainService) => {
+    Navigate(`Detail/${mainService.id}`)
+  }
 
   return (
     <MA.MainAllPage>
