@@ -47,16 +47,28 @@ const AllServices = ({API_BASE_URL}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // API 호출하여 데이터 가져오기
     axios
       .get(`${API_BASE_URL}/services/4line-services`)
       .then((response) => {
         setServices(response.data);
+        setFilteredServices(response.data); // 초기에는 전체 서비스 표시
       })
       .catch((error) => {
         console.error("Error fetching services:", error);
       });
   }, []);
+
+  const handleSearchChange = (event) => {
+    const lowercasedSearchTerm = event.target.value.toLowerCase();
+    setSearchTerm(lowercasedSearchTerm);
+
+    // 검색어가 포함된 서비스 필터링
+    const filtered = services.filter((service) => {
+      const serviceText = `${service.service_name} by ${service.team}팀`.toLowerCase();
+      return lowercasedSearchTerm.split("").some((char) => serviceText.includes(char));
+    });
+    setFilteredServices(filtered);
+  };
 
   const GoDetail = (service) => {
     navigate(`/Detail/${service.id}`);

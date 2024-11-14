@@ -51,7 +51,7 @@ const SignUp = ({ API_BASE_URL }) => {
     console.log("Submitted data:", { username, password, passwordConfirm, selectedSchool, selectedTeam, isParticipant });
 
     try {
-      const response = await axios.post(`${API_BASE_URL}accounts/signup/`, userData);
+      const response = await axios.post(`${API_BASE_URL}/accounts/signup/`, userData);
       console.log("회원가입 성공:", response.data);
       alert(response.data.success);
     } catch (error) {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as Styled from './MyPage.styled';
 import profile from '../assets/profile.svg';
@@ -12,11 +13,13 @@ const MyPage = ({ API_BASE_URL }) => {
     const [response, setResponse] = useState({});
     const [profileImage, setProfileImage] = useState(profile);
     const fileInputRef = useRef(null);
-
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem('authToken'); // 로컬 저장소에서 토큰 가져오기
+
+                
                 const res = await axios.get(`${API_BASE_URL}/accounts/mypage`, {
                     headers: {
                         Authorization: `Bearer ${token}` // 헤더에 토큰 추가
@@ -24,14 +27,18 @@ const MyPage = ({ API_BASE_URL }) => {
                 });
                 setResponse(res.data);
             } catch (error) {
-                console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+                if (error.response && error.response.status === 401) {
+                    console.error("인증 실패: 로그인 페이지로 이동합니다.");
+                    navigate("/login");
+                } else {
+                    console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+                    alert("데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.");
+                }
             }
         };
-    
+
         fetchData();
     }, [API_BASE_URL]);
-    
-
     return (
         <Styled.Wrapper>
             <Header isWhiteBackground={true} />
@@ -39,11 +46,11 @@ const MyPage = ({ API_BASE_URL }) => {
                 <Styled.Box>
                     <Styled.Title>My Page</Styled.Title>
                     <Styled.ProfileBox>
-                        <Styled.ProfileImage src={profile} alt='profile image' />
+                        <Styled.ProfileImage src={profileImage} alt="profile image" />
                         <Styled.Top>
                             <Styled.Namebox>
                                 <Styled.Name>{response.name}</Styled.Name>
-                                <Styled.ID>ThisisMyID</Styled.ID>
+                                <Styled.ID>{response.id}</Styled.ID>
                             </Styled.Namebox>
                             <Styled.Changebox>
                                 <Styled.ChangeImage src={changeImage} alt='changeImage' />
