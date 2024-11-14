@@ -53,6 +53,20 @@ const Login = ({ API_BASE_URL }) => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const handleUsernameChange = (e) => {
+    const input = e.target.value;
+    // 영어 알파벳과 숫자만 입력 가능
+    const filteredInput = input.replace(/[^a-zA-Z0-9]/g, "");
+    setUsername(filteredInput);
+  };
+
+  const handlePasswordChange = (e) => {
+    const input = e.target.value;
+    // 한글을 제외한 모든 문자 허용
+    const filteredInput = input.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, "");
+    setPassword(filteredInput);
+  };
+
   return (
     <Styled.Wrapper>
       <Header isWhiteBackground={true} />
@@ -67,13 +81,14 @@ const Login = ({ API_BASE_URL }) => {
                 <Styled.Tab onClick={() => navigate("/SignUp")}>회원가입</Styled.Tab>
               </Styled.TabContainer>
               <Styled.Form onSubmit={handleLogin}>
-                <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={handleUsernameChange} />
+
                 <Styled.PasswordField>
                   <Styled.Input
                     type={passwordVisible ? "text" : "password"}
                     placeholder="비밀번호를 입력해주세요"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                   />
                   <Styled.ToggleButton type="button" onClick={togglePasswordVisibility}>
                     <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
