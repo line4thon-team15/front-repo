@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as MA from "./MainAllServices.Styled";
-import * as A from '@/pages/AllServices.Styled';
+import * as A from "@/pages/AllServices.Styled";
 import ArrowrightBlue from "../assets/ArrowrightBlue.png";
-import axios from 'axios';
+import axios from "axios";
 
-const MainAllServices = ({API_BASE_URL}) => {
+const MainAllServices = ({ API_BASE_URL }) => {
   const [mainService, setMainService] = useState([]);
   const Navigate = useNavigate();
 

@@ -32,12 +32,16 @@ export const Title = styled.h1`
   font-weight: bold;
   color: black;
   margin: 10px;
+  line-height: 1; /* 글자와 이미지의 간격을 조절하기 위해 줄 높이 설정 */
 `;
 
 export const Werath = styled.img`
   position: absolute;
-  top: 0;
-  left: 300px;
+  top: 12px;
+  left: calc(50% + 120px);
+  transform: translateX(-50%);
+  width: 50px;
+  height: auto;
 `;
 
 export const Subtitle = styled.p`
