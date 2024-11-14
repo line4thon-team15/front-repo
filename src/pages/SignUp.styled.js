@@ -65,6 +65,8 @@ export const TabContainer = styled.div`
   margin-bottom: 20px;
   border-radius: 10px;
   overflow: hidden;
+
+  border-radius: 10px 10px 0 0;
 `;
 
 export const Tab = styled.button`
