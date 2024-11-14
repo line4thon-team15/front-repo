@@ -15,15 +15,22 @@ export const Wrapper = styled.div`
   height: 100%;
 `;
 
+// export const LoginContainer = styled.div`
+//   width: 480px;
+//   padding: 30px;
+//   border-radius: 10px;
+//   background-color: #ffffff;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//   margin-left: 400px; /* 사이드바를 고려한 마진 */
+//   margin-top: 50px;
+//   margin-bottom: 150px;
+// `;
+
 export const LoginContainer = styled.div`
-  width: 480px;
-  padding: 30px;
-  border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 400px; /* 사이드바를 고려한 마진 */
-  margin-top: 50px;
-  margin-bottom: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20%;
 `;
 
 export const Content = styled.div`
