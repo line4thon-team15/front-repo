@@ -52,7 +52,7 @@ const Ranking = ({ API_BASE_URL }) => {
   }, [token, totalScoreApiUrl, badgeApiUrl]);
 
   return (
-    <Styled.Wrapper>
+    <Styled.RankingPage>
       <Styled.Content>
         <Styled.Header>
           <Styled.Title>명예의 전당</Styled.Title>
@@ -131,7 +131,7 @@ const Ranking = ({ API_BASE_URL }) => {
           </Styled.Section>
         </Styled.SectionContainer>
       </Styled.Content>
-    </Styled.Wrapper>
+    </Styled.RankingPage>
   );
 };
 
