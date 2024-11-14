@@ -8,8 +8,7 @@ export const RankingPage = styled.div`
   height: 100vh;
   background-color: white;
   scroll-snap-align: start;
-
-  padding-bottom: 200px;
+  padding-bottom: 300px;
 `;
 
 export const Content = styled.div`
@@ -35,7 +34,7 @@ export const Title = styled.h1`
   font-weight: bold;
   color: black;
   margin: 10px;
-  line-height: 1; /* 글자와 이미지의 간격을 조절하기 위해 줄 높이 설정 */
+  line-height: 1;
 `;
 
 export const Werath = styled.img`
@@ -53,15 +52,20 @@ export const Subtitle = styled.p`
 `;
 
 export const SectionContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  justify-content: center;
+  justify-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const Section = styled.div`
   background-color: white;
   padding: 16px;
-  border-radius: none;
+  border-radius: 8px;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
@@ -83,23 +87,26 @@ export const SectionTitle = styled.h2`
 
 export const FirstPlace = styled.div`
   display: flex;
-  // align-items: center;
-  margin-bottom: 24px;
   flex-direction: column;
+  margin-bottom: 24px;
+
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 `;
 
 export const FirstPlaceImage = styled.img`
-  width: 100%; /* 부모 요소의 너비에 맞게 설정 */
-  height: 250px; /* 원하는 높이로 설정 */
+  width: 446px; /* 고정 가로 크기 */
+  height: 250px; /* 고정 세로 크기 */
   border-radius: 8px;
-  object-fit: cover; /* 이미지가 박스에 꽉 차도록 설정 */
+  object-fit: cover;
   display: block;
-  margin: 0 auto; /* 이미지가 중앙에 정렬되도록 설정 */
+  margin: 0 auto;
 `;
 
 export const FirstPlaceInfo = styled.div`
   display: flex;
   flex-direction: row;
+
+  margin-top: 15px;
 `;
 
 export const ServiceDescription = styled.p`
@@ -152,6 +159,8 @@ export const ServiceName = styled.div`
 export const Arrow = styled.div`
   font-size: 24px;
   color: #999;
+
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 `;
 
 export const ServiceNameFirst = styled.div`

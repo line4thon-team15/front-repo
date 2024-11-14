@@ -3,28 +3,37 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
+  min-height: 100vh;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 60px;
 `;
 
 export const Content = styled.div`
-  background-color: #f6f6f6;
-  position: relative;
-  margin-left: 200px;
-  width: calc(100% - 200px);
-  flex-grow: 1;
-`;
-
-export const SignUpContainer = styled.div`
-  width: 480px;
-  padding: 30px;
+  width: 540px;
+  padding: 20px;
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 50px;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-bottom: 150px;
+`;
+
+export const SignUpContainer = styled.div`
+  width: 490px;
+  padding: 20px;
+  border-radius: 0px;
+  background-color: #ffffff;
+  box-shadow: 0;
+  // margin-left: 50px;
+  // margin-top: 50px;
+  // margin-bottom: 150px;
 `;
 
 export const IDAndPw = styled.div`
@@ -56,7 +65,7 @@ export const StyledH1 = styled.h1`
 export const LoginBody = styled.div`
   background-color: #ffffff;
   border: 0.5px solid #454545;
-  margin-top: 30px;
+  margin-top: 50px;
   border-radius: 10px;
 `;
 
@@ -65,6 +74,8 @@ export const TabContainer = styled.div`
   margin-bottom: 20px;
   border-radius: 10px;
   overflow: hidden;
+
+  border-radius: 10px 10px 0 0;
 `;
 
 export const Tab = styled.button`

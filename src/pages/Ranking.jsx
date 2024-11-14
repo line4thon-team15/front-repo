@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // navigate 추가
+import { useNavigate } from "react-router-dom";
 import * as Styled from "./Ranking.styled";
 import ArrowImage from "../assets/Arrowright.png";
 import RankingImage from "../assets/Ranking.png";
@@ -8,7 +8,7 @@ import axios from "axios";
 const Ranking = ({ API_BASE_URL }) => {
   const [rankingServices, setRankingServices] = useState([]);
   const [badgeServices, setBadgeServices] = useState([]);
-  const navigate = useNavigate(); // navigate 초기화
+  const navigate = useNavigate();
 
   const totalScoreApiUrl = `${API_BASE_URL}/main/HOF-score/`;
   const badgeApiUrl = `${API_BASE_URL}/main/HOF-badge/`;
@@ -103,12 +103,12 @@ const Ranking = ({ API_BASE_URL }) => {
             </Styled.SectionTitleAll>
 
             {/* 1등 항목 */}
-            {rankingServices[0] && (
-              <Styled.FirstPlace onClick={() => GoDetail(rankingServices[0])}>
-                <Styled.FirstPlaceImage src={rankingServices[0].thumbnail_image || ""} alt={`Service ${rankingServices[0].id}`} />
+            {badgeServices[0] && (
+              <Styled.FirstPlace onClick={() => GoDetail(badgeServices[0])}>
+                <Styled.FirstPlaceImage src={badgeServices[0].thumbnail_image || ""} alt={`Service ${badgeServices[0].id}`} />
                 <Styled.FirstPlaceInfo>
-                  <Styled.ServiceNameFirst>[{rankingServices[0].service_name || "Unknown Service"}]</Styled.ServiceNameFirst>
-                  <Styled.ServiceDescriptionFirst>{rankingServices[0].intro || "서비스 한줄소개"}</Styled.ServiceDescriptionFirst>
+                  <Styled.ServiceNameFirst>[{badgeServices[0].service_name || "Unknown Service"}]</Styled.ServiceNameFirst>
+                  <Styled.ServiceDescriptionFirst>{badgeServices[0].intro || "서비스 한줄소개"}</Styled.ServiceDescriptionFirst>
                 </Styled.FirstPlaceInfo>
               </Styled.FirstPlace>
             )}
