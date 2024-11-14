@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: white;
+  scroll-snap-align: start;
 `;
 
 export const Content = styled.div`

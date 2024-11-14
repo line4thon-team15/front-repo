@@ -51,7 +51,7 @@ const MainPage = ({ API_BASE_URL }) => {
                 <div style={{ position: 'sticky', top: 0, width: '200px', height: '100vh' }}>
                     <Header isIntro={isIntro} /> {/* isIntro 상태를 prop으로 전달 */}
                 </div>
-                <div style={{ flex: 1, overflowY: 'auto' }}>
+                <div style={{ flex: '1', }}>
                     {/* RankingPage */}
                     <div ref={rankingRef} id="ranking" style={{ height: '100vh' }}>
                         <Ranking />
