@@ -35,19 +35,7 @@ export const MyServiceInfoButton = styled.div`
     top: 60px; /* Distance from the top of the header */
 `
 
-export const ServiceInfoButton = styled.div`
-    margin-left: 92%;
-    background-color: #FFD64D;
-    border-radius: 100%;
-    width: 80px;
-    height: 80px;
-    position: absolute; /* 위치를 상대적으로 지정 */
-    top: 60px; /* Distance from the top of the header */
-`
-export const InfoVector = styled.img`
-    padding: 15px;
 
-`
 export const Thumbnail = styled.div`
     margin-top: 50px;
     margin-left: 150px;
