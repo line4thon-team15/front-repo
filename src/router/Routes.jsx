@@ -43,7 +43,7 @@ const Routes = () => {
           <Route path="/login" element={<Login API_BASE_URL={API_BASE_URL} />} />
           <Route path="/input-service-info" element={<InputServiceInfo />} />
           <Route path="/Detail/:teamId" element={<DetailPage API_BASE_URL={API_BASE_URL}/>} />
-          <Route path="/write-review" element={<WriteReview />} />
+          <Route path="/write-review/:service_id" element={<WriteReview API_BASE_URL={API_BASE_URL}/>} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/ranking" element={<Ranking API_BASE_URL={API_BASE_URL} />} />
         </ReactRoutes>
