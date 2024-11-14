@@ -12,8 +12,9 @@ import MainPage from "../router/MainPage";
 import InputServiceInfo from "../detailPage/InputServiceInfo";
 import DetailPage from "../detailPage/DetailPage";
 import WriteReview from "../detailPage/WriteReivew";
-
 import Ranking from "../pages/Ranking";
+import ProtectedRoute from "../contexts/ProtectedRoute"; // ProtectedRoute 추가
+import { useAuth } from "../contexts/AuthContext"; // AuthContext import
 
 const LayoutWrapper = styled.div`
   display: flex;
@@ -29,26 +30,33 @@ const ContentWrapper = styled.div`
 const Routes = () => {
   const location = useLocation();
   const isMainPage = location.pathname === "/";
-
   const API_BASE_URL = import.meta.env.VITE_API_KEY;
+  const { isAuthenticated } = useAuth();
 
   return (
-    <LayoutWrapper>
-      <ContentWrapper>
-        <ReactRoutes>
-          <Route path="/" element={<MainPage API_BASE_URL={API_BASE_URL} />} />
-          <Route path="/all-services" element={<AllServices API_BASE_URL={API_BASE_URL} />} />
-          <Route path="/my-service" element={<MyService />} />
-          <Route path="/my-page" element={<MyPage API_BASE_URL={API_BASE_URL}/>} />
-          <Route path="/login" element={<Login API_BASE_URL={API_BASE_URL} />} />
-          <Route path="/input-service-info" element={<InputServiceInfo />} />
-          <Route path="/Detail/:teamId" element={<DetailPage API_BASE_URL={API_BASE_URL}/>} />
-          <Route path="/write-review/:service_id" element={<WriteReview API_BASE_URL={API_BASE_URL}/>} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/ranking" element={<Ranking API_BASE_URL={API_BASE_URL} />} />
-        </ReactRoutes>
-      </ContentWrapper>
-    </LayoutWrapper>
+      <LayoutWrapper>
+          <ContentWrapper>
+              <ReactRoutes>
+                  <Route path="/" element={<MainPage API_BASE_URL={API_BASE_URL} />} />
+                  <Route path="/all-services" element={<AllServices API_BASE_URL={API_BASE_URL} />} />
+                  <Route path="/my-service" element={<MyService />} />
+                  <Route path="/my-page" element={<MyPage API_BASE_URL={API_BASE_URL} />} />
+                  <Route path="/login" element={<Login API_BASE_URL={API_BASE_URL} />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/input-service-info" element={<InputServiceInfo />} />
+                  <Route path="/Detail/:teamId" element={<DetailPage API_BASE_URL={API_BASE_URL} />} />
+                  <Route 
+                      path="/write-review/:service_id" 
+                      element={
+                          <ProtectedRoute>
+                              <WriteReview API_BASE_URL={API_BASE_URL} />
+                          </ProtectedRoute>
+                      } 
+                  />
+                  <Route path="/ranking" element={<Ranking API_BASE_URL={API_BASE_URL} />} />
+              </ReactRoutes>
+          </ContentWrapper>
+      </LayoutWrapper>
   );
 };
 

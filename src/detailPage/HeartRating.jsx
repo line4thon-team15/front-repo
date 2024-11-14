@@ -8,7 +8,7 @@ const HeartRating = ({ rating, setRating }) => {
         const { left, width } = event.currentTarget.getBoundingClientRect();
         const mouseX = event.clientX - left;
         const isHalf = mouseX < width / 2;
-        setHoverRating(index - 0.5 + (isHalf ? 0 : 0.5));
+        setHoverRating(index - 0.5 + (isHalf ? 0 : 0.5)); // 소수점 포함한 값 설정
     };
 
     const handleMouseLeave = () => {
@@ -16,7 +16,7 @@ const HeartRating = ({ rating, setRating }) => {
     };
 
     const handleClick = () => {
-        setRating(hoverRating); // 클릭 시 상위 컴포넌트의 rating 상태를 업데이트
+        setRating(hoverRating); // 클릭 시 hoverRating 값(소수 포함)을 rating에 설정
     };
 
     return (
@@ -35,13 +35,12 @@ const HeartRating = ({ rating, setRating }) => {
                             : undefined
                     }
                     onMouseMove={(event) => handleMouseMove(index, event)}
-                    onClick={handleClick}
+                    onClick={handleClick} // hoverRating 값을 rating으로 설정
                 />
             ))}
-            <Styled.Score>{rating.toFixed(1)}</Styled.Score> {/* rating을 직접 사용 */}
+            <Styled.Score>{rating.toFixed(1)}</Styled.Score> {/* rating을 소수점 1자리까지 표시 */}
         </Styled.HeartContainer>
     );
-    
 };
 
 export default HeartRating;

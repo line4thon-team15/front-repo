@@ -4,25 +4,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as Styled from './Header.styled';
 import { useScroll } from './ScrollContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown } from "@fortawesome/free-solid-svg-icons";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { faFaceSmile } from "@fortawesome/free-solid-svg-icons";
-import { faUserCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCrown, faBars, faCircleArrowRight, faFaceSmile, faUserCheck } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from '../contexts/AuthContext'; // AuthContext import
 
-const Header = ({ isIntro }) => { // isIntro prop 추가
+const Header = ({ isIntro }) => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const { scrollToHome, scrollToRanking } = useScroll();
-    const Navigate = useNavigate();
+    const { isAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
+    const navigate = useNavigate();
 
     const GoHome = () => {
-        Navigate('/')
+        navigate('/')
     };
 
     return (
         <Styled.Wrapper>
-            <Styled.Logo $isWhiteBackground={isIntro}> {/* isIntro에 따라 색상 설정 */}
-                <button id='LogoBtn' onClick={GoHome}> {/* 4호선톤 버튼 클릭 시 scrollToHome 호출 */}
+            <Styled.Logo $isWhiteBackground={isIntro}>
+                <button id='LogoBtn' onClick={GoHome}>
                     <p>4호선톤</p>
                     <p>사이트</p>
                     <p id='date'>24.11.16</p>
@@ -30,16 +28,14 @@ const Header = ({ isIntro }) => { // isIntro prop 추가
             </Styled.Logo>
             <Styled.Navbar>
                 <ul>
-                    {/* 랭킹 버튼 */}
                     <Styled.NavItem
                         onMouseEnter={() => setHoveredIndex(0)}
                         onMouseLeave={() => setHoveredIndex(null)}
-                        onClick={scrollToRanking} // 랭킹 버튼 클릭 시 스크롤 이동
+                        onClick={scrollToRanking}
                     >
                         <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faCrown} /> &nbsp;랭킹</Styled.NavButton>
                     </Styled.NavItem>
 
-                    {/* 전체 서비스 페이지로 이동 */}
                     <Styled.NavItem
                         onMouseEnter={() => setHoveredIndex(1)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -49,7 +45,6 @@ const Header = ({ isIntro }) => { // isIntro prop 추가
                         </Link>
                     </Styled.NavItem>
 
-                    {/* 내 서비스 페이지로 이동 */}
                     <Styled.NavItem
                         onMouseEnter={() => setHoveredIndex(2)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -59,7 +54,6 @@ const Header = ({ isIntro }) => { // isIntro prop 추가
                         </Link>
                     </Styled.NavItem>
 
-                    {/* 마이페이지로 이동 */}
                     <Styled.NavItem
                         onMouseEnter={() => setHoveredIndex(3)}
                         onMouseLeave={() => setHoveredIndex(null)}
@@ -69,14 +63,23 @@ const Header = ({ isIntro }) => { // isIntro prop 추가
                         </Link>
                     </Styled.NavItem>
 
-                    {/* 로그인 페이지로 이동 */}
+                    {/* 로그인/로그아웃 버튼 */}
                     <Styled.NavItem
                         onMouseEnter={() => setHoveredIndex(4)}
                         onMouseLeave={() => setHoveredIndex(null)}
                     >
-                        <Link to="/login">
-                            <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그인</Styled.NavButton>
-                        </Link>
+                        {isAuthenticated ? (
+                            <Styled.NavButton
+                                $isWhiteBackground={isIntro}
+                                onClick={logout} // 로그아웃 함수 호출
+                            >
+                                <FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그아웃
+                            </Styled.NavButton>
+                        ) : (
+                            <Link to="/login">
+                                <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그인</Styled.NavButton>
+                            </Link>
+                        )}
                     </Styled.NavItem>
                 </ul>
             </Styled.Navbar>
