@@ -15,16 +15,16 @@ export const Wrapper = styled.div`
   height: 100%;
 `;
 
-// export const LoginContainer = styled.div`
-//   width: 480px;
-//   padding: 30px;
-//   border-radius: 10px;
-//   background-color: #ffffff;
-//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-//   margin-left: 400px; /* 사이드바를 고려한 마진 */
-//   margin-top: 50px;
-//   margin-bottom: 150px;
-// `;
+export const Content = styled.div`
+  width: 480px;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 400px;
+  margin-top: 50px;
+  margin-bottom: 150px;
+`;
 
 export const LoginContainer = styled.div`
   display: flex;
@@ -33,12 +33,12 @@ export const LoginContainer = styled.div`
   padding-bottom: 20%;
 `;
 
-export const Content = styled.div`
+export const ContentAll = styled.div`
   background-color: #f6f6f6;
-  position: relative; /* absolute에서 relative로 변경 */
+  position: relative;
   margin-left: 200px;
-  width: calc(100%-200px);
-  flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
+  width: calc(100% - 200px);
+  flex-grow: 1;
 `;
 
 export const StyledH2 = styled.h2`
@@ -116,7 +116,6 @@ export const ToggleButton = styled.button`
   position: absolute;
   right: 46px;
   top: 24px;
-  // top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -125,7 +124,7 @@ export const ToggleButton = styled.button`
   padding: 0;
 
   img {
-    width: 20px; /* 이미지 크기 조절 */
+    width: 20px;
     height: 20px;
   }
 `;
