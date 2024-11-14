@@ -233,44 +233,40 @@ const DetailPage = ({ API_BASE_URL }) => {
               <Styled.ModalImage src={selectedImage} alt="확대 이미지" />
             </Styled.FullScreenModal>
           )}
-          // 로그인 여부와 작성한 리뷰 여부에 따른 조건 분기
-          {isAuthenticated &&
-            (myReview ? (
-              // 로그인 상태에서 내가 작성한 리뷰가 있을 경우
-              <Styled.ReviewContent>
-                <Styled.User>
-                  <Styled.UserNameBox>
-                    <Styled.UserName>
-                      {myReview.univ} {myReview.writer_name}
-                    </Styled.UserName>
-                    <Styled.UserInfo>
-                      {myReview.team ? `${myReview.team}팀` : ""} {myReview.writer_service ? `· ${myReview.writer_service}` : ""}
-                    </Styled.UserInfo>
-                  </Styled.UserNameBox>
-                  <Styled.UserStarBox>
-                    <Styled.UserStar src={greenStar} alt="star" />
-                    <Styled.ScoreNum>{myReview.score}</Styled.ScoreNum>
-                  </Styled.UserStarBox>
-                </Styled.User>
-                <Styled.UserReviewContent>{myReview.review}</Styled.UserReviewContent>
-                <Styled.HeartBox>
-                  <Styled.HeartButton onClick={() => toggleLike(myReview.id)}>
-                    <FontAwesomeIcon icon={likeStatus[myReview.id]?.isLiked ? solidHeart : regularHeart} />
-                  </Styled.HeartButton>
-                  <Styled.HeartCount>{likeStatus[myReview.id]?.likesCount}</Styled.HeartCount>
-                </Styled.HeartBox>
-              </Styled.ReviewContent>
+        {isAuthenticated && serviceData.is_writer ? (
+          myReview ? (
+            <Styled.ReviewContent>
+              <Styled.User>
+                <Styled.UserNameBox>
+                  <Styled.UserName>{myReview.univ} {myReview.writer_name}</Styled.UserName>
+                  <Styled.UserInfo>
+                    {myReview.team ? `${myReview.team}팀` : ""} {myReview.writer_service ? `· ${myReview.writer_service}` : ""}
+                  </Styled.UserInfo>
+                </Styled.UserNameBox>
+                <Styled.UserStarBox>
+                  <Styled.UserStar src={greenStar} alt="star" />
+                  <Styled.ScoreNum>{myReview.score}</Styled.ScoreNum>
+                </Styled.UserStarBox>
+              </Styled.User>
+              <Styled.UserReviewContent>{myReview.review}</Styled.UserReviewContent>
+              <Styled.HeartBox>
+                <Styled.HeartButton onClick={() => toggleLike(myReview.id)}>
+                  <FontAwesomeIcon icon={likeStatus[myReview.id]?.isLiked ? solidHeart : regularHeart} />
+                </Styled.HeartButton>
+                <Styled.HeartCount>{likeStatus[myReview.id]?.likesCount}</Styled.HeartCount>
+              </Styled.HeartBox>
+            </Styled.ReviewContent>
             ) : (
-              // 로그인 상태에서 내가 작성한 리뷰가 없을 경우
-              <Styled.MyFeedback>
+                <Styled.MyFeedback>
                 <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
                 <Styled.RankingBox>
-                  <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
-                  <Styled.Star src={fiveStars} alt="five stars" />
-                  <Styled.WriteReviewButton src={writeFeedbackbtn} alt="피드백 작성 버튼" onClick={handleReviewClick} />
+                    <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
+                    <Styled.Star src={fiveStars} alt="five stars" />
+                    <Styled.WriteReviewButton src={writeFeedbackbtn} alt="피드백 작성 버튼" onClick={handleReviewClick} />
                 </Styled.RankingBox>
-              </Styled.MyFeedback>
-            ))}
+                </Styled.MyFeedback>
+            )
+            ) : null}
           <Styled.UserReviews>
             <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
             <Styled.UserReviewCount>{serviceData.review_cnt}</Styled.UserReviewCount>
