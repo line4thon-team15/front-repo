@@ -1,5 +1,5 @@
 // src/layouts/Header.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Styled from './Header.styled';
 import { useScroll } from './ScrollContext';
@@ -12,6 +12,9 @@ const Header = ({ isIntro }) => {
     const { scrollToHome, scrollToRanking } = useScroll();
     const { isAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
     const navigate = useNavigate();
+
+        // isAuthenticated가 변경될 때마다 컴포넌트를 리렌더링
+        useEffect(() => {}, [isAuthenticated]);
 
     const GoHome = () => {
         navigate('/')
@@ -62,12 +65,7 @@ const Header = ({ isIntro }) => {
                             <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faFaceSmile} /> &nbsp;마이 페이지</Styled.NavButton>
                         </Link>
                     </Styled.NavItem>
-
-                    {/* 로그인/로그아웃 버튼 */}
-                    <Styled.NavItem
-                        onMouseEnter={() => setHoveredIndex(4)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                    >
+                    <Styled.NavItem>
                         {isAuthenticated ? (
                             <Styled.NavButton
                                 $isWhiteBackground={isIntro}
