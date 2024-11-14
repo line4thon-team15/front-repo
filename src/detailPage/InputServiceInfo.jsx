@@ -40,7 +40,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
         }
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async ({API_BASE_URL}) => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) throw new Error('Access token not found');

@@ -10,7 +10,7 @@ export const MainAllPage = styled.div`
   height: auto;
   width: calc(100% - 220px);
   margin-left: 200px;
-  padding: 40px 10px;
+  padding: 10px 10px;
   scroll-snap-align: start;
 `;
 
@@ -52,13 +52,16 @@ export const Title1 = styled.div`
 `;
 
 // MoreInformation 스타일 정의
-export const MoreInformation = styled(Link)`
+// MoreInformation 스타일 정의
+export const MoreInformation = styled.button`
   display: inline-flex;
   align-items: center;
   margin-top: 75px;
   margin-left: 15px;
   text-decoration: none;
   color: inherit;
+  background-color: white;
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 
   &:hover,
   &:active,

@@ -53,7 +53,6 @@ const Routes = () => {
             }
           />
           <Route path="/SignUp" element={<SignUp API_BASE_URL={API_BASE_URL} />} />
-          <Route path="/ranking" element={<Ranking API_BASE_URL={API_BASE_URL} />} />
         </ReactRoutes>
       </ContentWrapper>
     </LayoutWrapper>

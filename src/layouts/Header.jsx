@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Styled from './Header.styled';
@@ -14,6 +15,7 @@ const Header = ({ isIntro }) => {
     const { scrollToHome, scrollToRanking } = useScroll();
     const { isAuthenticated, setIsAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
     const navigate = useNavigate();
+
 
     const API_BASE_URL = import.meta.env.VITE_API_KEY;
 
@@ -120,12 +122,7 @@ const Header = ({ isIntro }) => {
                             </Styled.NavButton>
                         </Link>
                     </Styled.NavItem>
-
-                    {/* 로그인/로그아웃 버튼 */}
-                    <Styled.NavItem
-                        onMouseEnter={() => setHoveredIndex(4)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                    >
+                    <Styled.NavItem>
                         {isAuthenticated ? (
                             <Styled.NavButton
                                 $isWhiteBackground={isIntro}
