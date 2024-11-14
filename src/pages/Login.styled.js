@@ -16,21 +16,20 @@ export const Wrapper = styled.div`
 `;
 
 export const Content = styled.div`
-  width: 480px;
+  width: 380px;
   padding: 30px;
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 400px;
-  margin-top: 50px;
+  margin-left: 200px;
+  margin-top: 30px;
   margin-bottom: 150px;
 `;
 
 export const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-bottom: 20%;
+  align-items: flex-start;
 `;
 
 export const ContentAll = styled.div`
@@ -49,7 +48,7 @@ export const StyledH2 = styled.h2`
 `;
 
 export const StyledH1 = styled.h1`
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
   margin-bottom: 20px;
   color: black;
@@ -61,11 +60,12 @@ export const LoginBody = styled.div`
   border: 0.5px solid #454545;
   margin-top: 30px;
   border-radius: 10px;
+  width: 100%;
+  height: 100%;
 `;
 
 export const TabContainer = styled.div`
   display: flex;
-  margin-bottom: 20px;
   border-radius: 10px;
   overflow: hidden;
 `;
@@ -89,6 +89,7 @@ export const Tab = styled.button`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  padding-top: 30px;
 `;
 
 export const Input = styled.input`

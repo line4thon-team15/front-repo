@@ -14,11 +14,11 @@ const MainPage = ({ API_BASE_URL }) => {
   const [mainScroll, setMainScroll] = useState(0);
   const [isIntro, setIsIntro] = useState(true); // IntroPage 여부 상태 추가
 
-  //MainPage의 높이를 측정 하는 함수
-  function getScrollPosition() {
-    let TargetElement = document.getElementById("MainPage");
-    let y = TargetElement.scrollTop;
-    setMainScroll(y);
+    //MainPage의 높이를 측정 하는 함수
+    function getScrollPosition() {
+        let TargetElement = document.getElementById("MainPage");
+        let y = TargetElement.scrollTop;
+        setMainScroll(y);
 
     // IntroPage의 높이를 예로 600px로 가정, 스크롤 위치에 따라 isIntro 값 변경
     const threshold = window.innerHeight * 2;

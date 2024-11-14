@@ -14,7 +14,6 @@ const MainAllServices = ({ API_BASE_URL }) => {
       try {
         const respons = await axios.get(`${API_BASE_URL}/main/recent`);
         setMainService(Array.isArray(respons.data) ? respons.data : []);
-        console.log("받은 데이터", respons.data);
       } catch (error) {
         console.error("에러 메세지", error);
         setMainService([]);
