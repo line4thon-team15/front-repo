@@ -27,25 +27,78 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../contexts/AuthContext";
 
 const DetailPage = ({ API_BASE_URL }) => {
-  const navigate = useNavigate();
-  const { isAuthenticated, accessToken } = useAuth(); // accessToken 가져오기
-  const [serviceData, setServiceData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("인기순"); // 기본값을 '인기순'으로 설정
-  const [likeStatus, setLikeStatus] = useState({});
-  const [myReview, setMyReview] = useState(null); // 내가 쓴 리뷰 저장 상태 추가
-  const params = useParams();
-  const { teamId } = useParams(); // teamId를 그대로 사용
+    const navigate = useNavigate();
+    const { isAuthenticated, accessToken } = useAuth(); // accessToken 가져오기
+    const [serviceData, setServiceData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('인기순'); // 기본값을 '인기순'으로 설정
+    const [likeStatus, setLikeStatus] = useState({});
+    const [myReview, setMyReview] = useState(null); // 내가 쓴 리뷰 저장 상태 추가
+    const params = useParams();
+    const { teamId } = useParams(); // teamId를 그대로 사용
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
-        setServiceData(response.data);
-        setIsLoading(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/services/4line-services/${params.teamId}`);
+                setServiceData(response.data);
+                setIsLoading(false);
+                console.log("데이터 로드 성공:", response.data);
+
+                const initialLikeStatus = response.data.review.reduce((status, review) => {
+                    status[review.id] = { isLiked: review.is_liked, likesCount: review.likes_count };
+                    return status;
+                }, {});
+                setLikeStatus(initialLikeStatus);
+            } catch (error) {
+                console.error("데이터 불러오기 실패:", error);
+                setIsLoading(false);
+                alert("데이터 불러오기 실패: 서비스 ID가 정의되지 않았습니다. 관리자에게 문의하세요.");
+            }
+        };
+        fetchData();
+    }, [API_BASE_URL, params.teamId]);
+
+    const toggleLike = async (reviewId) => {
+        if (!isAuthenticated) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            return;
+        }
+
+        try {
+            const currentStatus = likeStatus[reviewId];
+            const updatedIsLiked = !currentStatus.isLiked;
+            const updatedLikesCount = updatedIsLiked ? currentStatus.likesCount + 1 : currentStatus.likesCount - 1;
+
+            await axios.post(
+                `${API_BASE_URL}/reviews/${reviewId}/like/`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+
+            setLikeStatus({
+                ...likeStatus,
+                [reviewId]: {
+                    isLiked: updatedIsLiked,
+                    likesCount: updatedLikesCount,
+                },
+            });
+        } catch (error) {
+            console.error("좋아요 업데이트 실패:", error);
+        }
+    };
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
         // 내가 작성한 리뷰 가져오기 (로그인한 사용자와 일치하는 리뷰 필터링)
         const userReview = response.data.review.find((r) => r.writer_id === loggedInUserId); // loggedInUserId는 로그인한 사용자 ID
@@ -71,6 +124,7 @@ const DetailPage = ({ API_BASE_URL }) => {
       const currentStatus = likeStatus[reviewId];
       const updatedIsLiked = !currentStatus.isLiked;
       const updatedLikesCount = updatedIsLiked ? currentStatus.likesCount + 1 : currentStatus.likesCount - 1;
+
 
       // 서버에 좋아요 상태 업데이트
       await axios.post(
@@ -99,28 +153,20 @@ const DetailPage = ({ API_BASE_URL }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelection = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
+    return (
+        <Styled.Wrapper>
+            <Header isWhiteBackground={true} />
+            <Styled.Content>
+                <Styled.Header>
+                    <Styled.ThumbnailBox>
+                        {serviceData.thumbnail_image ? (
+                            <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+                        ) : (
+                            <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
+                        )}
+                    </Styled.ThumbnailBox>
+                </Styled.Header>
 
-    let sortedReviews;
-    switch (option) {
-      case "인기순":
-        sortedReviews = [...serviceData.review].sort((a, b) => b.likes_count - a.likes_count);
-        break;
-      case "최신순":
-        sortedReviews = [...serviceData.review].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        break;
-      case "높은 평점 순":
-        sortedReviews = [...serviceData.review].sort((a, b) => b.score - a.score);
-        break;
-      case "낮은 평점 순":
-        sortedReviews = [...serviceData.review].sort((a, b) => a.score - b.score);
-        break;
-      default:
-        sortedReviews = serviceData.review;
-        break;
-    }
 
     setServiceData({ ...serviceData, review: sortedReviews });
   };
@@ -217,7 +263,8 @@ const DetailPage = ({ API_BASE_URL }) => {
                 <Styled.ExImage key={index} src={presentation.image} alt={`발표자료-${index}`} onClick={() => handleImageClick(presentation.image)} />
               ))}
           </Styled.PhotoBox>
-          {isModalOpen && (
+        
+        {isModalOpen && (
             <Styled.FullScreenModal>
               <Styled.CloseButton onClick={handleCloseModal}>✕</Styled.CloseButton>
               <Styled.ThumbnailList>
@@ -229,44 +276,15 @@ const DetailPage = ({ API_BASE_URL }) => {
               <Styled.ModalImage src={selectedImage} alt="확대 이미지" />
             </Styled.FullScreenModal>
           )}
-          // 로그인 여부와 작성한 리뷰 여부에 따른 조건 분기
-          {isAuthenticated &&
-            (myReview ? (
-              // 로그인 상태에서 내가 작성한 리뷰가 있을 경우
-              <Styled.ReviewContent>
-                <Styled.User>
-                  <Styled.UserNameBox>
-                    <Styled.UserName>
-                      {myReview.univ} {myReview.writer_name}
-                    </Styled.UserName>
-                    <Styled.UserInfo>
-                      {myReview.team ? `${myReview.team}팀` : ""} {myReview.writer_service ? `· ${myReview.writer_service}` : ""}
-                    </Styled.UserInfo>
-                  </Styled.UserNameBox>
-                  <Styled.UserStarBox>
-                    <Styled.UserStar src={greenStar} alt="star" />
-                    <Styled.ScoreNum>{myReview.score}</Styled.ScoreNum>
-                  </Styled.UserStarBox>
-                </Styled.User>
-                <Styled.UserReviewContent>{myReview.review}</Styled.UserReviewContent>
-                <Styled.HeartBox>
-                  <Styled.HeartButton onClick={() => toggleLike(myReview.id)}>
-                    <FontAwesomeIcon icon={likeStatus[myReview.id]?.isLiked ? solidHeart : regularHeart} />
-                  </Styled.HeartButton>
-                  <Styled.HeartCount>{likeStatus[myReview.id]?.likesCount}</Styled.HeartCount>
-                </Styled.HeartBox>
-              </Styled.ReviewContent>
-            ) : (
-              // 로그인 상태에서 내가 작성한 리뷰가 없을 경우
-              <Styled.MyFeedback>
+         
+       
                 <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
                 <Styled.RankingBox>
                   <Styled.Ask>이 서비스 어떠셨나요?</Styled.Ask>
                   <Styled.Star src={fiveStars} alt="five stars" />
                   <Styled.WriteReviewButton src={writeFeedbackbtn} alt="피드백 작성 버튼" onClick={handleReviewClick} />
                 </Styled.RankingBox>
-              </Styled.MyFeedback>
-            ))}
+          
           <Styled.UserReviews>
             <Styled.UserReview>실시간 유저들의 사용후기</Styled.UserReview>
             <Styled.UserReviewCount>{serviceData.review_cnt}</Styled.UserReviewCount>
@@ -284,6 +302,7 @@ const DetailPage = ({ API_BASE_URL }) => {
               </Styled.DropdownMenu>
             </Styled.DropdownWrapper>
           </Styled.UserReviews>
+          
           {serviceData.review && serviceData.review.length > 0 ? (
             serviceData.review.map((review, index) => (
               <Styled.ReviewContent key={index}>
@@ -334,6 +353,7 @@ const DetailPage = ({ API_BASE_URL }) => {
                     })}
                   </Styled.ReviewKeyword>
                 </Styled.ReviewTags>
+                
                 <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
                 <Styled.HeartBox>
                   <Styled.HeartButton onClick={() => toggleLike(review.id)}>
