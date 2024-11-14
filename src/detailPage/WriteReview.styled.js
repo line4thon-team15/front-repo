@@ -163,7 +163,6 @@ export const Basic = styled.img`
 export const Reuse = styled.img`
     padding: 0 0px 10px 70px; /* 패딩 조정 */
     height: 40px;
-    width: 195px;
 `
 export const Loading = styled.img`
     padding: 0 0px 10px 0px; /* 패딩 조정 */

@@ -6,7 +6,7 @@ import Footer from "../layouts/Footer";
 import Search from "../assets/Search.png";
 import axios from "axios";
 
-const AllServices = () => {
+const AllServices = ({}) => {
   const [services, setServices] = useState([]);
 
   const navigate = useNavigate();

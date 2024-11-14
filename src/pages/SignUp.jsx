@@ -5,11 +5,11 @@ import Blind from "../assets/Blind.png";
 import BlindNone from "../assets/Blind_none.png";
 import Lock from "../assets/Lock.png";
 import Customer from "../assets/Customer.png";
-
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
+import axios from "axios";
 
-const SignUp = () => {
+const SignUp = ({ API_BASE_URL }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -17,41 +17,66 @@ const SignUp = () => {
   const [participantName, setParticipantName] = useState("");
   const [isParticipant, setIsParticipant] = useState(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
   const [schoolDropdownVisible, setSchoolDropdownVisible] = useState(false);
   const [selectedSchool, setSelectedSchool] = useState("");
-  const [schools, setSchools] = useState(["국민대", "덕성여대", "동국대", "서경대", "성균관대", "성신여대", "숙명여대", "한성대"]);
-
+  const [schools] = useState(["국민대", "덕성여대", "동국대", "서경대", "성균관대", "성신여대", "숙명여대", "한성대"]);
   const [teamDropdownVisible, setTeamDropdownVisible] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState("");
-  const [teams, setTeams] = useState([
-    "1팀",
-    "2팀",
-    "3팀",
-    "4팀",
-    "5팀",
-    "6팀",
-    "7팀",
-    "8팀",
-    "9팀",
-    "10팀",
-    "11팀",
-    "12팀",
-    "13팀",
-    "14팀",
-    "15팀",
-    "16팀",
-    "17팀",
-    "18팀",
-    "19팀",
-    "20팀",
-  ]);
+  const [teams] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  console.log(API_BASE_URL, "/accounts/signup/");
 
-  const handleLogin = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    console.log("로그인 요청:", { username, password, passwordConfirm });
+    setError(""); // 에러 메시지 초기화
+
+    if (password !== passwordConfirm) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    const userData = {
+      username: username,
+      password: password,
+      password2: passwordConfirm,
+      is_participant: isParticipant,
+      name: participantName,
+      univ: selectedSchool,
+      team: selectedTeam,
+    };
+
+    console.log("Submitted data:", { username, password, passwordConfirm, selectedSchool, selectedTeam, isParticipant });
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/accounts/signup/`, userData);
+      console.log("회원가입 성공:", response.data);
+      alert(response.data.success);
+    } catch (error) {
+      if (error.response) {
+        console.log("HTTP 상태 코드:", error.response.status);
+        console.log("응답 데이터:", error.response.data);
+      } else {
+        console.log("요청 오류:", error.message);
+      }
+    }
+
+    // try {
+    //   const response = await axios.post(`${API_BASE_URL}accounts/signup/`, userData);
+    //   console.log("회원가입 성공:", response.data);
+    //   alert(response.data.success);
+    //   // navigate("/login"); // 주석 해제 시 로그인 페이지로 이동
+    // } catch (error) {
+    //   if (error.response && error.response.data) {
+    //     // setError(error.response.data.error || "회원가입에 실패했습니다. 다시 시도해주세요.");
+    //     console.log("서버 에러 메시지:", error.response.data.error);
+    //   } else {
+    //     // setError("오류가 발생했습니다. 다시 시도해주세요.");
+    //     console.log("요청 오류:", error.message);
+    //   }
+    // }
   };
 
   const togglePasswordVisibility = () => {
@@ -108,7 +133,7 @@ const SignUp = () => {
               <Styled.Tab active>회원가입</Styled.Tab>
             </Styled.TabContainer>
 
-            <Styled.Form onSubmit={handleLogin}>
+            <Styled.Form onSubmit={handleSignUp}>
               <Styled.IDAndPw>
                 <Styled.Title>&nbsp;아이디 및 비밀번호 설정</Styled.Title>
 
@@ -207,8 +232,8 @@ const SignUp = () => {
                   {teamDropdownVisible && (
                     <Styled.ParticipantOptions>
                       {teams.map((team, index) => (
-                        <Styled.Option key={index} onClick={() => handleTeamSelect(team)}>
-                          {team}
+                        <Styled.Option key={index} onClick={() => handleTeamSelect(`${team}`)}>
+                          {team}팀
                         </Styled.Option>
                       ))}
                     </Styled.ParticipantOptions>
@@ -216,7 +241,8 @@ const SignUp = () => {
                 </Styled.UnivAndTeam>
               )}
 
-              <Styled.LoginButton type="submit" disabled={!isFormValid()} isFormValid={isFormValid()}>
+              {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
+              <Styled.LoginButton type="submit" disabled={!isFormValid()}>
                 가입하기
               </Styled.LoginButton>
             </Styled.Form>

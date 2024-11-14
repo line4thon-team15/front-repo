@@ -300,6 +300,9 @@ export const ExImage = styled.img`
     margin-right: 20px;
     cursor: pointer;
 `;
+
+export const MyFeedback = styled.div`
+`
 export const Feedback1 = styled.div`
     padding: 50px 20px 10px 80px;
     font-size: 20px;
@@ -500,8 +503,10 @@ export const ReviewTags = styled.div`
 export const ReviewKeyword = styled.div`
     padding: 10px 0px 10px 0px;
     display: flex;
+    align-items: center;
     justify-content: flex-start;
     gap: px; /* 태그들 사이의 간격 */
+    height: 40px; /* 원하는 높이 설정 */
 
 `
 
@@ -521,7 +526,7 @@ export const Design = styled.img`
 `
 
 export const Growth = styled.img`
-    padding: 8px 10px 0px 0px;
+padding: 10px 10px 0px 0px;
 
 `
 export const Feedback = styled.img`
@@ -535,7 +540,7 @@ export const Reuse = styled.img`
 `
 
 export const Loading = styled.img`
-    padding: 0px 10px 0px 0px;
+    padding: 10px 10px 0px 0px;
 `
 export const Original = styled.img`
     padding: 10px 10px 0px 0px;

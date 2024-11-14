@@ -10,10 +10,6 @@ export const IntroPage = styled.div`
     width: 100%;
     background-color: black;
     color: white;
-    /* scroll-snap-type: y mandatory;
-    scroll-behavior: smooth; */
-
-    /* border: 5px solid blue; */
 `;
 
 const fadeIn = keyframes`
