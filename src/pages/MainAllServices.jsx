@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as MA from "./MainAllServices.Styled";
+import * as MA from "./MainAllServices.styled";
 import * as A from "@/pages/AllServices.Styled";
 import ArrowrightBlue from "../assets/ArrowrightBlue.png";
 import axios from "axios";
