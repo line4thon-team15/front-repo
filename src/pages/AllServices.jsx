@@ -4,7 +4,7 @@ import * as Styled from "./AllServices.styled";
 import * as DT from "@/detailPage/DetailPage.styled";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
-import Search from "../assets/Search.png";
+import Reloading from "../assets/Reloading.png";
 import axios from "axios";
 
 const AllServices = ({ API_BASE_URL }) => {
@@ -90,8 +90,9 @@ const AllServices = ({ API_BASE_URL }) => {
 
         <div id="SearchContainner">
           <div style={{ width: "120px" }}></div>
+
           <Styled.SearchBar>
-            <img src={Search} alt="검색 아이콘" className="search-icon" />
+            <img src={Reloading} alt="검색 아이콘" className="search-icon" onClick={() => navigate(0)} />
             <input type="text" placeholder="서비스 명으로 검색해보세요" value={searchTerm} onChange={handleSearchChange} />
           </Styled.SearchBar>
 
