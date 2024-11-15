@@ -94,6 +94,8 @@ export const SearchBar = styled.div`
     width: 20px;
     height: 20px;
     margin-right: 8px;
+
+    cursor: pointer;
   }
 
   input {

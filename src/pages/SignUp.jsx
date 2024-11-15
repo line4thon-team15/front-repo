@@ -39,21 +39,21 @@ const SignUp = ({ API_BASE_URL }) => {
     }
 
     const userData = isParticipant
-        ? {
-            username: username,
-            password: password,
-            password2: passwordConfirm,
-            is_participant: true,
-            name: participantName,
-            univ: selectedSchool,
-            team: selectedTeam,
+      ? {
+          username: username,
+          password: password,
+          password2: passwordConfirm,
+          is_participant: true,
+          name: participantName,
+          univ: selectedSchool,
+          team: selectedTeam,
         }
-        : {
-            username: username,
-            password: password,
-            password2: passwordConfirm,
-            is_participant: false,
-            name: participantName,
+      : {
+          username: username,
+          password: password,
+          password2: passwordConfirm,
+          is_participant: false,
+          name: participantName,
         };
 
     console.log("서버에 전송할 데이터:", userData);
@@ -136,11 +136,27 @@ const SignUp = ({ API_BASE_URL }) => {
 
                   <Styled.InputWrapper>
                     <Styled.Icon src={Customer} alt="아이디 아이콘" />
-                    <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={(e) => setUsername(e.target.value)} />
-                    <Styled.Ment>한글은 입력 불가능합니다.</Styled.Ment>
-                    <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
+                    <Styled.Input
+                      type="text"
+                      placeholder="아이디를 입력해주세요"
+                      value={username}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/[\u3131-\uD79D]/.test(value)) {
+                          // 한글이 포함되면 경고 메시지 표시
+                          setUsername("");
+                          alert("아이디에 한글은 입력할 수 없습니다.");
+                        } else {
+                          setUsername(value);
+                        }
+                      }}
+                    />
+                    {username && !/^[a-zA-Z0-9]+$/.test(username) ? (
+                      <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
+                    ) : (
+                      <Styled.Ment>한글은 입력 불가능합니다.</Styled.Ment>
+                    )}
                   </Styled.InputWrapper>
-
                   <Styled.PasswordField1>
                     <Styled.InputWrapper>
                       <Styled.Icon src={Lock} alt="비밀번호 아이콘" />
@@ -148,19 +164,35 @@ const SignUp = ({ API_BASE_URL }) => {
                         type={passwordVisible ? "text" : "password"}
                         placeholder="비밀번호를 입력해주세요"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/[\u3131-\uD79D]/.test(value)) {
+                            // 한글이 포함되면 경고 메시지 표시
+                            setPassword("");
+                            alert("비밀번호에 한글은 입력할 수 없습니다.");
+                          } else {
+                            setPassword(value);
+                          }
+                        }}
                       />
                       <Styled.ToggleButton type="button" onClick={togglePasswordVisibility}>
                         <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
                       </Styled.ToggleButton>
+
+                      {/* 메시지 조건 렌더링 */}
+                      {!password ? (
+                        <Styled.Ment>8자리 이상 입력해주세요.(특수문자 1개 이상 포함)</Styled.Ment>
+                      ) : !/^(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/.test(password) ? (
+                        <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
+                      ) : (
+                        <Styled.Ment>가능한 형식입니다.</Styled.Ment>
+                      )}
                     </Styled.InputWrapper>
-                    <Styled.Ment>8자리 이상 입력해주세요.(특수문자 1개 이상 포함)</Styled.Ment>
-                    <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
                   </Styled.PasswordField1>
 
                   <Styled.PasswordField2>
                     <Styled.InputWrapper>
-                      <Styled.Icon src={Lock} alt="비밀번호 확인 아이콘" />
+                      <Styled.Icon2 src={Lock} alt="비밀번호 확인 아이콘" />
                       <Styled.Input
                         type="password"
                         placeholder="비밀번호를 한번 더 입력해주세요"
@@ -168,7 +200,7 @@ const SignUp = ({ API_BASE_URL }) => {
                         onChange={(e) => setPasswordConfirm(e.target.value)}
                       />
                     </Styled.InputWrapper>
-                    <Styled.MentWarning>비밀번호가 일치하지 않습니다.</Styled.MentWarning>
+                    {passwordConfirm && password !== passwordConfirm ? <Styled.MentWarning>비밀번호가 일치하지 않습니다.</Styled.MentWarning> : null}
                   </Styled.PasswordField2>
                 </Styled.IDAndPw>
 
@@ -192,9 +224,9 @@ const SignUp = ({ API_BASE_URL }) => {
                       readOnly
                       onClick={toggleParticipantDropdown}
                     />
-                    <Styled.ToggleButton type="button" onClick={toggleParticipantDropdown}>
+                    <Styled.ToggleButton2 type="button" onClick={toggleParticipantDropdown}>
                       ▼
-                    </Styled.ToggleButton>
+                    </Styled.ToggleButton2>
                   </Styled.InputWrapperNoIcon>
 
                   {isDropdownVisible && (
@@ -249,7 +281,7 @@ const SignUp = ({ API_BASE_URL }) => {
                 )}
 
                 {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
-                <Styled.LoginButton type="submit" disabled={!isFormValid()} >
+                <Styled.LoginButton type="submit" disabled={!isFormValid()}>
                   가입하기
                 </Styled.LoginButton>
               </Styled.Form>
