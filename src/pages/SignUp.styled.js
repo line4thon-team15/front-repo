@@ -3,33 +3,35 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
+  min-height: 100vh;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
 `;
 
 export const Content = styled.div`
-  background-color: #f6f6f6;
-  position: relative;
-  margin-left: 200px;
-  width: calc(100% - 200px);
-  flex-grow: 1;
-`;
-
-export const SignUpContainer = styled.div`
-  width: 480px;
-  padding: 30px;
+  width: 540px;
+  padding: 20px;
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 400px;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-bottom: 150px;
+`;
+
+export const SignUpContainer = styled.div`
+  width: 490px;
+  padding: 20px;
+  background-color: #ffffff;
 `;
 
 export const IDAndPw = styled.div`
   width: 470px;
-  background-color: white;
 `;
 
 export const Title = styled.h1`
@@ -56,14 +58,14 @@ export const StyledH1 = styled.h1`
 export const LoginBody = styled.div`
   background-color: #ffffff;
   border: 0.5px solid #454545;
-  margin-top: 30px;
+  margin-top: 50px;
   border-radius: 10px;
 `;
 
 export const TabContainer = styled.div`
   display: flex;
   margin-bottom: 20px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   overflow: hidden;
 `;
 
@@ -91,10 +93,19 @@ export const Form = styled.form`
 export const InputWrapper = styled.div`
   position: relative;
   width: 90%;
-  margin: 0 auto 15px auto;
+  margin: 0 auto 10px auto;
 `;
 
 export const Icon = styled.img`
+  position: absolute;
+  left: 15px;
+  top: 35%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+`;
+
+export const Icon2 = styled.img`
   position: absolute;
   left: 15px;
   top: 50%;
@@ -123,6 +134,28 @@ export const PasswordField1 = styled.div`
 
 export const PasswordField2 = styled.div`
   position: relative;
+`;
+
+export const Ment = styled.div`
+  font-size: 13px;
+  color: #77a71d;
+  margin-top: 4px;
+  margin-left: 0;
+  text-align: right;
+  padding-right: 5px;
+  height: 20px;
+  line-height: 20px;
+`;
+
+export const MentWarning = styled.div`
+  font-size: 13px;
+  color: red;
+  margin-top: 4px;
+  margin-left: 0;
+  text-align: right;
+  padding-right: 5px;
+  height: 20px;
+  line-height: 20px;
 `;
 
 export const Information = styled.div`
@@ -161,6 +194,22 @@ export const InputNOI = styled.input`
 `;
 
 export const ToggleButton = styled.button`
+  position: absolute;
+  right: 12px;
+  top: 35%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const ToggleButton2 = styled.button`
   position: absolute;
   right: 12px;
   top: 50%;
@@ -218,4 +267,11 @@ export const LoginButton = styled.button`
   margin-right: 15px;
   margin-bottom: 25px;
   transition: background-color 0.3s;
+`;
+
+export const ErrorMessage = styled.div`
+  color: red;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
 `;

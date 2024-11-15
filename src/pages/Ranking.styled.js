@@ -8,11 +8,13 @@ export const RankingPage = styled.div`
   height: 100vh;
   background-color: white;
   scroll-snap-align: start;
+  padding-bottom: 300px;
 `;
 
 export const Content = styled.div`
   height: 100vh;
-  padding: 24px;
+  margin: 15px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -20,14 +22,28 @@ export const Content = styled.div`
 
 export const Header = styled.div`
   text-align: center;
-  margin-bottom: 24px;
+  margin: 20px 0;
 `;
 
 export const Title = styled.h1`
-  font-size: 55px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: 70px;
+  text-align: center;
   font-weight: bold;
   color: black;
-  margin-bottom: 10px;
+  margin: 10px;
+  line-height: 1;
+`;
+
+export const Werath = styled.img`
+  position: absolute;
+  top: 31px;
+  left: calc(55% + 120px);
+  transform: translateX(-50%);
+  width: 53px;
+  height: auto;
 `;
 
 export const Subtitle = styled.p`
@@ -36,15 +52,20 @@ export const Subtitle = styled.p`
 `;
 
 export const SectionContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  justify-content: center;
+  justify-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const Section = styled.div`
   background-color: white;
   padding: 16px;
-  border-radius: none;
+  border-radius: 8px;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
@@ -66,21 +87,26 @@ export const SectionTitle = styled.h2`
 
 export const FirstPlace = styled.div`
   display: flex;
-  // align-items: center;
-  margin-bottom: 24px;
   flex-direction: column;
+  margin-bottom: 24px;
+
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 `;
 
 export const FirstPlaceImage = styled.img`
-  width: 300px;
-  height: auto;
+  width: 446px; /* 고정 가로 크기 */
+  height: 250px; /* 고정 세로 크기 */
   border-radius: 8px;
-  margin-right: 16px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
 `;
 
 export const FirstPlaceInfo = styled.div`
   display: flex;
   flex-direction: row;
+
+  margin-top: 15px;
 `;
 
 export const ServiceDescription = styled.p`
@@ -133,6 +159,8 @@ export const ServiceName = styled.div`
 export const Arrow = styled.div`
   font-size: 24px;
   color: #999;
+
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
 `;
 
 export const ServiceNameFirst = styled.div`
@@ -146,4 +174,16 @@ export const ServiceDescriptionFirst = styled.p`
   font-size: 20px;
   color: #555;
   margin-top: 8px;
+`;
+
+export const ServiceTeam = styled.div`
+  font-size: 14px;
+  color: #777;
+  margin-top: 4px;
+`;
+
+export const ServiceCardAll = styled.div`
+  &:hover {
+    transform: scale(1.05);
+  }
 `;

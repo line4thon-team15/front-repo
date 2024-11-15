@@ -38,45 +38,41 @@ const SignUp = ({ API_BASE_URL }) => {
       return;
     }
 
-    const userData = {
-      username: username,
-      password: password,
-      password2: passwordConfirm,
-      is_participant: isParticipant,
-      name: participantName,
-      univ: selectedSchool,
-      team: selectedTeam,
-    };
+    const userData = isParticipant
+      ? {
+          username: username,
+          password: password,
+          password2: passwordConfirm,
+          is_participant: true,
+          name: participantName,
+          univ: selectedSchool,
+          team: selectedTeam,
+        }
+      : {
+          username: username,
+          password: password,
+          password2: passwordConfirm,
+          is_participant: false,
+          name: participantName,
+        };
 
-    console.log("Submitted data:", { username, password, passwordConfirm, selectedSchool, selectedTeam, isParticipant });
+    console.log("서버에 전송할 데이터:", userData);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/accounts/signup/`, userData);
+      const response = await axios.post(`${API_BASE_URL}accounts/signup/`, userData);
       console.log("회원가입 성공:", response.data);
-      alert(response.data.success);
+      alert("회원가입이 성공했습니다. 로그인 페이지로 이동합니다.");
+      navigate("/login"); // 회원가입 성공 시 로그인 페이지로 이동
     } catch (error) {
       if (error.response) {
         console.log("HTTP 상태 코드:", error.response.status);
         console.log("응답 데이터:", error.response.data);
+        alert(`회원가입 실패: ${error.response.data}`);
       } else {
         console.log("요청 오류:", error.message);
+        alert("요청 오류가 발생했습니다.");
       }
     }
-
-    // try {
-    //   const response = await axios.post(`${API_BASE_URL}accounts/signup/`, userData);
-    //   console.log("회원가입 성공:", response.data);
-    //   alert(response.data.success);
-    //   // navigate("/login"); // 주석 해제 시 로그인 페이지로 이동
-    // } catch (error) {
-    //   if (error.response && error.response.data) {
-    //     // setError(error.response.data.error || "회원가입에 실패했습니다. 다시 시도해주세요.");
-    //     console.log("서버 에러 메시지:", error.response.data.error);
-    //   } else {
-    //     // setError("오류가 발생했습니다. 다시 시도해주세요.");
-    //     console.log("요청 오류:", error.message);
-    //   }
-    // }
   };
 
   const togglePasswordVisibility = () => {
@@ -122,133 +118,177 @@ const SignUp = ({ API_BASE_URL }) => {
   return (
     <Styled.Wrapper>
       <Header isWhiteBackground={true} />
-      <Styled.Content>
-        <Styled.SignUpContainer>
-          <Styled.StyledH2>4호선톤 가입하고 피드백 남기러 가자!</Styled.StyledH2>
-          <Styled.StyledH1>회원가입 하기</Styled.StyledH1>
+      <Styled.ContentContainer>
+        <Styled.Content>
+          <Styled.SignUpContainer>
+            <Styled.StyledH2>4호선톤 가입하고 피드백 남기러 가자!</Styled.StyledH2>
+            <Styled.StyledH1>회원가입 하기</Styled.StyledH1>
 
-          <Styled.LoginBody>
-            <Styled.TabContainer>
-              <Styled.Tab onClick={() => navigate("/login")}>로그인</Styled.Tab>
-              <Styled.Tab active>회원가입</Styled.Tab>
-            </Styled.TabContainer>
+            <Styled.LoginBody>
+              <Styled.TabContainer>
+                <Styled.Tab onClick={() => navigate("/login")}>로그인</Styled.Tab>
+                <Styled.Tab active>회원가입</Styled.Tab>
+              </Styled.TabContainer>
 
-            <Styled.Form onSubmit={handleSignUp}>
-              <Styled.IDAndPw>
-                <Styled.Title>&nbsp;아이디 및 비밀번호 설정</Styled.Title>
+              <Styled.Form onSubmit={handleSignUp}>
+                <Styled.IDAndPw>
+                  <Styled.Title>&nbsp;아이디 및 비밀번호 설정</Styled.Title>
 
-                <Styled.InputWrapper>
-                  <Styled.Icon src={Customer} alt="아이디 아이콘" />
-                  <Styled.Input type="text" placeholder="아이디를 입력해주세요" value={username} onChange={(e) => setUsername(e.target.value)} />
-                </Styled.InputWrapper>
-
-                <Styled.PasswordField1>
                   <Styled.InputWrapper>
-                    <Styled.Icon src={Lock} alt="비밀번호 아이콘" />
+                    <Styled.Icon src={Customer} alt="아이디 아이콘" />
                     <Styled.Input
-                      type={passwordVisible ? "text" : "password"}
-                      placeholder="비밀번호를 입력해주세요"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      type="text"
+                      placeholder="아이디를 입력해주세요"
+                      value={username}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/[\u3131-\uD79D]/.test(value)) {
+                          // 한글이 포함되면 경고 메시지 표시
+                          setUsername("");
+                          alert("아이디에 한글은 입력할 수 없습니다.");
+                        } else {
+                          setUsername(value);
+                        }
+                      }}
                     />
-                    <Styled.ToggleButton type="button" onClick={togglePasswordVisibility}>
-                      <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
-                    </Styled.ToggleButton>
+                    {username && !/^[a-zA-Z0-9]+$/.test(username) ? (
+                      <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
+                    ) : (
+                      <Styled.Ment>한글은 입력 불가능합니다.</Styled.Ment>
+                    )}
                   </Styled.InputWrapper>
-                </Styled.PasswordField1>
+                  <Styled.PasswordField1>
+                    <Styled.InputWrapper>
+                      <Styled.Icon src={Lock} alt="비밀번호 아이콘" />
+                      <Styled.Input
+                        type={passwordVisible ? "text" : "password"}
+                        placeholder="비밀번호를 입력해주세요"
+                        value={password}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/[\u3131-\uD79D]/.test(value)) {
+                            // 한글이 포함되면 경고 메시지 표시
+                            setPassword("");
+                            alert("비밀번호에 한글은 입력할 수 없습니다.");
+                          } else {
+                            setPassword(value);
+                          }
+                        }}
+                      />
+                      <Styled.ToggleButton type="button" onClick={togglePasswordVisibility}>
+                        <img src={passwordVisible ? BlindNone : Blind} alt="비밀번호 보기 전환" />
+                      </Styled.ToggleButton>
 
-                <Styled.PasswordField2>
-                  <Styled.InputWrapper>
-                    <Styled.Icon src={Lock} alt="비밀번호 확인 아이콘" />
-                    <Styled.Input
-                      type="password"
-                      placeholder="비밀번호를 한번 더 입력해주세요"
-                      value={passwordConfirm}
-                      onChange={(e) => setPasswordConfirm(e.target.value)}
+                      {/* 메시지 조건 렌더링 */}
+                      {!password ? (
+                        <Styled.Ment>8자리 이상 입력해주세요.(특수문자 1개 이상 포함)</Styled.Ment>
+                      ) : !/^(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/.test(password) ? (
+                        <Styled.MentWarning>잘못된 형식입니다.</Styled.MentWarning>
+                      ) : (
+                        <Styled.Ment>가능한 형식입니다.</Styled.Ment>
+                      )}
+                    </Styled.InputWrapper>
+                  </Styled.PasswordField1>
+
+                  <Styled.PasswordField2>
+                    <Styled.InputWrapper>
+                      <Styled.Icon2 src={Lock} alt="비밀번호 확인 아이콘" />
+                      <Styled.Input
+                        type="password"
+                        placeholder="비밀번호를 한번 더 입력해주세요"
+                        value={passwordConfirm}
+                        onChange={(e) => setPasswordConfirm(e.target.value)}
+                      />
+                    </Styled.InputWrapper>
+                    {passwordConfirm && password !== passwordConfirm ? <Styled.MentWarning>비밀번호가 일치하지 않습니다.</Styled.MentWarning> : null}
+                  </Styled.PasswordField2>
+                </Styled.IDAndPw>
+
+                {/* 참여자 정보 입력 */}
+                <Styled.Information>
+                  <Styled.Title>&nbsp;참여자 정보 입력</Styled.Title>
+
+                  <Styled.InputWrapperNoIcon>
+                    <Styled.InputNOI
+                      type="text"
+                      placeholder="이름을 입력해주세요"
+                      value={participantName}
+                      onChange={(e) => setParticipantName(e.target.value)}
                     />
-                  </Styled.InputWrapper>
-                </Styled.PasswordField2>
-              </Styled.IDAndPw>
+                  </Styled.InputWrapperNoIcon>
+                  <Styled.InputWrapperNoIcon>
+                    <Styled.InputNOI
+                      type="text"
+                      value={isParticipant === true ? "네 참여자입니다" : isParticipant === false ? "아니요 (운영진/심사위원/외부인) 입니다" : ""}
+                      placeholder="해커톤 참여자이신가요?"
+                      readOnly
+                      onClick={toggleParticipantDropdown}
+                    />
+                    <Styled.ToggleButton2 type="button" onClick={toggleParticipantDropdown}>
+                      ▼
+                    </Styled.ToggleButton2>
+                  </Styled.InputWrapperNoIcon>
 
-              {/* 참여자 정보 입력 */}
-              <Styled.Information>
-                <Styled.Title>&nbsp;참여자 정보 입력</Styled.Title>
+                  {isDropdownVisible && (
+                    <Styled.ParticipantOptions>
+                      <Styled.Option onClick={() => handleParticipantChange(true)}>네 참여자입니다</Styled.Option>
+                      <Styled.Option onClick={() => handleParticipantChange(false)}>아니요 (운영진/심사위원/외부인) 입니다</Styled.Option>
+                    </Styled.ParticipantOptions>
+                  )}
+                </Styled.Information>
 
-                <Styled.InputWrapperNoIcon>
-                  <Styled.InputNOI type="text" placeholder="이름을 입력해주세요" value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
-                </Styled.InputWrapperNoIcon>
-                <Styled.InputWrapperNoIcon>
-                  <Styled.InputNOI
-                    type="text"
-                    value={isParticipant === true ? "네 참여자입니다" : isParticipant === false ? "아니요 (운영진/심사위원/외부인) 입니다" : ""}
-                    placeholder="해커톤 참여자이신가요?"
-                    readOnly
-                    onClick={toggleParticipantDropdown}
-                  />
-                  <Styled.ToggleButton type="button" onClick={toggleParticipantDropdown}>
-                    ▼
-                  </Styled.ToggleButton>
-                </Styled.InputWrapperNoIcon>
+                {/* 학교 및 소속 선택 */}
+                {isParticipant && (
+                  <Styled.UnivAndTeam>
+                    <Styled.Title>&nbsp;학교 및 소속 선택</Styled.Title>
 
-                {isDropdownVisible && (
-                  <Styled.ParticipantOptions>
-                    <Styled.Option onClick={() => handleParticipantChange(true)}>네 참여자입니다</Styled.Option>
-                    <Styled.Option onClick={() => handleParticipantChange(false)}>아니요 (운영진/심사위원/외부인) 입니다</Styled.Option>
-                  </Styled.ParticipantOptions>
+                    {/* 학교 선택 */}
+                    <Styled.InputWrapperNoIcon>
+                      <Styled.InputNOI type="text" value={selectedSchool} placeholder="소속 학교를 선택해주세요" readOnly onClick={toggleSchoolDropdown} />
+                      <Styled.ToggleButton type="button" onClick={toggleSchoolDropdown}>
+                        ▼
+                      </Styled.ToggleButton>
+                    </Styled.InputWrapperNoIcon>
+
+                    {schoolDropdownVisible && (
+                      <Styled.ParticipantOptions>
+                        {schools.map((school, index) => (
+                          <Styled.Option key={index} onClick={() => handleSchoolSelect(school)}>
+                            {school}
+                          </Styled.Option>
+                        ))}
+                      </Styled.ParticipantOptions>
+                    )}
+
+                    {/* 팀 선택 */}
+                    <Styled.InputWrapperNoIcon>
+                      <Styled.InputNOI type="text" value={selectedTeam} placeholder="소속 팀을 선택해주세요" readOnly onClick={toggleTeamDropdown} />
+                      <Styled.ToggleButton type="button" onClick={toggleTeamDropdown}>
+                        ▼
+                      </Styled.ToggleButton>
+                    </Styled.InputWrapperNoIcon>
+
+                    {teamDropdownVisible && (
+                      <Styled.ParticipantOptions>
+                        {teams.map((team, index) => (
+                          <Styled.Option key={index} onClick={() => handleTeamSelect(`${team}`)}>
+                            {team}팀
+                          </Styled.Option>
+                        ))}
+                      </Styled.ParticipantOptions>
+                    )}
+                  </Styled.UnivAndTeam>
                 )}
-              </Styled.Information>
 
-              {/* 학교 및 소속 선택 */}
-              {isParticipant && (
-                <Styled.UnivAndTeam>
-                  <Styled.Title>&nbsp;학교 및 소속 선택</Styled.Title>
-
-                  {/* 학교 선택 */}
-                  <Styled.InputWrapperNoIcon>
-                    <Styled.InputNOI type="text" value={selectedSchool} placeholder="소속 학교를 선택해주세요" readOnly onClick={toggleSchoolDropdown} />
-                    <Styled.ToggleButton type="button" onClick={toggleSchoolDropdown}>
-                      ▼
-                    </Styled.ToggleButton>
-                  </Styled.InputWrapperNoIcon>
-
-                  {schoolDropdownVisible && (
-                    <Styled.ParticipantOptions>
-                      {schools.map((school, index) => (
-                        <Styled.Option key={index} onClick={() => handleSchoolSelect(school)}>
-                          {school}
-                        </Styled.Option>
-                      ))}
-                    </Styled.ParticipantOptions>
-                  )}
-
-                  {/* 팀 선택 */}
-                  <Styled.InputWrapperNoIcon>
-                    <Styled.InputNOI type="text" value={selectedTeam} placeholder="소속 팀을 선택해주세요" readOnly onClick={toggleTeamDropdown} />
-                    <Styled.ToggleButton type="button" onClick={toggleTeamDropdown}>
-                      ▼
-                    </Styled.ToggleButton>
-                  </Styled.InputWrapperNoIcon>
-
-                  {teamDropdownVisible && (
-                    <Styled.ParticipantOptions>
-                      {teams.map((team, index) => (
-                        <Styled.Option key={index} onClick={() => handleTeamSelect(`${team}`)}>
-                          {team}팀
-                        </Styled.Option>
-                      ))}
-                    </Styled.ParticipantOptions>
-                  )}
-                </Styled.UnivAndTeam>
-              )}
-
-              {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
-              <Styled.LoginButton type="submit" disabled={!isFormValid()}>
-                가입하기
-              </Styled.LoginButton>
-            </Styled.Form>
-          </Styled.LoginBody>
-        </Styled.SignUpContainer>
-      </Styled.Content>
+                {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
+                <Styled.LoginButton type="submit" disabled={!isFormValid()}>
+                  가입하기
+                </Styled.LoginButton>
+              </Styled.Form>
+            </Styled.LoginBody>
+          </Styled.SignUpContainer>
+        </Styled.Content>
+      </Styled.ContentContainer>
 
       <Footer />
     </Styled.Wrapper>

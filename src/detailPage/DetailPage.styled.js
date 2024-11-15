@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
@@ -13,12 +12,12 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    /* background-color: #EEEEEE; */
     position: relative;  /* absolute에서 relative로 변경 */
-    margin-left: 300px;  
-    margin-bottom: 80px;
+    margin-left: 220px;  
     width: calc(100%-300px);
     flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
+    padding-bottom: 60px;
 `;
 
 export const Header = styled.div`
@@ -32,6 +31,27 @@ export const Header = styled.div`
     align-items: center; /* Header의 가로 가운데 정렬 */
     justify-content: center; /* Header의 세로 가운데 정렬 */
 `;
+
+export const ServiceInfoButton = styled.div`
+    margin-left: 92%;
+    background-color: #FFD64D;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    position: absolute; /* 위치를 상대적으로 지정 */
+    top: 30px; 
+    right: 30px;
+    transition: all 0.3s ease;
+
+    &:hover{
+        background-color: #FFE39A;
+        transform: scale(1.05);
+    }
+
+`
+export const InfoVector = styled.img`
+    padding: 15px;
+`
 
 export const ThumbnailBox = styled.div`
     color: #FFFFFF;

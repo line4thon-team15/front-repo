@@ -10,27 +10,32 @@ export const ErrorMessage = styled.p`
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
+  min-height: 100vh;
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 60px;
 `;
 
 export const Content = styled.div`
-  width: 480px;
-  padding: 30px;
+  width: 500px;
+  padding: 40px;
   border-radius: 10px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 400px;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-bottom: 150px;
 `;
 
 export const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-bottom: 20%;
+  align-items: flex-start;
 `;
 
 export const ContentAll = styled.div`
@@ -49,9 +54,9 @@ export const StyledH2 = styled.h2`
 `;
 
 export const StyledH1 = styled.h1`
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   color: black;
   margin-left: 5px;
 `;
@@ -61,12 +66,13 @@ export const LoginBody = styled.div`
   border: 0.5px solid #454545;
   margin-top: 30px;
   border-radius: 10px;
+  width: 100%;
+  height: 100%;
 `;
 
 export const TabContainer = styled.div`
   display: flex;
-  margin-bottom: 20px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
   overflow: hidden;
 `;
 
@@ -89,6 +95,7 @@ export const Tab = styled.button`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  padding-top: 30px;
 `;
 
 export const Input = styled.input`
