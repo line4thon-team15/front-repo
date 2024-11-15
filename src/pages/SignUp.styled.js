@@ -93,10 +93,19 @@ export const Form = styled.form`
 export const InputWrapper = styled.div`
   position: relative;
   width: 90%;
-  margin: 0 auto 15px auto;
+  margin: 0 auto 10px auto;
 `;
 
 export const Icon = styled.img`
+  position: absolute;
+  left: 15px;
+  top: 35%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+`;
+
+export const Icon2 = styled.img`
   position: absolute;
   left: 15px;
   top: 50%;
@@ -130,10 +139,10 @@ export const PasswordField2 = styled.div`
 export const Ment = styled.div`
   font-size: 13px;
   color: #77a71d;
-  margin-top: 5px;
+  margin-top: 4px;
   margin-left: 0;
   text-align: right;
-  padding-right: 20px;
+  padding-right: 5px;
   height: 20px;
   line-height: 20px;
 `;
@@ -141,10 +150,10 @@ export const Ment = styled.div`
 export const MentWarning = styled.div`
   font-size: 13px;
   color: red;
-  margin-top: 5px;
+  margin-top: 4px;
   margin-left: 0;
   text-align: right;
-  padding-right: 20px;
+  padding-right: 5px;
   height: 20px;
   line-height: 20px;
 `;
@@ -185,6 +194,22 @@ export const InputNOI = styled.input`
 `;
 
 export const ToggleButton = styled.button`
+  position: absolute;
+  right: 12px;
+  top: 35%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const ToggleButton2 = styled.button`
   position: absolute;
   right: 12px;
   top: 50%;
