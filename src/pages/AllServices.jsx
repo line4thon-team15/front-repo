@@ -4,7 +4,7 @@ import * as Styled from "./AllServices.styled";
 import * as DT from "@/detailPage/DetailPage.styled";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
-import Reloading from "../assets/Reloading.png";
+import Reloading from "../assets/Reloading2.png";
 import axios from "axios";
 
 const AllServices = ({ API_BASE_URL }) => {
