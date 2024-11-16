@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as Styled from "./MyPage.styled";
-import profile from "../assets/profile.svg";
+import profile from "../assets/profile.svg"; // 기본 프로필 이미지
 import changeImage from "../assets/changeImage.svg";
 import changeDefault from "../assets/changeDefault.svg";
 import mypageGoservice from "../assets/mypageGoservice.svg";
@@ -12,7 +12,7 @@ import Footer from "../layouts/Footer";
 
 const MyPage = ({ API_BASE_URL }) => {
   const [response, setResponse] = useState({});
-  const [profileImage, setProfileImage] = useState(profile);
+  const [profileImage, setProfileImage] = useState(profile); // 기본 프로필 이미지를 profile.svg로 설정
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -30,9 +30,8 @@ const MyPage = ({ API_BASE_URL }) => {
         const data = res.data;
         setResponse(data);
 
-        if (data.profile_pic) {
-          setProfileImage(`${API_BASE_URL}${data.profile_pic}`);
-        }
+        // 서버에서 받은 프로필 이미지가 없으면 기본값(profile.svg) 사용
+        setProfileImage(data.profile_pic || profile);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           console.error("인증 실패: 로그인 페이지로 이동합니다.");
@@ -72,6 +71,7 @@ const MyPage = ({ API_BASE_URL }) => {
     try {
       const token = localStorage.getItem("accessToken");
 
+      // 프로필 이미지 업데이트 요청
       const res = await axios.patch(`${API_BASE_URL}/accounts/mypage`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -79,7 +79,10 @@ const MyPage = ({ API_BASE_URL }) => {
         },
       });
 
-      setProfileImage(`${API_BASE_URL}${res.data.profile_pic}`);
+      console.log("업로드된 프로필 경로:", res.data.profile_pic);
+
+      // 서버 응답에 따라 프로필 이미지 업데이트
+      setProfileImage(res.data.profile_pic || profile);
       alert("프로필 이미지가 성공적으로 업데이트되었습니다.");
     } catch (error) {
       console.error("프로필 이미지를 업로드하는 중 오류가 발생했습니다:", error);
@@ -91,6 +94,7 @@ const MyPage = ({ API_BASE_URL }) => {
     try {
       const token = localStorage.getItem("accessToken");
 
+      // 기본 이미지로 변경 요청
       const res = await axios.patch(
         `${API_BASE_URL}/accounts/mypage`,
         { profile_pic: null },
@@ -102,6 +106,7 @@ const MyPage = ({ API_BASE_URL }) => {
         }
       );
 
+      // 기본 프로필 이미지로 업데이트
       setProfileImage(profile);
       alert("기본 이미지로 변경되었습니다.");
     } catch (error) {
@@ -154,11 +159,7 @@ const MyPage = ({ API_BASE_URL }) => {
                     />
                   </Styled.ThumbnailPic>
                   <Styled.ServiceTitle>{service.service_name}</Styled.ServiceTitle>
-                  <Styled.Goservice
-                    src={mypageGoservice}
-                    alt="Go to service detail"
-                    onClick={() => navigate(`/Detail/${service.id}`)} // 상세 페이지로 이동
-                  />
+                  <Styled.Goservice src={mypageGoservice} alt="Go to service detail" onClick={() => navigate(`/Detail/${service.id}`)} />
                 </Styled.ReviewService>
               ))}
           </Styled.ReviewBox>

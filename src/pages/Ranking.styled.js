@@ -8,7 +8,7 @@ export const RankingPage = styled.div`
   height: 100vh;
   background-color: white;
   scroll-snap-align: start;
-  padding-bottom: 300px;
+  padding-bottom: 400px;
 `;
 
 export const Content = styled.div`
@@ -39,10 +39,9 @@ export const Title = styled.h1`
 
 export const Werath = styled.img`
   position: absolute;
-  top: 31px;
   left: calc(55% + 120px);
-  transform: translateX(-50%);
-  width: 53px;
+  transform: translate(-40%, 20%);
+  width: 65px;
   height: auto;
 `;
 
@@ -137,8 +136,8 @@ export const Rank = styled.div`
 `;
 
 export const ServiceImage = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 110px;
+  height: 70px;
   border-radius: 8px;
   margin-right: 16px;
 `;
@@ -152,7 +151,7 @@ export const ServiceInfo = styled.div`
 export const ServiceName = styled.div`
   font-size: 16px;
   font-weight: bold;
-  margin-top: 8px;
+  // margin-top: 8px;
   margin-right: 5px;
 `;
 
