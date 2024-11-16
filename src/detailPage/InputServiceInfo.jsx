@@ -10,7 +10,6 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import { useAuth } from "../contexts/AuthContext";
 
-
 const InputServiceInfo = ({ API_BASE_URL }) => {
     const navigate = useNavigate();
     const [serviceName, setServiceName] = useState(''); // 서비스 이름
@@ -24,6 +23,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
     const maxImages = 10;
     const [serviceData, setServiceData] = useState(null);
     const { isAuthenticated, accessToken } = useAuth();
+
     const { service_id } = useParams();
 
     //정보가져오기
@@ -158,14 +158,13 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             onChange={handleThumbnailUpload}
                         />
 
-
                         {serviceData.thumbnail_image ? (
                             <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
                         ) : (
                             <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
                         )}
 
-                        {/* <Styled.ThumbnailImage src={thumbnailImage} alt="service thumbnail" /> */}
+
                     </Styled.ThumbnailBox>
                     <Styled.ChangeBox>
 

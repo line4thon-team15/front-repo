@@ -42,9 +42,15 @@ const DetailPage = ({ API_BASE_URL }) => {
   const { teamId } = useParams();
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 토큰 확인
-    console.log(token);
     const fetchData = async () => {
+      const token = localStorage.getItem("accessToken"); // 토큰 확인
+
+      if (!token) {
+        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+        navigate("/login");
+        return;
+      }
+
       try {
         const response = await axios.get(`${API_BASE_URL}/services/4line-services/${teamId}`,
           {},
@@ -58,10 +64,6 @@ const DetailPage = ({ API_BASE_URL }) => {
         setServiceData(serviceData);
         console.log("받아온 서비스 데이터:", serviceData);
         console.log("받아온 리뷰 데이터:", serviceData.review);
-
-        if (userServiceResponse.data[0].id === response.data.id) {
-          setIsOwner(true);
-        }
 
         // 작성자의 리뷰 찾기
         if (serviceData.review?.length > 0) {
@@ -96,16 +98,27 @@ const DetailPage = ({ API_BASE_URL }) => {
         // 디버깅: 초기 상태 확인
         console.log("초기화된 likeStatus:", initialLikeStatus);
 
-        setLikeStatus(initialLikeStatus);
+        // 현재 사용자 서비스 ID 확인
+        const userServiceResponse = await axios.get(`${API_BASE_URL}/services/my-service`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        });
 
-        // 디버깅: 초기 상태 확인
-        console.log("초기화된 likeStatus:", initialLikeStatus);
+        console.log("현재 사용자 서비스 데이터:", userServiceResponse.data);
+        if (userServiceResponse.data[0].id === response.data.id) {
+          setIsOwner(true);
+        }
+
       } catch (error) {
-        console.error("데이터 불러오기 실패:", error);
+        console.error("데이터 가져오기 실패:", error);
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
       }
     };
+
+
+
     fetchData();
   }, [API_BASE_URL, teamId, accessToken]);
 
@@ -177,11 +190,8 @@ const DetailPage = ({ API_BASE_URL }) => {
     }
   };
 
-  console.log("업데이트된 상태:", likeStatus);
-
-
   const handleInfoButtonClick = () => {
-    navigate('/input-service-info');
+    navigate(`/input-service-info/${serviceData.id}`);
   };
 
   const toggleDropdown = () => {
@@ -240,7 +250,7 @@ const DetailPage = ({ API_BASE_URL }) => {
       <Header isWhiteBackground={true} />
       <Styled.Content>
         <Styled.Header>
-        {isOwner && (
+          {isOwner && (
             <Styled.ServiceInfoButton onClick={handleInfoButtonClick}>
               <Styled.InfoVector src={infoVector} alt="infoVector" />
             </Styled.ServiceInfoButton>
@@ -253,6 +263,7 @@ const DetailPage = ({ API_BASE_URL }) => {
             )}
           </Styled.ThumbnailBox>
         </Styled.Header>
+
 
         <Styled.Line>
           <Styled.NameBox>
@@ -327,7 +338,7 @@ const DetailPage = ({ API_BASE_URL }) => {
 
           <Styled.MyFeedback>
             <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
-            {console.log("렌더링 시 myReview 상태:", myReview)} {/* 디버깅 */}
+            {/* {console.log("렌더링 시 myReview 상태:", myReview)} 디버깅 */}
             {myReview ? (
               <Styled.ReviewContent key={myReview.id}>
                 <Styled.User>
