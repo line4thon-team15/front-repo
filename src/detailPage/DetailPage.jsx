@@ -42,144 +42,152 @@ const DetailPage = ({ API_BASE_URL }) => {
   const { teamId } = useParams();
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 토큰 확인
-    console.log(token);
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`${API_BASE_URL}/services/4line-services/${teamId}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`, // 인증 토큰 추가
-              },
-            });
-// 서비스 데이터 및 좋아요 상태 설정
-const serviceData = response.data;
-setServiceData(serviceData);
-console.log("받아온 서비스 데이터:", serviceData);
-console.log("받아온 리뷰 데이터:", serviceData.review);
+    const fetchData = async () => {
+      const token = localStorage.getItem("accessToken"); // 토큰 확인
+
+      if (!token) {
+        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${API_BASE_URL}/services/4line-services/${teamId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`, // 인증 토큰 추가
+            },
+          });
+        // 서비스 데이터 및 좋아요 상태 설정
+        const serviceData = response.data;
+        setServiceData(serviceData);
+        console.log("받아온 서비스 데이터:", serviceData);
+
+        // 작성자의 리뷰 찾기
+        if (serviceData.review?.length > 0) {
+          const myReviewData = serviceData.review.find((review) => review.is_writer);
+          if (myReviewData) {
+            console.log("작성자의 리뷰를 찾았습니다:", myReviewData);
+            setMyReview(myReviewData);
+          } else {
+            console.log("작성자의 리뷰를 찾을 수 없습니다.");
+            setMyReview(null);
+          }
+        } else {
+          console.log("리뷰 데이터가 비어 있습니다.");
+          setMyReview(null);
+        }
+
+        // 디버깅: 각 리뷰 데이터 확인
+        serviceData.review?.forEach((review, index) => {
+          console.log(`리뷰 ${index + 1}:`, review);
+        });
+
+        // 좋아요 상태 초기화
+        const initialLikeStatus = (serviceData.review || []).reduce((status, review) => {
+          status[review.id] = {
+            is_liked: !!review.is_liked, // 명시적으로 true/false 설정
+            likes_count: review.likes_count || 0, // 기본값 설정
+          };
+          return status;
+        }, {});
+        setLikeStatus(initialLikeStatus);
+
+        // 현재 사용자 서비스 ID 확인
+        const userServiceResponse = await axios.get(`${API_BASE_URL}/services/my-service`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        });
+
+        console.log("현재 사용자 서비스 데이터:", userServiceResponse.data);
+        if (userServiceResponse.data[0].id === response.data.id) {
+          setIsOwner(true);
+        }
+
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+      } finally {
+        setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
+      }
+    };
 
 
 
-// 작성자의 리뷰 찾기
-if (serviceData.review?.length > 0) {
-  const myReviewData = serviceData.review.find((review) => review.is_writer);
-  if (myReviewData) {
-    console.log("작성자의 리뷰를 찾았습니다:", myReviewData);
-    setMyReview(myReviewData);
-  } else {
-    console.log("작성자의 리뷰를 찾을 수 없습니다.");
-    setMyReview(null);
-  }
-} else {
-  console.log("리뷰 데이터가 비어 있습니다.");
-  setMyReview(null);
-}
+    fetchData();
+  }, [API_BASE_URL, teamId, accessToken]);
 
-// 디버깅: 각 리뷰 데이터 확인
-serviceData.review?.forEach((review, index) => {
-  console.log(`리뷰 ${index + 1}:`, review);
-});
-
-// 좋아요 상태 초기화
-const initialLikeStatus = (serviceData.review || []).reduce((status, review) => {
-  status[review.id] = {
-    is_liked: !!review.is_liked, // 명시적으로 true/false 설정
-    likes_count: review.likes_count || 0, // 기본값 설정
-  };
-  return status;
-}, {});
-setLikeStatus(initialLikeStatus);
-
-// 디버깅: 초기 상태 확인
-console.log("초기화된 likeStatus:", initialLikeStatus);
-
-setLikeStatus(initialLikeStatus);
-
-      // 디버깅: 초기 상태 확인
-      console.log("초기화된 likeStatus:", initialLikeStatus); 
-    } catch (error) {
-      console.error("데이터 불러오기 실패:", error);
-    } finally {
-      setIsLoading(false);
+  const handleLikeClick = async (reviewId) => {
+    if (!isAuthenticated) {
+      alert("로그인 후 좋아요를 누를 수 있습니다.");
+      return;
     }
-  };
-  fetchData();
-}, [API_BASE_URL, teamId, accessToken]);
 
-const handleLikeClick = async (reviewId) => {
-  if (!isAuthenticated) {
-    alert("로그인 후 좋아요를 누를 수 있습니다.");
-    return;
-  }
+    try {
+      const currentStatus = likeStatus[reviewId];
+      const updatedIsLiked = !currentStatus.is_liked;
 
-  try {
-    const currentStatus = likeStatus[reviewId];
-    const updatedIsLiked = !currentStatus.is_liked;
+      // 로컬 상태를 먼저 업데이트
+      setLikeStatus((prevStatus) => {
+        const updatedStatus = {
+          ...prevStatus,
+          [reviewId]: {
+            is_liked: updatedIsLiked,
+            likes_count: updatedIsLiked
+              ? currentStatus.likes_count + 1
+              : currentStatus.likes_count - 1,
+          },
+        };
 
-    // 로컬 상태를 먼저 업데이트
-    setLikeStatus((prevStatus) => {
-      const updatedStatus = {
+        // 디버깅: 업데이트된 상태 확인
+        console.log("업데이트된 likeStatus:", updatedStatus);
+        return updatedStatus;
+      });
+
+
+      // 서버에 좋아요 상태 전송
+      const response = await axios.post(
+        `${API_BASE_URL}/reviews/${reviewId}/like/`,
+        { is_liked: updatedIsLiked },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log("서버 응답:", response.data);
+
+
+      // 서버 응답으로 상태 동기화
+      const serverUpdatedLikesCount = response.data.likes_count;
+
+      setLikeStatus((prevStatus) => ({
         ...prevStatus,
         [reviewId]: {
           is_liked: updatedIsLiked,
-          likes_count: updatedIsLiked
-            ? currentStatus.likes_count + 1
-            : currentStatus.likes_count - 1,
+          likes_count: serverUpdatedLikesCount, // 서버 응답을 우선
         },
-      };
-    
-      // 디버깅: 업데이트된 상태 확인
-      console.log("업데이트된 likeStatus:", updatedStatus);
-      return updatedStatus;
-    });
-    
+      }));
 
-    // 서버에 좋아요 상태 전송
-    const response = await axios.post(
-      `${API_BASE_URL}/reviews/${reviewId}/like/`,
-      { is_liked: updatedIsLiked },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+      console.log("좋아요 상태 전송 성공:", response.data);
+    } catch (error) {
+      console.error("좋아요 상태 업데이트 실패:", error);
 
-    console.log("서버 응답:", response.data);
-
-    
-    // 서버 응답으로 상태 동기화
-    const serverUpdatedLikesCount = response.data.likes_count;
-
-    setLikeStatus((prevStatus) => ({
-      ...prevStatus,
-      [reviewId]: {
-        is_liked: updatedIsLiked,
-        likes_count: serverUpdatedLikesCount, // 서버 응답을 우선
-      },
-    }));
-
-    console.log("좋아요 상태 전송 성공:", response.data);
-  } catch (error) {
-    console.error("좋아요 상태 업데이트 실패:", error);
-
-    // 오류 발생 시 이전 상태로 롤백
-    setLikeStatus((prevStatus) => ({
-      ...prevStatus,
-      [reviewId]: likeStatus[reviewId], // 이전 상태로 복구
-    }));
-  } finally {
-    // 필요한 경우 추가적인 정리 작업
-    console.log(`좋아요 상태 업데이트 완료: reviewId=${reviewId}`);
-  }
-};
-
-console.log("업데이트된 상태:", likeStatus);
-      
+      // 오류 발생 시 이전 상태로 롤백
+      setLikeStatus((prevStatus) => ({
+        ...prevStatus,
+        [reviewId]: likeStatus[reviewId], // 이전 상태로 복구
+      }));
+    } finally {
+      // 필요한 경우 추가적인 정리 작업
+      console.log(`좋아요 상태 업데이트 완료: reviewId=${reviewId}`);
+    }
+  };
 
   const handleInfoButtonClick = () => {
-    navigate('/input-service-info');
+    navigate(`/input-service-info/${serviceData.id}`);
   };
 
   const toggleDropdown = () => {
@@ -238,7 +246,7 @@ console.log("업데이트된 상태:", likeStatus);
       <Header isWhiteBackground={true} />
       <Styled.Content>
         <Styled.Header>
-        {serviceData.is_writer && (
+          {isOwner && (
             <Styled.ServiceInfoButton onClick={handleInfoButtonClick}>
               <Styled.InfoVector src={infoVector} alt="infoVector" />
             </Styled.ServiceInfoButton>
@@ -251,6 +259,7 @@ console.log("업데이트된 상태:", likeStatus);
             )}
           </Styled.ThumbnailBox>
         </Styled.Header>
+
 
         <Styled.Line>
           <Styled.NameBox>
@@ -323,35 +332,35 @@ console.log("업데이트된 상태:", likeStatus);
             </Styled.FullScreenModal>
           )}
 
-<Styled.MyFeedback>
-  <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
-  {console.log("렌더링 시 myReview 상태:", myReview)} {/* 디버깅 */}
-  {myReview ? (
-    <Styled.ReviewContent key={myReview.id}>
-      <Styled.User>
-        <Styled.UserNameBox>
-          <Styled.UserName>{myReview.univ} {myReview.writer_name}</Styled.UserName>
-          <Styled.UserInfo>
-            {myReview.team ? `${myReview.team}팀` : ""}
-            {myReview.team && myReview.writer_service ? " · " : ""}
-            {myReview.writer_service ? myReview.writer_service : ""}
-          </Styled.UserInfo>
-        </Styled.UserNameBox>
-        <Styled.UserStarBox>
-          <Styled.UserStar src={greenStar} alt="star" />
-          <Styled.ScoreNum>{myReview.score}</Styled.ScoreNum>
-        </Styled.UserStarBox>
-      </Styled.User>
-      <Styled.UserReviewContent>{myReview.review}</Styled.UserReviewContent>
-      <Styled.HeartBox>
-        <Styled.HeartButton onClick={() => handleLikeClick(myReview.id)}>
-          <FontAwesomeIcon
-            icon={likeStatus[myReview.id]?.is_liked === true ? solidHeart : regularHeart}
-          />
-        </Styled.HeartButton>
-        <Styled.HeartCount>{likeStatus[myReview.id]?.likes_count}</Styled.HeartCount>
-      </Styled.HeartBox>
-    </Styled.ReviewContent>
+          <Styled.MyFeedback>
+            <Styled.Feedback1>내가 쓴 피드백</Styled.Feedback1>
+            {/* {console.log("렌더링 시 myReview 상태:", myReview)} 디버깅 */}
+            {myReview ? (
+              <Styled.ReviewContent key={myReview.id}>
+                <Styled.User>
+                  <Styled.UserNameBox>
+                    <Styled.UserName>{myReview.univ} {myReview.writer_name}</Styled.UserName>
+                    <Styled.UserInfo>
+                      {myReview.team ? `${myReview.team}팀` : ""}
+                      {myReview.team && myReview.writer_service ? " · " : ""}
+                      {myReview.writer_service ? myReview.writer_service : ""}
+                    </Styled.UserInfo>
+                  </Styled.UserNameBox>
+                  <Styled.UserStarBox>
+                    <Styled.UserStar src={greenStar} alt="star" />
+                    <Styled.ScoreNum>{myReview.score}</Styled.ScoreNum>
+                  </Styled.UserStarBox>
+                </Styled.User>
+                <Styled.UserReviewContent>{myReview.review}</Styled.UserReviewContent>
+                <Styled.HeartBox>
+                  <Styled.HeartButton onClick={() => handleLikeClick(myReview.id)}>
+                    <FontAwesomeIcon
+                      icon={likeStatus[myReview.id]?.is_liked === true ? solidHeart : regularHeart}
+                    />
+                  </Styled.HeartButton>
+                  <Styled.HeartCount>{likeStatus[myReview.id]?.likes_count}</Styled.HeartCount>
+                </Styled.HeartBox>
+              </Styled.ReviewContent>
             ) : (
               // myReview가 없을 때: 리뷰 작성 요청 메시지와 버튼 표시
               <Styled.RankingBox>
@@ -381,8 +390,8 @@ console.log("업데이트된 상태:", likeStatus);
           </Styled.UserReviews>
           {serviceData.review && serviceData.review.length > 0 ? (
             serviceData.review.map((review) => (
-              
-                <Styled.ReviewContent key={review.id}>
+
+              <Styled.ReviewContent key={review.id}>
                 <Styled.User>
                   <Styled.UserNameBox>
                     <Styled.UserName>
@@ -432,16 +441,16 @@ console.log("업데이트된 상태:", likeStatus);
                 </Styled.ReviewTags>
                 <Styled.UserReviewContent>{review.review}</Styled.UserReviewContent>
                 <Styled.HeartBox>
-                <Styled.HeartButton onClick={() => handleLikeClick(review.id)}>
-                {console.log("현재 리뷰 상태:", likeStatus[review.id])} {/* 디버깅 */}
-                <FontAwesomeIcon
-                  icon={
-                    likeStatus[review.id]?.is_liked === true
-                      ? solidHeart
-                      : regularHeart
-                  }
-                />
-                </Styled.HeartButton>
+                  <Styled.HeartButton onClick={() => handleLikeClick(review.id)}>
+                    {console.log("현재 리뷰 상태:", likeStatus[review.id])} {/* 디버깅 */}
+                    <FontAwesomeIcon
+                      icon={
+                        likeStatus[review.id]?.is_liked === true
+                          ? solidHeart
+                          : regularHeart
+                      }
+                    />
+                  </Styled.HeartButton>
                   <Styled.HeartCount>{likeStatus[review.id]?.likes_count}</Styled.HeartCount>
                 </Styled.HeartBox>
               </Styled.ReviewContent>

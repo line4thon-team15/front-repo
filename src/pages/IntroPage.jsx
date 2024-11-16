@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './IntroPagestyled';
 import FisrtText from '../components/Intro/FirstText';
@@ -6,7 +6,7 @@ import MetroMap from '@/components/Intro/MetroMap';
 import TestImg1 from '@/assets/TestImg/TestImg1.png';
 import axios from 'axios';
 
-const IntroPage = ({ mainScroll, API_BASE_URL }) => {
+const IntroPage = forwardRef(({ mainScroll, API_BASE_URL }, ref) => {
     const [firstTextVisible, setFirstTextVisible] = useState(false);
     const [teamData, setTeamData] = useState([]);
     const windowHeight = window.innerHeight;
@@ -55,7 +55,7 @@ const IntroPage = ({ mainScroll, API_BASE_URL }) => {
     };
 
     return (
-        <S.IntroPage>
+        <S.IntroPage ref={ref}> {/* ref 전달 */}
             <S.ServiceCard scrollRatio={scrollRatio}>
                 {activeTeam && (
                     <>
@@ -91,6 +91,6 @@ const IntroPage = ({ mainScroll, API_BASE_URL }) => {
             />
         </S.IntroPage>
     );
-};
+});
 
 export default IntroPage;
