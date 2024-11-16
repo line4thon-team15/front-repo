@@ -6,7 +6,7 @@ import profile from "../assets/profile.svg"; // 기본 프로필 이미지
 import changeImage from "../assets/changeImage.svg";
 import changeDefault from "../assets/changeDefault.svg";
 import mypageGoservice from "../assets/mypageGoservice.svg";
-import defaultThumbnail from "../assets/Defaultnail.png";
+import defaultThumbnail from "../assets/Defaultnail.png"; // 기본 썸네일 이미지 추가
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
 

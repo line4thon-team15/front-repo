@@ -1,23 +1,24 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
-    server: {
-      proxy: {
-        '/main': {
-          target: 'https://4thline.kr',
-          changeOrigin: true,
-          secure: false,
-        },
+  },
+  build: {
+    outDir: 'dist', // Vercel 기본 배포 디렉터리
+  },
+  server: {
+    proxy: {
+      '/main': {
+        target: 'https://4thline.kr',
+        changeOrigin: true,
+        secure: false,
       },
     },
   },
 });
-
