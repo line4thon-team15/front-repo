@@ -26,11 +26,17 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
 
     const { service_id } = useParams();
 
-    //정보가져오기
     useEffect(() => {
-        const token = localStorage.getItem("accessToken"); // 토큰 확인
-        console.log(token);
         const fetchData = async () => {
+            console.log("fetchData시작:");
+            const token = localStorage.getItem("accessToken"); // 토큰 확인
+
+            if (!token) {
+                alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                navigate("/login");
+                return;
+            }
+
             try {
                 const response = await axios.get(`${API_BASE_URL}/services/4line-services/${service_id}`,
                     {},
@@ -45,14 +51,14 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                 console.log("받아온 서비스 데이터:", serviceData);
 
             } catch (error) {
-                console.error("데이터 불러오기 실패:", error);
+                console.error("데이터 가져오기 실패:", error);
             } finally {
-                setIsLoading(false);
+                setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
             }
         };
+
         fetchData();
     }, [API_BASE_URL, service_id, accessToken]);
-
 
     const handleImageUpload = (event) => {
         const files = event.target.files;
@@ -157,20 +163,13 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             style={{ display: 'none' }}
                             onChange={handleThumbnailUpload}
                         />
-
-                        {serviceData.thumbnail_image ? (
+                        {serviceData && serviceData.thumbnail_image ? (
                             <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
                         ) : (
                             <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
                         )}
-
-
                     </Styled.ThumbnailBox>
                     <Styled.ChangeBox>
-
-
-
-
                     </Styled.ChangeBox>
 
                 </Styled.Header>
@@ -182,21 +181,21 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                         <Styled.ServiceNameInput
                             type="text"
                             placeholder="서비스 이름을 알려주세요"
-                            value={serviceName}
+                            value={serviceName || (serviceData?.service_name || '')}
                             onChange={(e) => setServiceName(e.target.value)}
                         />
                         <Styled.ServiceSimple>서비스를 한 문장으로 설명한다면?</Styled.ServiceSimple>
                         <Styled.ServiceSimpleInput
                             type="text"
                             placeholder="한 줄 소개를 적어주세요"
-                            value={intro}
+                            value={intro || (serviceData?.intro || '')}
                             onChange={(e) => setIntro(e.target.value)}
                         />
                         <Styled.ServiceURL>서비스 URL이 있다면 입력해주세요!</Styled.ServiceURL>
                         <Styled.ServiceURLInput
                             type="text"
                             placeholder="배포된 서비스가 없다면 공란으로 유지해주세요"
-                            value={siteUrl}
+                            value={siteUrl || (serviceData?.site_url || '')}
                             onChange={(e) => setSiteUrl(e.target.value)}
                         />
 
@@ -227,8 +226,10 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                         <Styled.ServiceDetailInput
                             as="textarea"
                             placeholder=" "
-                            defaultValue='[기능 소개 작성 가이드라인]
-✨‘4호선톤’을 위한 우리들만의 축제 사이트✨   
+                            value={
+                                content ||
+                                (serviceData?.content ||
+                                    `✨‘4호선톤’을 위한 우리들만의 축제 사이트✨   
 
 [문제제기]❔
  - [일상 속 문제 상황]
@@ -244,8 +245,8 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
  🌀 [서비스명]의 핵심 기능 소개🥳♫
 
 ➊주요 기능1 여기에 기능을 설명해주세요
-➋주요 기능2 여기에 기능을 설명해주세요'
-                            value={content}
+➋주요 기능2 여기에 기능을 설명해주세요`)
+                            }
                             onChange={(e) => setContent(e.target.value)}
                         />
                         <Styled.ServicePPTContainer>

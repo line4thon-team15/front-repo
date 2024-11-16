@@ -63,7 +63,6 @@ const DetailPage = ({ API_BASE_URL }) => {
         const serviceData = response.data;
         setServiceData(serviceData);
         console.log("받아온 서비스 데이터:", serviceData);
-        console.log("받아온 리뷰 데이터:", serviceData.review);
 
         // 작성자의 리뷰 찾기
         if (serviceData.review?.length > 0) {
@@ -94,9 +93,6 @@ const DetailPage = ({ API_BASE_URL }) => {
           return status;
         }, {});
         setLikeStatus(initialLikeStatus);
-
-        // 디버깅: 초기 상태 확인
-        console.log("초기화된 likeStatus:", initialLikeStatus);
 
         // 현재 사용자 서비스 ID 확인
         const userServiceResponse = await axios.get(`${API_BASE_URL}/services/my-service`, {
