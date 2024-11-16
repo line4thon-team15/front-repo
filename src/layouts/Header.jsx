@@ -23,17 +23,54 @@ const Header = ({ isIntro }) => {
         navigate('/')
     };
 
+    useEffect(() => {
+        if (window.location.hash === '#ranking') {
+            scrollToRanking(); // 랭킹 섹션으로 스크롤 이동
+        } else if (window.location.hash === '#home') {
+            scrollToHome(); // 홈 섹션으로 스크롤 이동
+        }
+    }, [scrollToRanking, scrollToHome]); // scrollToRanking과 scrollToHome을 의존성으로 추가
+
+    
+    // 공통 클릭 처리 함수
+    const handleClick = (hash, scrollFn) => {
+        const currentPath = window.location.pathname;
+    
+        if (currentPath === '/') {
+            // MainPage에 있는 경우 스크롤 이동
+            scrollFn();
+        } else {
+            // 다른 페이지에 있는 경우 MainPage로 이동 후 스크롤 실행
+            navigate(`/#${hash}`);
+            setTimeout(() => scrollFn(), 100); // navigate 후 스크롤 실행
+        }
+    };
+    
+    // 랭킹 버튼 클릭 이벤트 처리
+            const handleRankingClick = () => {
+                const currentPath = window.location.pathname; // 현재 경로 확인
+                if (currentPath === '/') {
+                    // MainPage에 있는 경우 스크롤 이동
+                    scrollToRanking();
+                } else {
+                    // 다른 페이지에 있는 경우 MainPage로 이동 후 해시 설정
+                    navigate('/#ranking');
+                }
+            };
+
     //이름 가져오기
     useEffect(() => {
         const token = localStorage.getItem("accessToken"); // 토큰 확인
 
         if (isAuthenticated && token) {
+            console.log("Starting API call for user data...");
             axios.get(`${API_BASE_URL}/accounts/mypage`, {
                 headers: {
                     Authorization: `Bearer ${token}`, // 예: 로컬 스토리지에 저장된 토큰 사용
                 }
             })
                 .then(response => {
+                    console.log("API response:", response);
                     setUserName(response.data.name);
                 })
                 .catch(error => {
@@ -57,6 +94,7 @@ const Header = ({ isIntro }) => {
             setIsAuthenticated(false); // 토큰이 없으면 비로그인 상태로 설정
         }
     }, [setIsAuthenticated]);
+
 
 
     // 로그아웃 모달 열기
@@ -103,19 +141,20 @@ const Header = ({ isIntro }) => {
     return (
         <Styled.Wrapper>
             <Styled.Logo $isWhiteBackground={isIntro}>
-                <button id='LogoBtn' onClick={GoHome}>
-                    <p>4호선톤</p>
+            <button id="LogoBtn" onClick={() => handleClick('home', scrollToHome)}>
+            <p>4호선톤</p>
                     <p>사이트</p>
                     <p id='date'>24.11.16</p>
                 </button>
             </Styled.Logo>
             <Styled.Navbar>
                 <ul>
-                    <Styled.NavItem
-                        onClick={scrollToRanking}
-                    >
-                        <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faCrown} /> &nbsp;랭킹</Styled.NavButton>
-                    </Styled.NavItem>
+                <Styled.NavItem onClick={() => handleClick('ranking', scrollToRanking)}>
+    <Styled.NavButton $isWhiteBackground={isIntro}>
+        <FontAwesomeIcon icon={faCrown} /> &nbsp;랭킹
+    </Styled.NavButton>
+</Styled.NavItem>
+
 
                     <Styled.NavItem
                     >

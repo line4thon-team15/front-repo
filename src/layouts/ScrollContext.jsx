@@ -20,7 +20,10 @@ export const ScrollProvider = ({ children }) => {
 
     const scrollToHome = () => {
         if (homeRef.current) {
+            console.log("Scrolling to home...");
             homeRef.current.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            console.log("homeRef is not set!");
         }
     };
 
