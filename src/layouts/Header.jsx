@@ -1,27 +1,25 @@
-
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import * as Styled from './Header.styled';
-import { useScroll } from './ScrollContext';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as Styled from "./Header.styled";
+import { useScroll } from "./ScrollContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faBars, faCircleArrowRight, faFaceSmile, faUserCheck } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from '../contexts/AuthContext';
-import axios from 'axios';
-import LogoutModal from './LogoutModal';
+import { useAuth } from "../contexts/AuthContext";
+import axios from "axios";
+import LogoutModal from "./LogoutModal";
 
 const Header = ({ isIntro }) => {
-    const [showLogoutModal, setShowLogoutModal] = useState(false);
-    const [userName, setUserName] = useState('');
-    const { scrollToHome, scrollToRanking } = useScroll();
-    const { isAuthenticated, setIsAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
-    const navigate = useNavigate();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [userName, setUserName] = useState("");
+  const { scrollToHome, scrollToRanking } = useScroll();
+  const { isAuthenticated, setIsAuthenticated, logout } = useAuth(); // 로그인 상태와 로그아웃 함수 가져오기
+  const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_API_KEY;
 
-    const API_BASE_URL = import.meta.env.VITE_API_KEY;
-
-    const GoHome = () => {
-        navigate('/')
-    };
+  const GoHome = () => {
+    navigate("/");
+  };
 
     useEffect(() => {
         if (window.location.hash === '#ranking') {
@@ -97,18 +95,18 @@ const Header = ({ isIntro }) => {
 
 
 
-    // 로그아웃 모달 열기
-    const handleLogoutClick = () => {
-        setShowLogoutModal(true);
-    };
+  // 로그아웃 모달 열기
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
 
-    const handleLogoutConfirm = () => {
-        logout(); // 로그아웃 처리
-        setShowLogoutModal(false); // 모달 닫기
-        setIsAuthenticated(false); // 로그아웃 후 인증 상태 변경
-        localStorage.removeItem("accessToken"); // 로컬스토리지에서 토큰 제거
-        navigate('/'); // 로그아웃 후 홈으로 리디렉션
-    };
+  const handleLogoutConfirm = () => {
+    logout(); // 로그아웃 처리
+    setShowLogoutModal(false); // 모달 닫기
+    setIsAuthenticated(false); // 로그아웃 후 인증 상태 변경
+    localStorage.removeItem("accessToken"); // 로컬스토리지에서 토큰 제거
+    navigate("/"); // 로그아웃 후 홈으로 리디렉션
+  };
 
     // 내 서비스 버튼 클릭 시 참여자 여부 확인
     const handleMyServiceClick = async () => {
@@ -156,58 +154,52 @@ const Header = ({ isIntro }) => {
 </Styled.NavItem>
 
 
-                    <Styled.NavItem
-                    >
-                        <Link to="/all-services">
-                            <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faBars} /> &nbsp;전체 서비스</Styled.NavButton>
-                        </Link>
-                    </Styled.NavItem>
+          <Styled.NavItem>
+            <Link to="/all-services">
+              <Styled.NavButton $isWhiteBackground={isIntro}>
+                <FontAwesomeIcon icon={faBars} /> &nbsp;전체 서비스
+              </Styled.NavButton>
+            </Link>
+          </Styled.NavItem>
 
-                    <Styled.NavItem
-                    >
-                        
-                            <Styled.NavButton $isWhiteBackground={isIntro} onClick={handleMyServiceClick}>
-                                <FontAwesomeIcon icon={faCircleArrowRight} /> &nbsp;내 서비스
-                            </Styled.NavButton>
-                     
-                    </Styled.NavItem>
+          <Styled.NavItem>
+            <Styled.NavButton $isWhiteBackground={isIntro} onClick={handleMyServiceClick}>
+              <FontAwesomeIcon icon={faCircleArrowRight} /> &nbsp;내 서비스
+            </Styled.NavButton>
+          </Styled.NavItem>
 
-                    <Styled.NavItem
-                    >
-                        <Link to="/my-page">
-                            <Styled.NavButton $isWhiteBackground={isIntro}>
-                                <FontAwesomeIcon icon={faFaceSmile} />
-                                &nbsp;
-                                {isAuthenticated ? ` 안녕하세요 ${userName}님` : ' 마이 페이지'}
-                            </Styled.NavButton>
-                        </Link>
-                    </Styled.NavItem>
-                    <Styled.NavItem>
-                        {isAuthenticated ? (
-                            <Styled.NavButton
-                                $isWhiteBackground={isIntro}
-                                onClick={handleLogoutClick} // 로그아웃 함수 호출
-                            >
-                                <FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그아웃
-                            </Styled.NavButton>
-                        ) : (
-                            <Link to="/login">
-                                <Styled.NavButton $isWhiteBackground={isIntro}><FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그인</Styled.NavButton>
-                            </Link>
-                        )}
-                    </Styled.NavItem>
-                </ul>
-            </Styled.Navbar>
-
-            {/* 로그아웃 모달 */}
-            {showLogoutModal && (
-                <LogoutModal
-                    onCancel={() => setShowLogoutModal(false)}
-                    onConfirm={handleLogoutConfirm}
-                />
+          <Styled.NavItem>
+            <Link to="/my-page">
+              <Styled.NavButton $isWhiteBackground={isIntro}>
+                <FontAwesomeIcon icon={faFaceSmile} />
+                &nbsp;
+                {isAuthenticated ? ` 안녕하세요 ${userName}님` : " 마이 페이지"}
+              </Styled.NavButton>
+            </Link>
+          </Styled.NavItem>
+          <Styled.NavItem>
+            {isAuthenticated ? (
+              <Styled.NavButton
+                $isWhiteBackground={isIntro}
+                onClick={handleLogoutClick} // 로그아웃 함수 호출
+              >
+                <FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그아웃
+              </Styled.NavButton>
+            ) : (
+              <Link to="/login">
+                <Styled.NavButton $isWhiteBackground={isIntro}>
+                  <FontAwesomeIcon icon={faUserCheck} /> &nbsp;로그인
+                </Styled.NavButton>
+              </Link>
             )}
-        </Styled.Wrapper>
-    );
+          </Styled.NavItem>
+        </ul>
+      </Styled.Navbar>
+
+      {/* 로그아웃 모달 */}
+      {showLogoutModal && <LogoutModal onCancel={() => setShowLogoutModal(false)} onConfirm={handleLogoutConfirm} />}
+    </Styled.Wrapper>
+  );
 };
 
 export default Header;

@@ -14,6 +14,7 @@ export default defineConfig({
         '/main': {
           target: 'https://4thline.kr',
           changeOrigin: true,
+          secure: false,
         },
       },
     },
