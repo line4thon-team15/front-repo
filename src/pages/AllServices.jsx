@@ -5,6 +5,7 @@ import * as DT from "@/detailPage/DetailPage.styled";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
 import Reloading from "../assets/Reloading2.png";
+import DefaultThumbnail from "../assets/defaultnail.png"; // 기본 썸네일 이미지 추가
 import axios from "axios";
 
 const AllServices = ({ API_BASE_URL }) => {
@@ -114,7 +115,8 @@ const AllServices = ({ API_BASE_URL }) => {
           {filteredServices.map((service) => (
             <Styled.ServiceCardAll key={service.id} onClick={() => GoDetail(service)}>
               <Styled.ServiceCard>
-                <Styled.CardImage src={service.thumbnail_image} alt={`${service.service_name} 이미지`} />
+                {/* 썸네일이 없으면 기본 이미지 사용 */}
+                <Styled.CardImage src={service.thumbnail_image || DefaultThumbnail} alt={`${service.service_name} 이미지`} />
               </Styled.ServiceCard>
               <Styled.CardText>
                 <span className="service-name">[{service.service_name}]</span> by {service.team}팀

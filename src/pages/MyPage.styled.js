@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 
 export const Content = styled.div`
   background-color: #f6f6f6;
-  position: relative; /* absolute에서 relative로 변경 */
+  //   position: relative;
   margin-left: 200px;
   width: calc(100%-200px);
   flex-grow: 1; /* 콘텐츠가 남은 공간을 채우도록 설정 */
@@ -150,6 +150,10 @@ export const ThumbnailPic = styled.div`
   height: 55px;
   border-radius: 5px;
   background-color: grey;
+
+  img {
+    border-radius: 10px;
+  }
 `;
 export const ServiceTitle = styled.div`
   margin-left: 30px;
