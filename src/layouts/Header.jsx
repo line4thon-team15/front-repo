@@ -87,7 +87,7 @@ const Header = ({ isIntro }) => {
     
                 if (response.data[0].service_member) {
                     // 참여자인 경우
-                    navigate(`Detail/${response.data[0].id}`);
+                    navigate(`/Detail/${response.data[0].id}`);
                 } else {
                     // 외부인인 경우
                     alert('내 서비스는 해커톤 참여자만 접근할 수 있습니다.');
