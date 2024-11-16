@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as Styled from "./Ranking.styled";
 import ArrowImage from "../assets/Arrowright.png";
 import RankingImage from "../assets/Ranking.png";
-import defaultThumbnail from "../assets/defaultnail.png"; // 기본 썸네일 이미지 추가
+import defaultThumbnail from "../assets/Defaultnail.png"; // 기본 썸네일 이미지 추가
 import axios from "axios";
 
 const Ranking = forwardRef(({ API_BASE_URL }, ref) => {
