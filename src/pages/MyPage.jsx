@@ -6,6 +6,7 @@ import profile from "../assets/profile.svg";
 import changeImage from "../assets/changeImage.svg";
 import changeDefault from "../assets/changeDefault.svg";
 import mypageGoservice from "../assets/mypageGoservice.svg";
+import defaultThumbnail from "../assets/defaultnail.png"; // 기본 썸네일 이미지 추가
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
 
@@ -146,15 +147,11 @@ const MyPage = ({ API_BASE_URL }) => {
               response.service.map((service) => (
                 <Styled.ReviewService key={service.id}>
                   <Styled.ThumbnailPic>
-                    {service.thumbnail_image ? (
-                      <img
-                        src={`${API_BASE_URL}${service.thumbnail_image}`}
-                        alt={`${service.service_name} thumbnail`}
-                        style={{ width: "100%", height: "100%" }}
-                      />
-                    ) : (
-                      <span>이미지 없음</span>
-                    )}
+                    <img
+                      src={service.thumbnail_image ? `${API_BASE_URL}${service.thumbnail_image}` : defaultThumbnail}
+                      alt={`${service.service_name} thumbnail`}
+                      style={{ width: "100%", height: "100%" }}
+                    />
                   </Styled.ThumbnailPic>
                   <Styled.ServiceTitle>{service.service_name}</Styled.ServiceTitle>
                   <Styled.Goservice
