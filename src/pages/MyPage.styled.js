@@ -37,9 +37,16 @@ export const ProfileBox = styled.div`
   border-radius: 10px;
   margin-bottom: 5%;
 `;
+
 export const ProfileImage = styled.img`
-  margin: 10px 0 0 31%;
+  display: block;
+  margin: 20px auto 0 auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
+
 export const Top = styled.div`
   display: flex;
   justify-content: center; /* Top의 자식 요소를 가로로 중앙 정렬 */
