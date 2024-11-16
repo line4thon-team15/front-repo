@@ -5,7 +5,7 @@ import * as DT from "@/detailPage/DetailPage.styled";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
 import Reloading from "../assets/Reloading2.png";
-import DefaultThumbnail from "../assets/defaultnail.png"; // 기본 썸네일 이미지 추가
+import DefaultThumbnail from "../assets/Defaultnail.png"; // 기본 썸네일 이미지 추가
 import axios from "axios";
 
 const AllServices = ({ API_BASE_URL }) => {
