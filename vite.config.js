@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
+  base: '/', // 기본 경로 설정 (Vercel에서 "/" 사용)
   plugins: [react()],
   resolve: {
     alias: {
@@ -10,7 +11,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist', // Vercel 기본 배포 디렉터리
+    outDir: 'dist', // 빌드 결과 디렉터리 설정
   },
   server: {
     proxy: {
