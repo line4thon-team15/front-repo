@@ -44,7 +44,17 @@ const DetailPage = ({ API_BASE_URL }) => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken"); // 토큰 확인
     console.log(token);
+
       const fetchData = async () => {
+        const token = localStorage.getItem("accessToken"); // 토큰 확인
+        console.log(token);
+
+        if (!token) {
+          alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+          navigate("/login");
+          return;
+        }
+
         try {
           const response = await axios.get(`${API_BASE_URL}/services/4line-services/${teamId}`,
             {},
@@ -94,16 +104,41 @@ setLikeStatus(initialLikeStatus);
 // 디버깅: 초기 상태 확인
 console.log("초기화된 likeStatus:", initialLikeStatus);
 
-setLikeStatus(initialLikeStatus);
+  // 현재 사용자 서비스 ID 확인
+  const userServiceResponse = await axios.get(`${API_BASE_URL}/services/my-service`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // 인증 토큰 추가
+      },
+    });
 
-      // 디버깅: 초기 상태 확인
-      console.log("초기화된 likeStatus:", initialLikeStatus); 
+  console.log("현재 사용자 서비스 데이터:", userServiceResponse.data);
+
+        // 소유자 확인 로직
+        const isOwnerCheck = Array.isArray(userServiceResponse.data)
+        ? userServiceResponse.data.some((service) => String(service.id) === String(serviceData.id))
+        : String(userServiceResponse.data.id) === String(serviceData.id);
+
+      if (isOwnerCheck) {
+        console.log("사용자가 서비스의 소유자입니다.");
+        setIsOwner(true);
+      } else {
+        console.log("사용자가 서비스의 소유자가 아닙니다. 확인 데이터:", {
+          userService: userServiceResponse.data,
+          serviceId: serviceData.id,
+        });
+        setIsOwner(false);
+      }
     } catch (error) {
-      console.error("데이터 불러오기 실패:", error);
+      console.error("데이터 가져오기 실패:", error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
     }
   };
+
+
+  
   fetchData();
 }, [API_BASE_URL, teamId, accessToken]);
 
@@ -237,20 +272,21 @@ console.log("업데이트된 상태:", likeStatus);
     <Styled.Wrapper>
       <Header isWhiteBackground={true} />
       <Styled.Content>
-        <Styled.Header>
-        {serviceData.is_writer && (
-            <Styled.ServiceInfoButton onClick={handleInfoButtonClick}>
-              <Styled.InfoVector src={infoVector} alt="infoVector" />
-            </Styled.ServiceInfoButton>
-          )}
-          <Styled.ThumbnailBox>
-            {serviceData.thumbnail_image ? (
-              <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
-            ) : (
-              <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
-            )}
-          </Styled.ThumbnailBox>
-        </Styled.Header>
+      <Styled.Header>
+  {isOwner && (
+    <Styled.ServiceInfoButton onClick={handleInfoButtonClick}>
+      <Styled.InfoVector src={infoVector} alt="infoVector" />
+    </Styled.ServiceInfoButton>
+  )}
+  <Styled.ThumbnailBox>
+    {serviceData.thumbnail_image ? (
+      <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+    ) : (
+      <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
+    )}
+  </Styled.ThumbnailBox>
+</Styled.Header>
+
 
         <Styled.Line>
           <Styled.NameBox>
