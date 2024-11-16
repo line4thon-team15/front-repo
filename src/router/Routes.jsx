@@ -42,7 +42,7 @@ const Routes = () => {
           <Route path="/my-service" element={<MyService />} />
           <Route path="/my-page" element={<MyPage API_BASE_URL={API_BASE_URL} />} />
           <Route path="/login" element={<Login API_BASE_URL={API_BASE_URL} />} />
-          <Route path="/input-service-info" element={<InputServiceInfo />} />
+          <Route path="/input-service-info/:service_id" element={<InputServiceInfo API_BASE_URL={API_BASE_URL} />} />
           <Route path="/Detail/:teamId" element={<DetailPage API_BASE_URL={API_BASE_URL} />} />
           <Route
             path="/write-review/:service_id"

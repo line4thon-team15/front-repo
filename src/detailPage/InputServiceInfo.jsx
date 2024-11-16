@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // axios를 통해 POST 요청 전송
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Styled from './InputServiceInfo.styled';
 import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
 import servicePhotoFile from '../assets/servicePhotoFile.svg';
@@ -8,6 +8,8 @@ import upload from '../assets/upload.svg';
 import changeThumbnail from '../assets/changeThumbnail.svg';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
+import { useAuth } from "../contexts/AuthContext";
+
 
 const InputServiceInfo = ({ API_BASE_URL }) => {
     const navigate = useNavigate();
@@ -20,6 +22,37 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
     const [teamName, setTeamName] = useState(''); // 팀 이름
     const [uploadedImages, setUploadedImages] = useState([]); // 발표자료 이미지 배열
     const maxImages = 10;
+    const [serviceData, setServiceData] = useState(null);
+    const { isAuthenticated, accessToken } = useAuth();
+    const { service_id } = useParams();
+
+    //정보가져오기
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken"); // 토큰 확인
+        console.log(token);
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/services/4line-services/${service_id}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`, // 인증 토큰 추가
+                        },
+                    });
+                // 서비스 데이터 및 좋아요 상태 설정
+                const serviceData = response.data;
+                setServiceData(serviceData);
+                console.log("받아온 서비스 데이터:", serviceData);
+
+            } catch (error) {
+                console.error("데이터 불러오기 실패:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, [API_BASE_URL, service_id, accessToken]);
+
 
     const handleImageUpload = (event) => {
         const files = event.target.files;
@@ -36,7 +69,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
         }
     };
 
-    const handleSubmit = async ({API_BASE_URL}) => {
+    const handleSubmit = async ({ API_BASE_URL }) => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) throw new Error('Access token not found');
@@ -82,7 +115,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
 
 
 
-    
+
     const teamMembers = [
         { id: '1', name: '신채린' },
         { id: '2', name: '이주원' },
@@ -112,10 +145,10 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
             <Styled.Content>
                 <Styled.Header>
                     <Styled.ThumbnailBox>
-                    <Styled.ChangeThumbnail 
-                            src={changeThumbnail} 
-                            alt="changeThumbnail" 
-                            onClick={() => document.getElementById('thumbnailInput').click()} 
+                        <Styled.ChangeThumbnail
+                            src={changeThumbnail}
+                            alt="changeThumbnail"
+                            onClick={() => document.getElementById('thumbnailInput').click()}
                         />
                         <input
                             id="thumbnailInput"
@@ -126,9 +159,13 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                         />
 
 
+                        {serviceData.thumbnail_image ? (
+                            <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+                        ) : (
+                            <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
+                        )}
 
-
-                        <Styled.ThumbnailImage src={thumbnailImage} alt="service thumbnail" />
+                        {/* <Styled.ThumbnailImage src={thumbnailImage} alt="service thumbnail" /> */}
                     </Styled.ThumbnailBox>
                     <Styled.ChangeBox>
 
@@ -136,7 +173,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
 
 
                     </Styled.ChangeBox>
-                    
+
                 </Styled.Header>
 
                 <Styled.Background>
@@ -155,14 +192,14 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             placeholder="한 줄 소개를 적어주세요"
                             value={intro}
                             onChange={(e) => setIntro(e.target.value)}
-                            />
+                        />
                         <Styled.ServiceURL>서비스 URL이 있다면 입력해주세요!</Styled.ServiceURL>
                         <Styled.ServiceURLInput
                             type="text"
                             placeholder="배포된 서비스가 없다면 공란으로 유지해주세요"
                             value={siteUrl}
                             onChange={(e) => setSiteUrl(e.target.value)}
-                            />
+                        />
 
                         <Styled.PartInput>파트 정보를 입력해주세요.</Styled.PartInput>
                         <Styled.PartInfo>
@@ -211,13 +248,13 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
 ➋주요 기능2 여기에 기능을 설명해주세요'
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            />
+                        />
                         <Styled.ServicePPTContainer>
                             <Styled.ServicePPT>마지막으로 발표자료를 업로드 해보세요!</Styled.ServicePPT>
                             <Styled.PPTCount>
                                 <Styled.UploadedCount>{uploadedImages.length}</Styled.UploadedCount>/
                                 <Styled.MaxCount>{maxImages}</Styled.MaxCount>
-                            </Styled.PPTCount>                            
+                            </Styled.PPTCount>
                             <Styled.ImageUploadButton onClick={() => document.getElementById('fileInput').click()}>
                                 <Styled.ImageUpload src={upload} alt="upload" />
                             </Styled.ImageUploadButton>
@@ -243,7 +280,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                         <Styled.Bottom>
                             <Styled.GoBack >&lt; 이전</Styled.GoBack>
                             <Styled.SignUp onClick={handleSubmit}>등록하기</Styled.SignUp>
-                            </Styled.Bottom>
+                        </Styled.Bottom>
                     </Styled.InfoBox>
                 </Styled.Background>
             </Styled.Content>
