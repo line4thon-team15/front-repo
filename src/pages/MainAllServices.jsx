@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as MA from "./MainAllServices.styled";
 import * as A from "@/pages/AllServices.styled";
 import ArrowrightBlue from "../assets/ArrowrightBlue.png";
-import DefaultThumbnail from "../assets/defaultnail.png";
+import DefaultThumbnail from "../assets/Defaultnail.png";
 import axios from "axios";
 
 const MainAllServices = ({ API_BASE_URL }) => {
