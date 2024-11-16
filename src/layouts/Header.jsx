@@ -21,41 +21,79 @@ const Header = ({ isIntro }) => {
     navigate("/");
   };
 
-  //이름 가져오기
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // 토큰 확인
+    useEffect(() => {
+        if (window.location.hash === '#ranking') {
+            scrollToRanking(); // 랭킹 섹션으로 스크롤 이동
+        } else if (window.location.hash === '#home') {
+            scrollToHome(); // 홈 섹션으로 스크롤 이동
+        }
+    }, [scrollToRanking, scrollToHome]); // scrollToRanking과 scrollToHome을 의존성으로 추가
 
-    if (isAuthenticated && token) {
-      axios
-        .get(`${API_BASE_URL}/accounts/mypage`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // 예: 로컬 스토리지에 저장된 토큰 사용
-          },
-        })
-        .then((response) => {
-          setUserName(response.data.name);
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-          if (error.response && error.response.status === 401) {
-            // 토큰 만료 또는 인증 오류 시 처리 (로그아웃 처리)
-            console.log("Unauthorized, logging out...");
-            logout();
-            navigate("/login"); // 로그인 페이지로 리디렉션
-          }
-        });
-    }
-  }, [isAuthenticated, logout, navigate]);
+    
+    // 공통 클릭 처리 함수
+    const handleClick = (hash, scrollFn) => {
+        const currentPath = window.location.pathname;
+    
+        if (currentPath === '/') {
+            // MainPage에 있는 경우 스크롤 이동
+            scrollFn();
+        } else {
+            // 다른 페이지에 있는 경우 MainPage로 이동 후 스크롤 실행
+            navigate(`/#${hash}`);
+            setTimeout(() => scrollFn(), 100); // navigate 후 스크롤 실행
+        }
+    };
+    
+    // 랭킹 버튼 클릭 이벤트 처리
+            const handleRankingClick = () => {
+                const currentPath = window.location.pathname; // 현재 경로 확인
+                if (currentPath === '/') {
+                    // MainPage에 있는 경우 스크롤 이동
+                    scrollToRanking();
+                } else {
+                    // 다른 페이지에 있는 경우 MainPage로 이동 후 해시 설정
+                    navigate('/#ranking');
+                }
+            };
 
-  // 페이지가 로드될 때마다 localStorage에서 토큰을 확인하여 로그인 상태 업데이트
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      setIsAuthenticated(true); // 토큰이 존재하면 로그인 상태로 설정
-    } else {
-      setIsAuthenticated(false); // 토큰이 없으면 비로그인 상태로 설정
-    }
-  }, [setIsAuthenticated]);
+    //이름 가져오기
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken"); // 토큰 확인
+
+        if (isAuthenticated && token) {
+            console.log("Starting API call for user data...");
+            axios.get(`${API_BASE_URL}/accounts/mypage`, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // 예: 로컬 스토리지에 저장된 토큰 사용
+                }
+            })
+                .then(response => {
+                    console.log("API response:", response);
+                    setUserName(response.data.name);
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    if (error.response && error.response.status === 401) {
+                        // 토큰 만료 또는 인증 오류 시 처리 (로그아웃 처리)
+                        console.log("Unauthorized, logging out...");
+                        logout();
+                        navigate('/login'); // 로그인 페이지로 리디렉션
+                    }
+                });
+        }
+    }, [isAuthenticated, logout, navigate]);
+
+    // 페이지가 로드될 때마다 localStorage에서 토큰을 확인하여 로그인 상태 업데이트
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            setIsAuthenticated(true); // 토큰이 존재하면 로그인 상태로 설정
+        } else {
+            setIsAuthenticated(false); // 토큰이 없으면 비로그인 상태로 설정
+        }
+    }, [setIsAuthenticated]);
+
+
 
   // 로그아웃 모달 열기
   const handleLogoutClick = () => {
@@ -70,50 +108,51 @@ const Header = ({ isIntro }) => {
     navigate("/"); // 로그아웃 후 홈으로 리디렉션
   };
 
-  // 내 서비스 버튼 클릭 시 참여자 여부 확인
-  const handleMyServiceClick = async () => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/services/my-service`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.data[0].service_member) {
-          // 참여자인 경우
-          navigate(`/Detail/${response.data[0].id}`);
+    // 내 서비스 버튼 클릭 시 참여자 여부 확인
+    const handleMyServiceClick = async () => {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/services/my-service`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+    
+                if (response.data[0].service_member) {
+                    // 참여자인 경우
+                    navigate(`/Detail/${response.data[0].id}`);
+                } else {
+                    // 외부인인 경우
+                    alert('내 서비스는 해커톤 참여자만 접근할 수 있습니다.');
+                }
+            } catch (error) {
+                console.error('Error checking service member status:', error);
+                alert('내 서비스는 해커톤 참여자만 접근할 수 있습니다.');
+            }
         } else {
-          // 외부인인 경우
-          alert("내 서비스는 해커톤 참여자만 접근할 수 있습니다.");
+            alert('로그인이 필요합니다.');
+            navigate('/login');
         }
-      } catch (error) {
-        console.error("Error checking service member status:", error);
-        alert("내 서비스는 해커톤 참여자만 접근할 수 있습니다.");
-      }
-    } else {
-      alert("로그인이 필요합니다.");
-      navigate("/login");
-    }
-  };
+    };
 
-  return (
-    <Styled.Wrapper>
-      <Styled.Logo $isWhiteBackground={isIntro}>
-        <button id="LogoBtn" onClick={GoHome}>
-          <p>4호선톤</p>
-          <p>사이트</p>
-          <p id="date">24.11.16</p>
-        </button>
-      </Styled.Logo>
-      <Styled.Navbar>
-        <ul>
-          <Styled.NavItem onClick={scrollToRanking}>
-            <Styled.NavButton $isWhiteBackground={isIntro}>
-              <FontAwesomeIcon icon={faCrown} /> &nbsp;랭킹
-            </Styled.NavButton>
-          </Styled.NavItem>
+    return (
+        <Styled.Wrapper>
+            <Styled.Logo $isWhiteBackground={isIntro}>
+            <button id="LogoBtn" onClick={() => handleClick('home', scrollToHome)}>
+            <p>4호선톤</p>
+                    <p>사이트</p>
+                    <p id='date'>24.11.16</p>
+                </button>
+            </Styled.Logo>
+            <Styled.Navbar>
+                <ul>
+                <Styled.NavItem onClick={() => handleClick('ranking', scrollToRanking)}>
+    <Styled.NavButton $isWhiteBackground={isIntro}>
+        <FontAwesomeIcon icon={faCrown} /> &nbsp;랭킹
+    </Styled.NavButton>
+</Styled.NavItem>
+
 
           <Styled.NavItem>
             <Link to="/all-services">

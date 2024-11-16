@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Styled from "./Ranking.styled";
 import ArrowImage from "../assets/Arrowright.png";
 import RankingImage from "../assets/Ranking.png";
 import axios from "axios";
 
-const Ranking = ({ API_BASE_URL }) => {
+const Ranking = forwardRef(({ API_BASE_URL }, ref) => {
   const [rankingServices, setRankingServices] = useState([]);
   const [badgeServices, setBadgeServices] = useState([]);
   const navigate = useNavigate();
@@ -49,6 +49,8 @@ const Ranking = ({ API_BASE_URL }) => {
   }, [API_BASE_URL]);
 
   return (
+    <div ref={ref} id="ranking">
+
     <Styled.RankingPage>
       <Styled.Content>
         <Styled.Header>
@@ -132,7 +134,9 @@ const Ranking = ({ API_BASE_URL }) => {
         </Styled.SectionContainer>
       </Styled.Content>
     </Styled.RankingPage>
+    </div>
+
   );
-};
+});
 
 export default Ranking;
