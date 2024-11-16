@@ -59,7 +59,7 @@ const WriteReview = ({ API_BASE_URL }) => {
     });
     
     const maxChars = 400;
-
+    
     const handleGoBack = () => {
         navigate(`/Detail/${service_id}`);
     };

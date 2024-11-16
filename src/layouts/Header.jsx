@@ -26,7 +26,6 @@ const Header = ({ isIntro }) => {
     const token = localStorage.getItem("accessToken"); // 토큰 확인
 
     if (isAuthenticated && token) {
-      console.log("Starting API call for user data...");
       axios
         .get(`${API_BASE_URL}/accounts/mypage`, {
           headers: {
@@ -34,7 +33,6 @@ const Header = ({ isIntro }) => {
           },
         })
         .then((response) => {
-          console.log("API response:", response);
           setUserName(response.data.name);
         })
         .catch((error) => {

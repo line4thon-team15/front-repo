@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // axios를 통해 POST 요청 전송
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Styled from './InputServiceInfo.styled';
 import ThumbnailTotal from '../assets/ThumbnailTotal.svg';
 import servicePhotoFile from '../assets/servicePhotoFile.svg';
@@ -8,6 +8,8 @@ import upload from '../assets/upload.svg';
 import changeThumbnail from '../assets/changeThumbnail.svg';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
+import { useAuth } from "../contexts/AuthContext";
+import { TeamMember } from '../pages/MyService.styled';
 
 const InputServiceInfo = ({ API_BASE_URL }) => {
     const navigate = useNavigate();
@@ -20,10 +22,51 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
     const [teamName, setTeamName] = useState(''); // 팀 이름
     const [uploadedImages, setUploadedImages] = useState([]); // 발표자료 이미지 배열
     const maxImages = 10;
+    const [serviceData, setServiceData] = useState(null);
+    const { isAuthenticated, accessToken } = useAuth();
+    const { service_id } = useParams();
 
-    const handleGoBack = () => {
-        navigate('/my-service');
-    };
+    //정보 받아오기
+    useEffect(() => {
+        const fetchData = async () => {
+            const token = localStorage.getItem("accessToken"); // 토큰 확인
+
+            if (!token) {
+                alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                navigate("/login");
+                return;
+            }
+
+            try {
+                const response = await axios.get(`${API_BASE_URL}/services/4line-services/${service_id}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`, // 인증 토큰 추가
+                        },
+                    });
+                // 서비스 데이터 및 좋아요 상태 설정
+                const serviceData = response.data;
+                setServiceData(serviceData);
+                console.log("받아온 서비스 데이터:", serviceData);
+
+            } catch (error) {
+                if (error.response) {
+                    // 서버가 응답은 했지만 오류가 발생한 경우
+                    console.error('서버 응답 오류:', error.response.data);
+                } else if (error.request) {
+                    // 요청은 보냈지만 응답을 받지 못한 경우
+                    console.error('서버 응답 없음:', error.request);
+                } else {
+                    // 요청 설정 시 오류가 발생한 경우
+                    console.error('요청 오류:', error.message);
+                }
+                alert('서비스 등록에 실패했습니다.');
+            }
+        };
+
+        fetchData();
+    }, [API_BASE_URL, service_id, accessToken]);
 
     const handleImageUpload = (event) => {
         const files = event.target.files;
@@ -40,67 +83,73 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
         }
     };
 
-    const handleSubmit = async ({API_BASE_URL}) => {
+    const handleSubmit = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-            if (!accessToken) throw new Error('Access token not found');
-
-            const url = `${API_BASE_URL}/services/4line-services`;
-            const postData = {
+            const token = localStorage.getItem("accessToken");
+            if (!token) {
+                alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                navigate("/login");
+                return;
+            }
+    
+            // `service_id` 확인 및 디버깅
+            if (!service_id) {
+                console.error("service_id가 정의되지 않았습니다.");
+                return;
+            }
+    
+            const url = `${API_BASE_URL}/services/4line-services/${service_id}`;
+            console.log(url);
+            const patchData = {
                 service_name: serviceName,
-                thumbnail_image: thumbnailImage, // 썸네일 이미지
-                intro: intro, // 한 줄 소개
-                content: content, // 기능 설명
-                site_url: siteUrl, // 서비스 URL
-                team_num: parseInt(teamNum, 10), // 팀 번호
-                team_name: teamName, // 팀 이름
-                presentation: uploadedImages // 발표자료 이미지
+                thumbnail_image: thumbnailImage,
+                intro,
+                content,
+                site_url: siteUrl,
+                team_num: parseInt(teamNum, 10),
+                team_name: teamName,
+                presentation: uploadedImages,
             };
-
-            const response = await axios.post(url, postData, {
-                headers: { Authorization: `Bearer ${accessToken}` }
+    
+            const response = await axios.patch(url, patchData, {
+                headers: { Authorization: `Bearer ${token}` },
             });
-
-            console.log("등록된 서비스 데이터:", postData);
+    
+            console.log("등록된 서비스 데이터:", patchData);
             console.log("서버 응답:", response.data);
-
-            // 성공 후 초기화 및 페이지 이동
-            setServiceName('');
-            setIntro('');
-            setContent('');
-            setSiteUrl('');
-            setTeamNum('');
-            setTeamName('');
+    
+            setServiceName("");
+            setIntro("");
+            setContent("");
+            setSiteUrl("");
+            setTeamNum("");
+            setTeamName("");
             setUploadedImages([]);
             setThumbnailImage(ThumbnailTotal);
-            navigate('/my-service');
-
+            navigate(`/Detail/${service_id}`);
         } catch (error) {
-            console.error('서비스 등록 오류:', error.message || error);
-            alert('서비스 등록에 실패했습니다.');
+            console.error("서비스 등록 오류:", error.response?.data || error.message || error);
+            alert(error.response?.data?.message || "서비스 등록에 실패했습니다.");
         }
     };
 
-
-
-
-
+    const categories = ['PD', 'FE', 'BE'];
+    //멤버 불러오기
+    useEffect(() => {
+        if (serviceData?.member) {
+            const initialCategories = serviceData.member.reduce(
+                (acc, member) => ({ ...acc, [member.id]: null }),
+                {}
+            );
+            setSelectedCategories(initialCategories);
+        }
+    }, [serviceData]);
 
     
-    const teamMembers = [
-        { id: '1', name: '신채린' },
-        { id: '2', name: '이주원' },
-        { id: '3', name: '전효준' },
-        { id: '4', name: '홍상희' },
-        { id: '5', name: '조희원' },
-        { id: '6', name: '황채현' },
-    ];
-
-    const categories = ['PD', 'FE', 'BE'];
-
-    // 팀원의 선택된 카테고리를 저장하는 상태
+    // 선택된 카테고리를 저장하는 상태 (수정 필요)
+    const teamMember =[]
     const [selectedCategories, setSelectedCategories] = useState(
-        teamMembers.reduce((acc, member) => ({ ...acc, [member.id]: null }), {})
+        teamMember.reduce((acc, member) => ({ ...acc, [member.id]: null }), {})
     );
 
     const handleCategoryChange = (memberId, category) => {
@@ -116,10 +165,10 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
             <Styled.Content>
                 <Styled.Header>
                     <Styled.ThumbnailBox>
-                    <Styled.ChangeThumbnail 
-                            src={changeThumbnail} 
-                            alt="changeThumbnail" 
-                            onClick={() => document.getElementById('thumbnailInput').click()} 
+                        <Styled.ChangeThumbnail
+                            src={changeThumbnail}
+                            alt="changeThumbnail"
+                            onClick={() => document.getElementById('thumbnailInput').click()}
                         />
                         <input
                             id="thumbnailInput"
@@ -128,19 +177,15 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             style={{ display: 'none' }}
                             onChange={handleThumbnailUpload}
                         />
-
-
-
-
-                        <Styled.ThumbnailImage src={thumbnailImage} alt="service thumbnail" />
+                        {serviceData && serviceData.thumbnail_image ? (
+                            <Styled.ThumbnailImage src={serviceData.thumbnail_image} alt="서비스 썸네일" />
+                        ) : (
+                            <Styled.ThumbnailImage src={ThumbnailTotal} alt="기본 썸네일" />
+                        )}
                     </Styled.ThumbnailBox>
                     <Styled.ChangeBox>
-
-
-
-
                     </Styled.ChangeBox>
-                    
+
                 </Styled.Header>
 
                 <Styled.Background>
@@ -150,23 +195,23 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                         <Styled.ServiceNameInput
                             type="text"
                             placeholder="서비스 이름을 알려주세요"
-                            value={serviceName}
+                            value={serviceName || (serviceData?.service_name || '')}
                             onChange={(e) => setServiceName(e.target.value)}
                         />
                         <Styled.ServiceSimple>서비스를 한 문장으로 설명한다면?</Styled.ServiceSimple>
                         <Styled.ServiceSimpleInput
                             type="text"
                             placeholder="한 줄 소개를 적어주세요"
-                            value={intro}
+                            value={intro || (serviceData?.intro || '')}
                             onChange={(e) => setIntro(e.target.value)}
-                            />
+                        />
                         <Styled.ServiceURL>서비스 URL이 있다면 입력해주세요!</Styled.ServiceURL>
                         <Styled.ServiceURLInput
                             type="text"
                             placeholder="배포된 서비스가 없다면 공란으로 유지해주세요"
-                            value={siteUrl}
+                            value={siteUrl || (serviceData?.site_url || '')}
                             onChange={(e) => setSiteUrl(e.target.value)}
-                            />
+                        />
 
                         <Styled.PartInput>파트 정보를 입력해주세요.</Styled.PartInput>
                         <Styled.PartInfo>
@@ -179,24 +224,30 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             </Styled.HeaderRow>
 
                             {/* Team Member Rows */}
-                            {teamMembers.map((member) => (
-                                <Styled.MemberRow key={member.id}>
-                                    <Styled.MemberName>{member.name}</Styled.MemberName>
-                                    <CheckboxGroup
-                                        categories={categories}
-                                        selectedCategory={selectedCategories[member.id]}
-                                        onCategoryChange={(category) => handleCategoryChange(member.id, category)}
-                                    />
-                                </Styled.MemberRow>
-                            ))}
+                            {serviceData?.members && serviceData.members.length > 0 ? (
+                                serviceData.members.map((member) => (
+                                    <Styled.MemberRow key={member.id}>
+                                        <Styled.MemberName>{member.member}</Styled.MemberName>
+                                        <CheckboxGroup
+                                            categories={categories}
+                                            selectedCategory={selectedCategories[member.id]}
+                                            onCategoryChange={(category) => handleCategoryChange(member.id, category)}
+                                        />
+                                    </Styled.MemberRow>
+                                ))
+                            ) : (
+                                <div>팀원이 아직 등록되지 않았습니다.</div>
+                            )}
                         </Styled.PartInfo>
 
                         <Styled.ServiceDetail>어떤 기능이 있는지 자세히 알려주세요!</Styled.ServiceDetail>
                         <Styled.ServiceDetailInput
                             as="textarea"
                             placeholder=" "
-                            defaultValue='[기능 소개 작성 가이드라인]
-✨‘4호선톤’을 위한 우리들만의 축제 사이트✨   
+                            value={
+                                content ||
+                                (serviceData?.content ||
+                                    `✨‘4호선톤’을 위한 우리들만의 축제 사이트✨   
 
 [문제제기]❔
  - [일상 속 문제 상황]
@@ -212,16 +263,16 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
  🌀 [서비스명]의 핵심 기능 소개🥳♫
 
 ➊주요 기능1 여기에 기능을 설명해주세요
-➋주요 기능2 여기에 기능을 설명해주세요'
-                            value={content}
+➋주요 기능2 여기에 기능을 설명해주세요`)
+                            }
                             onChange={(e) => setContent(e.target.value)}
-                            />
+                        />
                         <Styled.ServicePPTContainer>
                             <Styled.ServicePPT>마지막으로 발표자료를 업로드 해보세요!</Styled.ServicePPT>
                             <Styled.PPTCount>
                                 <Styled.UploadedCount>{uploadedImages.length}</Styled.UploadedCount>/
                                 <Styled.MaxCount>{maxImages}</Styled.MaxCount>
-                            </Styled.PPTCount>                            
+                            </Styled.PPTCount>
                             <Styled.ImageUploadButton onClick={() => document.getElementById('fileInput').click()}>
                                 <Styled.ImageUpload src={upload} alt="upload" />
                             </Styled.ImageUploadButton>
@@ -245,9 +296,9 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             )}
                         </Styled.ImageGallery>
                         <Styled.Bottom>
-                            <Styled.GoBack onClick={handleGoBack}>&lt; 이전</Styled.GoBack>
+                            <Styled.GoBack >&lt; 이전</Styled.GoBack>
                             <Styled.SignUp onClick={handleSubmit}>등록하기</Styled.SignUp>
-                            </Styled.Bottom>
+                        </Styled.Bottom>
                     </Styled.InfoBox>
                 </Styled.Background>
             </Styled.Content>
