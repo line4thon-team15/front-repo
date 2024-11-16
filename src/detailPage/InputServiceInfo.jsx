@@ -9,6 +9,7 @@ import changeThumbnail from '../assets/changeThumbnail.svg';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import { useAuth } from "../contexts/AuthContext";
+import { TeamMember } from '../pages/MyService.styled';
 
 const InputServiceInfo = ({ API_BASE_URL }) => {
     const navigate = useNavigate();
@@ -23,12 +24,11 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
     const maxImages = 10;
     const [serviceData, setServiceData] = useState(null);
     const { isAuthenticated, accessToken } = useAuth();
-
     const { service_id } = useParams();
 
+    //정보 받아오기
     useEffect(() => {
         const fetchData = async () => {
-            console.log("fetchData시작:");
             const token = localStorage.getItem("accessToken"); // 토큰 확인
 
             if (!token) {
@@ -51,9 +51,17 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                 console.log("받아온 서비스 데이터:", serviceData);
 
             } catch (error) {
-                console.error("데이터 가져오기 실패:", error);
-            } finally {
-                setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
+                if (error.response) {
+                    // 서버가 응답은 했지만 오류가 발생한 경우
+                    console.error('서버 응답 오류:', error.response.data);
+                } else if (error.request) {
+                    // 요청은 보냈지만 응답을 받지 못한 경우
+                    console.error('서버 응답 없음:', error.request);
+                } else {
+                    // 요청 설정 시 오류가 발생한 경우
+                    console.error('요청 오류:', error.message);
+                }
+                alert('서비스 등록에 실패했습니다.');
             }
         };
 
@@ -75,67 +83,73 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
         }
     };
 
-    const handleSubmit = async ({ API_BASE_URL }) => {
+    const handleSubmit = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-            if (!accessToken) throw new Error('Access token not found');
-
-            const url = `${API_BASE_URL}/services/4line-services${service_id}`;
-            const postData = {
+            const token = localStorage.getItem("accessToken");
+            if (!token) {
+                alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                navigate("/login");
+                return;
+            }
+    
+            // `service_id` 확인 및 디버깅
+            if (!service_id) {
+                console.error("service_id가 정의되지 않았습니다.");
+                return;
+            }
+    
+            const url = `${API_BASE_URL}/services/4line-services/${service_id}`;
+            console.log(url);
+            const patchData = {
                 service_name: serviceName,
-                thumbnail_image: thumbnailImage, // 썸네일 이미지
-                intro: intro, // 한 줄 소개
-                content: content, // 기능 설명
-                site_url: siteUrl, // 서비스 URL
-                team_num: parseInt(teamNum, 10), // 팀 번호
-                team_name: teamName, // 팀 이름
-                presentation: uploadedImages // 발표자료 이미지
+                thumbnail_image: thumbnailImage,
+                intro,
+                content,
+                site_url: siteUrl,
+                team_num: parseInt(teamNum, 10),
+                team_name: teamName,
+                presentation: uploadedImages,
             };
-
-            const response = await axios.post(url, postData, {
-                headers: { Authorization: `Bearer ${accessToken}` }
+    
+            const response = await axios.patch(url, patchData, {
+                headers: { Authorization: `Bearer ${token}` },
             });
-
-            console.log("등록된 서비스 데이터:", postData);
+    
+            console.log("등록된 서비스 데이터:", patchData);
             console.log("서버 응답:", response.data);
-
-            // 성공 후 초기화 및 페이지 이동
-            setServiceName('');
-            setIntro('');
-            setContent('');
-            setSiteUrl('');
-            setTeamNum('');
-            setTeamName('');
+    
+            setServiceName("");
+            setIntro("");
+            setContent("");
+            setSiteUrl("");
+            setTeamNum("");
+            setTeamName("");
             setUploadedImages([]);
             setThumbnailImage(ThumbnailTotal);
-            navigate('/my-service');
-
+            navigate(`/Detail/${service_id}`);
         } catch (error) {
-            console.error('서비스 등록 오류:', error.message || error);
-            alert('서비스 등록에 실패했습니다.');
+            console.error("서비스 등록 오류:", error.response?.data || error.message || error);
+            alert(error.response?.data?.message || "서비스 등록에 실패했습니다.");
         }
     };
 
-
-
-
-
-
-
-    const teamMembers = [
-        { id: '1', name: '신채린' },
-        { id: '2', name: '이주원' },
-        { id: '3', name: '전효준' },
-        { id: '4', name: '홍상희' },
-        { id: '5', name: '조희원' },
-        { id: '6', name: '황채현' },
-    ];
-
     const categories = ['PD', 'FE', 'BE'];
+    //멤버 불러오기
+    useEffect(() => {
+        if (serviceData?.member) {
+            const initialCategories = serviceData.member.reduce(
+                (acc, member) => ({ ...acc, [member.id]: null }),
+                {}
+            );
+            setSelectedCategories(initialCategories);
+        }
+    }, [serviceData]);
 
-    // 팀원의 선택된 카테고리를 저장하는 상태
+    
+    // 선택된 카테고리를 저장하는 상태 (수정 필요)
+    const teamMember =[]
     const [selectedCategories, setSelectedCategories] = useState(
-        teamMembers.reduce((acc, member) => ({ ...acc, [member.id]: null }), {})
+        teamMember.reduce((acc, member) => ({ ...acc, [member.id]: null }), {})
     );
 
     const handleCategoryChange = (memberId, category) => {
@@ -210,16 +224,20 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
                             </Styled.HeaderRow>
 
                             {/* Team Member Rows */}
-                            {teamMembers.map((member) => (
-                                <Styled.MemberRow key={member.id}>
-                                    <Styled.MemberName>{member.name}</Styled.MemberName>
-                                    <CheckboxGroup
-                                        categories={categories}
-                                        selectedCategory={selectedCategories[member.id]}
-                                        onCategoryChange={(category) => handleCategoryChange(member.id, category)}
-                                    />
-                                </Styled.MemberRow>
-                            ))}
+                            {serviceData?.members && serviceData.members.length > 0 ? (
+                                serviceData.members.map((member) => (
+                                    <Styled.MemberRow key={member.id}>
+                                        <Styled.MemberName>{member.member}</Styled.MemberName>
+                                        <CheckboxGroup
+                                            categories={categories}
+                                            selectedCategory={selectedCategories[member.id]}
+                                            onCategoryChange={(category) => handleCategoryChange(member.id, category)}
+                                        />
+                                    </Styled.MemberRow>
+                                ))
+                            ) : (
+                                <div>팀원이 아직 등록되지 않았습니다.</div>
+                            )}
                         </Styled.PartInfo>
 
                         <Styled.ServiceDetail>어떤 기능이 있는지 자세히 알려주세요!</Styled.ServiceDetail>
