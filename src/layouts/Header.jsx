@@ -28,14 +28,12 @@ const Header = ({ isIntro }) => {
         const token = localStorage.getItem("accessToken"); // 토큰 확인
 
         if (isAuthenticated && token) {
-            console.log("Starting API call for user data...");
             axios.get(`${API_BASE_URL}/accounts/mypage`, {
                 headers: {
                     Authorization: `Bearer ${token}`, // 예: 로컬 스토리지에 저장된 토큰 사용
                 }
             })
                 .then(response => {
-                    console.log("API response:", response);
                     setUserName(response.data.name);
                 })
                 .catch(error => {
