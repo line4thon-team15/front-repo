@@ -64,6 +64,8 @@ const DetailPage = ({ API_BASE_URL }) => {
         setServiceData(serviceData);
         console.log("받아온 서비스 데이터:", serviceData);
 
+
+        
         // 작성자의 리뷰 찾기
         if (serviceData.review?.length > 0) {
           const myReviewData = serviceData.review.find((review) => review.is_writer);
@@ -95,57 +97,51 @@ const DetailPage = ({ API_BASE_URL }) => {
         setLikeStatus(initialLikeStatus);
 
         // 현재 사용자 서비스 ID 확인
-        const userServiceResponse = await axios.get(`${API_BASE_URL}/services/my-service`, {
+        const userServiceResponse = await axios.get(`${API_BASE_URL}/services/my-service`, {},
+           {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           }
         });
 
         console.log("현재 사용자 서비스 데이터:", userServiceResponse.data);
-        if (userServiceResponse.data[0].id === response.data.id) {
-          setIsOwner(true);
-        }
 
+        if (userServiceResponse.data && userServiceResponse.data.length > 0) {
+          if (userServiceResponse.data[0].id === response.data.id) {
+            setIsOwner(true);
+          }
+        } else {
+          console.log("userServiceResponse.data is empty or undefined.");
+        }
       } catch (error) {
-        console.error("데이터 가져오기 실패:", error);
+        if (error.response && error.response.status === 401) {
+          alert("인증이 만료되었습니다. 다시 로그인해주세요.");
+          navigate("/login");
+        } else {
+          console.error("데이터 가져오기 실패:", error);
+        }
       } finally {
-        setIsLoading(false); // 데이터 로드 완료 후 로딩 상태 업데이트
+        setIsLoading(false);
       }
     };
-
-
-
     fetchData();
   }, [API_BASE_URL, teamId, accessToken]);
+
+  // likeStatus 상태 디버깅
+useEffect(() => {
+  console.log("초기 likeStatus 상태:", likeStatus);
+}, [likeStatus]);
 
   const handleLikeClick = async (reviewId) => {
     if (!isAuthenticated) {
       alert("로그인 후 좋아요를 누를 수 있습니다.");
       return;
     }
-
     try {
+      // 현재 상태 가져오기
       const currentStatus = likeStatus[reviewId];
       const updatedIsLiked = !currentStatus.is_liked;
-
-      // 로컬 상태를 먼저 업데이트
-      setLikeStatus((prevStatus) => {
-        const updatedStatus = {
-          ...prevStatus,
-          [reviewId]: {
-            is_liked: updatedIsLiked,
-            likes_count: updatedIsLiked
-              ? currentStatus.likes_count + 1
-              : currentStatus.likes_count - 1,
-          },
-        };
-
-        // 디버깅: 업데이트된 상태 확인
-        console.log("업데이트된 likeStatus:", updatedStatus);
-        return updatedStatus;
-      });
-
-
+  
       // 서버에 좋아요 상태 전송
       const response = await axios.post(
         `${API_BASE_URL}/reviews/${reviewId}/like/`,
@@ -156,35 +152,32 @@ const DetailPage = ({ API_BASE_URL }) => {
           },
         }
       );
-
-      console.log("서버 응답:", response.data);
-
-
+  
       // 서버 응답으로 상태 동기화
-      const serverUpdatedLikesCount = response.data.likes_count;
-
+      const updatedLikeData = response.data; // 서버에서 받은 최신 좋아요 데이터
       setLikeStatus((prevStatus) => ({
         ...prevStatus,
         [reviewId]: {
-          is_liked: updatedIsLiked,
-          likes_count: serverUpdatedLikesCount, // 서버 응답을 우선
+          is_liked: updatedLikeData.is_liked,
+          likes_count: updatedLikeData.likes_count,
         },
       }));
-
-      console.log("좋아요 상태 전송 성공:", response.data);
+  
+      console.log("좋아요 상태 전송 성공:", updatedLikeData);
     } catch (error) {
       console.error("좋아요 상태 업데이트 실패:", error);
-
-      // 오류 발생 시 이전 상태로 롤백
-      setLikeStatus((prevStatus) => ({
-        ...prevStatus,
-        [reviewId]: likeStatus[reviewId], // 이전 상태로 복구
-      }));
-    } finally {
-      // 필요한 경우 추가적인 정리 작업
-      console.log(`좋아요 상태 업데이트 완료: reviewId=${reviewId}`);
+      alert("좋아요 상태 업데이트에 실패했습니다.");
     }
   };
+
+  useEffect(() => {
+    console.log("초기 likeStatus 상태:", likeStatus);
+  }, [likeStatus]);
+  
+  useEffect(() => {
+    console.log("서버에서 받아온 서비스 데이터:", serviceData);
+  }, [serviceData]);
+  
 
   const handleInfoButtonClick = () => {
     navigate(`/input-service-info/${serviceData.id}`);
