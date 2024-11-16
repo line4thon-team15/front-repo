@@ -80,7 +80,7 @@ const InputServiceInfo = ({ API_BASE_URL }) => {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) throw new Error('Access token not found');
 
-            const url = `${API_BASE_URL}/services/4line-services`;
+            const url = `${API_BASE_URL}/services/4line-services${service_id}`;
             const postData = {
                 service_name: serviceName,
                 thumbnail_image: thumbnailImage, // 썸네일 이미지
